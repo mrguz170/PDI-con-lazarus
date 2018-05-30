@@ -1,0 +1,51 @@
+object Form1: TForm1
+  Left = 136
+  Height = 259
+  Top = 109
+  Width = 519
+  Caption = 'Form1'
+  ClientHeight = 259
+  ClientWidth = 519
+  LCLVersion = '1.8.2.0'
+  object Button1: TButton
+    Left = 64
+    Height = 25
+    Top = 24
+    Width = 75
+    Caption = 'Llenar array'
+    OnClick = Button1Click
+    TabOrder = 0
+  end
+  object Button2: TButton
+    Left = 64
+    Height = 25
+    Top = 83
+    Width = 75
+    Caption = 'ver'
+    OnClick = Button2Click
+    TabOrder = 1
+  end
+  object Edit1: TEdit
+    Left = 170
+    Height = 23
+    Top = 85
+    Width = 282
+    TabOrder = 2
+  end
+  object Button3: TButton
+    Left = 64
+    Height = 25
+    Top = 144
+    Width = 75
+    Caption = 'Llenar matriz'
+    OnClick = Button3Click
+    TabOrder = 3
+  end
+  object Edit2: TEdit
+    Left = 170
+    Height = 23
+    Top = 146
+    Width = 280
+    TabOrder = 4
+  end
+end
