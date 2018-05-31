@@ -267,14 +267,14 @@ end;
 
 procedure TForm1.MenuItem13Click(Sender: TObject);
 var
-i,j,k :Integer;
-r   :real;
+i,j :Integer;
+k   :byte;
 begin
   for i:=0 to ANCHO-1 do begin
     for j:=0 to ALTO-1 do begin
       for k:=0 to 2 do begin
-          r:=(ln((MAT[i,j,k]+1)/ln(256))* 256);
-          MAT[i,j,k]:=round(r);
+          MAT[i,j,k]:=round(ln(MAT[i,j,k]+1)/ln(256) * 255);
+
       end;
       BM.Canvas.Pixels[i,j] := RGB(MAT[i,j,0],MAT[i,j,1],MAT[i,j,2]);
     end;
