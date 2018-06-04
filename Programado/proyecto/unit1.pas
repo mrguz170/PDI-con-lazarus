@@ -30,6 +30,8 @@ type
     MenuItem11: TMenuItem;
     MenuItem12: TMenuItem;
     MenuItem13: TMenuItem;
+    MenuItem14: TMenuItem;
+    MenuItem15: TMenuItem;
     MenuItem2: TMenuItem;
     MenuItem3: TMenuItem;
     MenuItem4: TMenuItem;
@@ -53,12 +55,17 @@ type
     procedure FormDestroy(Sender: TObject);
     procedure Image1MouseMove(Sender: TObject; Shift: TShiftState; X, Y: Integer
       );
+    procedure Label4Click(Sender: TObject);
+    procedure MenuItem10Click(Sender: TObject);
+    procedure MenuItem11Click(Sender: TObject);
     procedure MenuItem13Click(Sender: TObject);
+    procedure MenuItem14Click(Sender: TObject);
+    procedure MenuItem15Click(Sender: TObject);
     procedure MenuItem2Click(Sender: TObject);
     procedure MenuItem4Click(Sender: TObject);
     procedure MenuItem6Click(Sender: TObject);
     procedure MenuItem7Click(Sender: TObject);
-    procedure MenuItem8Click(Sender: TObject);
+
     procedure RadioButton1Change(Sender: TObject);
     procedure RadioButton2Change(Sender: TObject);
     procedure RadioButton3Change(Sender: TObject);
@@ -74,6 +81,9 @@ type
     procedure initB(var M:MATRGB);
     procedure initI(var M:MATRGB);
     procedure loadMatI(M:MATRGB);
+    procedure treshold();
+
+
     procedure clsH();
   end;
 
@@ -98,7 +108,7 @@ procedure tform1.grises(var M:MATRGB);
 var
   i,j : Integer;
 begin
-  Label1.Caption := 'Gris por canal';
+  //Label1.Caption := 'Gris por canal';
   for i:=0 to ANCHO-1 do begin
     for j:=0 to ALTO-1 do begin
 
@@ -139,6 +149,41 @@ begin
      //refresh img
   Image1.Picture.Assign(BM);
 
+end;
+
+procedure tform1.treshold();
+var
+   i,j,T :Integer;
+begin
+//sacar T (treshold)
+for i:=0 to ANCHO-1 do begin
+    for j:=0 to ALTO-1 do begin
+        T := T + MAT[i,j,0];
+    end;
+end;
+T := T div (ANCHO*ALTO);
+
+//MAYOR > T -> 255
+//menor_igual <= 0 -> 0
+for i:=0 to ANCHO-1 do begin
+    for j:=0 to ALTO-1 do begin
+        if MAT[i,j,0] <= T then
+           begin
+           MAT[i,j,0]:=0;
+           MAT[i,j,1]:=0;
+           MAT[i,j,2]:=0;
+           BM.Canvas.Pixels[i,j] := RGB(MAT[i,j,0],MAT[i,j,1],MAT[i,j,2]);
+           end
+        else
+           begin
+           MAT[i,j,0]:=255;
+           MAT[i,j,1]:=255;
+           MAT[i,j,2]:=255;
+           BM.Canvas.Pixels[i,j] := RGB(MAT[i,j,0],MAT[i,j,1],MAT[i,j,2]);
+           end;
+    end;
+end;
+ Image1.Picture.Assign(BM);
 end;
 
 // crear paleta de tono ROJO
@@ -347,7 +392,7 @@ begin
           y := MAT[i,j,1];
           z := MAT[i,j,2];
 
-          sum := (x+y+z)div d;
+          sum := (x+y+z) div d;
 
           M[i,j,0] := sum;
           M[i,j,1] := sum;
@@ -362,7 +407,7 @@ end;
 procedure TForm1.MenuItem2Click(Sender: TObject);
 var
   i,j,k   : Integer;
-  c     :Tcolor;     //puede ser Tcolor o Integer
+  c       :Tcolor;     //puede ser Tcolor o Integer
 begin
   //abrir imagen
   if (OpenPictureDialog1.Execute) then
@@ -389,23 +434,26 @@ begin
     for i:=0 to ANCHO-1 do begin
       for j:=0 to ALTO-1 do begin
         c:=BM.Canvas.Pixels[i,j];
+        //matriz para canvas
         MAT[i,j,0]:=GetRvalue(c);
         MAT[i,j,1]:=GetGvalue(c);
         MAT[i,j,2]:=GetBvalue(c);
-
+        //matriz para recargar
         Maux[i,j,0]:=GetRvalue(c);
         Maux[i,j,1]:=GetGvalue(c);
         Maux[i,j,2]:=GetBvalue(c);
-
+        //matriz para Intensidad
         MAT_I[i,j,0]:=GetRvalue(c);
         MAT_I[i,j,1]:=GetGvalue(c);
         MAT_I[i,j,2]:=GetBvalue(c);
       end; //j
     end;//i
 
+    loadMatI(MAT_I); //LLENA MAT_I con el promedio gris
+    Panel1.Visible:=true; //hacemos visible el panel de Hist
+    Menuitem3.enabled:=true;
   end;
-  //loadMatI(MAT_I);
-  Panel1.Visible:=true;
+
 end;
 
 procedure TForm1.MenuItem4Click(Sender: TObject);
@@ -441,19 +489,7 @@ begin
   grises_prom(MAT);
 end;
 
-procedure TForm1.MenuItem8Click(Sender: TObject);
-begin
-  form2.TrackBar1.Position:=form2.TrackBar1.Min;
-  form2.param:=form2.TrackBar1.Position;
-  form2.Label1.Caption:=inttostr(form2.param);
-  form2.showmodal;
 
-  if Form2.ModalResult=MROK then begin
-     //ShowMessage('el valor del parámetro + 5 es: ' + inttostr(form2.param+5));
-     form2.param := form2.param;
-
-  end;
-end;
 
 procedure TForm1.RadioButton1Change(Sender: TObject);
 begin
@@ -537,6 +573,21 @@ begin
 
 end;
 
+procedure TForm1.Label4Click(Sender: TObject);
+begin
+
+end;
+
+procedure TForm1.MenuItem10Click(Sender: TObject);
+begin
+
+end;
+
+procedure TForm1.MenuItem11Click(Sender: TObject);
+begin
+
+end;
+
 procedure TForm1.MenuItem13Click(Sender: TObject);
 var
 i,j :Integer;
@@ -546,13 +597,48 @@ begin
     for j:=0 to ALTO-1 do begin
       for k:=0 to 2 do begin
           MAT[i,j,k]:=round(ln(MAT[i,j,k]+1)/ln(256) * 255);
-
       end;
       BM.Canvas.Pixels[i,j] := RGB(MAT[i,j,0],MAT[i,j,1],MAT[i,j,2]);
     end;
   end;
   Image1.Picture.Assign(BM);
 end;
+
+procedure TForm1.MenuItem14Click(Sender: TObject);
+begin
+  grises_prom(MAT); //pasamos a gris primero
+  Treshold();
+end;
+
+procedure TForm1.MenuItem15Click(Sender: TObject);
+var
+i,j: Integer;
+begin
+  form2.TrackBar1.Position:=form2.TrackBar1.Min;
+  form2.param:=form2.TrackBar1.Position;
+  form2.Label1.Caption:=inttostr(form2.param);
+  form2.showmodal;
+
+  if Form2.ModalResult=MROK then begin
+  //ShowMessage('el valor del parámetro + 5 es: ' + inttostr(form2.param+5));
+  form2.param := form2.param;
+
+        for i:=0 to ANCHO-1 do begin
+            for j:=0 to ALTO-1 do begin
+                if RGB(MAT[i,j,0],MAT[i,j,1],MAT[i,j,2]) <= form2.param then
+                begin
+                     BM.Canvas.Pixels[i,j]:=0;
+                end
+                else
+                begin
+                     BM.Canvas.Pixels[i,j]:=255;
+                end;
+            end;
+        end;
+    end;
+
+end;
+
 
 end.
 
