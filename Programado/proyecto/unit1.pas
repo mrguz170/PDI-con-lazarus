@@ -21,7 +21,6 @@ type
     Image1: TImage;
     Image2: TImage;
     Image3: TImage;
-    Label1: TLabel;
     Label2: TLabel;
     Label3: TLabel;
     MainMenu1: TMainMenu;
@@ -32,7 +31,15 @@ type
     MenuItem13: TMenuItem;
     MenuItem14: TMenuItem;
     MenuItem15: TMenuItem;
+    MenuItem16: TMenuItem;
+    MenuItem17: TMenuItem;
+    MenuItem18: TMenuItem;
+    MenuItem19: TMenuItem;
     MenuItem2: TMenuItem;
+    MenuItem20: TMenuItem;
+    MenuItem21: TMenuItem;
+    MenuItem22: TMenuItem;
+    MenuItem23: TMenuItem;
     MenuItem3: TMenuItem;
     MenuItem4: TMenuItem;
     MenuItem5: TMenuItem;
@@ -58,12 +65,16 @@ type
     procedure Label4Click(Sender: TObject);
     procedure MenuItem10Click(Sender: TObject);
     procedure MenuItem11Click(Sender: TObject);
+    procedure MenuItem12Click(Sender: TObject);
     procedure MenuItem13Click(Sender: TObject);
     procedure MenuItem14Click(Sender: TObject);
     procedure MenuItem15Click(Sender: TObject);
+    procedure MenuItem16Click(Sender: TObject);
+    procedure MenuItem17Click(Sender: TObject);
+    procedure MenuItem18Click(Sender: TObject);
+    procedure MenuItem23Click(Sender: TObject);
     procedure MenuItem2Click(Sender: TObject);
     procedure MenuItem4Click(Sender: TObject);
-    procedure MenuItem6Click(Sender: TObject);
     procedure MenuItem7Click(Sender: TObject);
 
     procedure RadioButton1Change(Sender: TObject);
@@ -74,16 +85,18 @@ type
   private
 
   public
-    procedure grises(var M:MATRGB);
+    procedure grisR(var M:MATRGB);
+    procedure grisG(var M:MATRGB);
+    procedure grisB(var M:MATRGB);
     procedure grises_prom(var M:MATRGB);
-    procedure initR(var M:MATRGB);
-    procedure initG(var M:MATRGB);
-    procedure initB(var M:MATRGB);
+    procedure initR(var M:MATRGB);   //carga histograma Rojo
+    procedure initG(var M:MATRGB);   //carga histograma verde
+    procedure initB(var M:MATRGB);   //carga histograma azul
     procedure initI(var M:MATRGB);
     procedure loadMatI(M:MATRGB);
     procedure treshold();
-
-
+    procedure chn2GRB(var M:MATRGB); //cambia canal a GRB
+    procedure chn2BRG(M:MATRGB); //cambia canal a BRG
     procedure clsH();
   end;
 
@@ -98,13 +111,13 @@ var
   HI            : Array [0..255] of integer;
 
 implementation
-uses unit2;
+uses unit2,unit3;
 {$R *.lfm}
 
 { TForm1 }
 
 //procedimientos propios
-procedure tform1.grises(var M:MATRGB);
+procedure tform1.grisR(var M:MATRGB);        // gris canal ROJO
 var
   i,j : Integer;
 begin
@@ -121,7 +134,39 @@ begin
   end;
   Image1.Picture.Assign(BM);
 end;
+procedure tform1.grisG(var M:MATRGB);        // gris canal VERDE
+var
+  i,j : Integer;
+begin
+  //Label1.Caption := 'Gris por canal';
+  for i:=0 to ANCHO-1 do begin
+    for j:=0 to ALTO-1 do begin
 
+      M[i,j,0]:=M[i,j,1];
+      M[i,j,2]:=M[i,j,1];
+
+      BM.Canvas.Pixels[i,j]:= RGB(M[i,j,0],M[i,j,1],M[i,j,2]);
+
+    end;
+  end;
+  Image1.Picture.Assign(BM);
+end;
+procedure tform1.grisB(var M:MATRGB);        // gris canal AZUL
+var
+  i,j : Integer;
+begin
+  for i:=0 to ANCHO-1 do begin
+    for j:=0 to ALTO-1 do begin
+
+      M[i,j,0]:=M[i,j,2];
+      M[i,j,1]:=M[i,j,2];
+
+      BM.Canvas.Pixels[i,j]:= RGB(M[i,j,0],M[i,j,1],M[i,j,2]);
+
+    end;
+  end;
+  Image1.Picture.Assign(BM);
+end;
 procedure tform1.grises_prom(var M:MATRGB);
 var
   i,j  : Integer;
@@ -129,7 +174,6 @@ var
   x,y,z  : Integer;
 begin
   d:=3;  //3 por canales RGB
-  Label1.Caption := 'Gris por promedio';
      for i:=0 to ANCHO-1 do begin
         for j:=0 to ALTO-1 do begin
 
@@ -150,7 +194,42 @@ begin
   Image1.Picture.Assign(BM);
 
 end;
+//canal a GRB  --aun no jala
+procedure tform1.chn2GRB(var M:MATRGB);
+var
+i,j  : Integer;
+aux :byte;
+begin
+   for i:=0 to ANCHO-1 do begin
+        for j:=0 to ALTO-1 do begin
+            aux:=M[i,j,0];
+            M[i,j,0]:=M[i,j,1];
+            M[i,j,1]:=aux;
 
+            BM.Canvas.Pixels[i,j]:= RGB(M[i,j,0],M[i,j,1],M[i,j,2]);
+        end;
+   end;
+end;
+
+//canal a GRB  --aun no jala
+procedure tform1.chn2BRG(M:MATRGB);
+var
+i,j  : Integer;
+aux, aux2 :byte;
+begin
+   for i:=0 to ANCHO-1 do begin
+        for j:=0 to ALTO-1 do begin
+            aux:=M[i,j,1];
+
+            M[i,j,1]:=M[i,j,0];
+            M[i,j,0]:=M[i,j,2];
+
+            BM.Canvas.Pixels[i,j]:= RGB(M[i,j,0],M[i,j,1],M[i,j,2]);
+        end;
+   end;
+end;
+
+// binarización
 procedure tform1.treshold();
 var
    i,j,T :Integer;
@@ -185,7 +264,6 @@ for i:=0 to ANCHO-1 do begin
 end;
  Image1.Picture.Assign(BM);
 end;
-
 // crear paleta de tono ROJO
 procedure TForm1.initR(var M:MATRGB);
 var
@@ -377,7 +455,7 @@ begin
  Image2.Canvas.Pen.Color:=CLWhite;
  Image2.Canvas.Rectangle(0,0,Image2.Width,Image2.Height);
 end;
-
+//carga matriz intensidad
 procedure tform1.loadMatI(M:MATRGB);
 var
   i,j,sum,d : Integer;
@@ -404,10 +482,12 @@ begin
 end;
 
 //  FIN METODOS PROPIOS
+
+////  INTERFAZ    ////
 procedure TForm1.MenuItem2Click(Sender: TObject);
 var
   i,j,k   : Integer;
-  c       :Tcolor;     //puede ser Tcolor o Integer
+  c       : Tcolor;     //puede ser Tcolor o Integer
 begin
   //abrir imagen
   if (OpenPictureDialog1.Execute) then
@@ -456,13 +536,12 @@ begin
 
 end;
 
+//filtro negativo
 procedure TForm1.MenuItem4Click(Sender: TObject);
 var
 i,j : Integer;
 k   : Byte;
-
 begin
-
   for i:=0 to ANCHO-1 do begin
     for j:=0 to ALTO-1 do begin
       for k:=0 to 2 do begin
@@ -478,35 +557,28 @@ begin
  Image1.Picture.Assign(BM);
 end;
 
-procedure TForm1.MenuItem6Click(Sender: TObject);
-begin
-  grises(MAT);
-
-end;
-
+//gris prom
 procedure TForm1.MenuItem7Click(Sender: TObject);
 begin
   grises_prom(MAT);
 end;
-
-
-
+//CARGAR hist I
 procedure TForm1.RadioButton1Change(Sender: TObject);
 begin
   loadMatI(MAT_I);
   initI(MAT_I);
 end;
-
+//CARGAR hist R
 procedure TForm1.RadioButton2Change(Sender: TObject);
 begin
   initR(MAT);
 end;
-
+//CARGAR hist G
 procedure TForm1.RadioButton3Change(Sender: TObject);
 begin
   initG(MAT);
 end;
-
+ //CARGAR hist B
 procedure TForm1.RadioButton4Change(Sender: TObject);
 begin
  initB(MAT);
@@ -516,6 +588,34 @@ procedure TForm1.ScrollBox1Click(Sender: TObject);
 begin
 
 end;
+
+procedure TForm1.MenuItem16Click(Sender: TObject);
+begin
+  grisR(MAT);
+end;
+
+procedure TForm1.MenuItem17Click(Sender: TObject);
+begin
+  grisG(MAT);
+end;
+
+procedure TForm1.MenuItem18Click(Sender: TObject);
+begin
+  grisB(MAT);
+end;
+
+procedure TForm1.MenuItem23Click(Sender: TObject);
+begin
+  form3.TrackBar1.Position:=form2.TrackBar1.Min;
+  form3.param:=form3.TrackBar1.Position;
+  form3.Label1.Caption:=inttostr(form3.param);
+  form3.showmodal;
+
+  if Form3.ModalResult=MROK then begin
+
+  end;
+end;
+
 
 procedure TForm1.FormCreate(Sender: TObject);
 begin
@@ -577,10 +677,10 @@ procedure TForm1.Label4Click(Sender: TObject);
 begin
 
 end;
-
+//RGB ->  GRB
 procedure TForm1.MenuItem10Click(Sender: TObject);
 begin
-
+  chn2GRB(MAT);
 end;
 
 procedure TForm1.MenuItem11Click(Sender: TObject);
@@ -588,6 +688,11 @@ begin
 
 end;
 
+procedure TForm1.MenuItem12Click(Sender: TObject);
+begin
+   chn2GRB(MAT);
+end;
+//ln
 procedure TForm1.MenuItem13Click(Sender: TObject);
 var
 i,j :Integer;
@@ -603,7 +708,7 @@ begin
   end;
   Image1.Picture.Assign(BM);
 end;
-
+//binarización
 procedure TForm1.MenuItem14Click(Sender: TObject);
 begin
   grises_prom(MAT); //pasamos a gris primero
@@ -623,21 +728,32 @@ begin
   //ShowMessage('el valor del parámetro + 5 es: ' + inttostr(form2.param+5));
   form2.param := form2.param;
 
-        for i:=0 to ANCHO-1 do begin
-            for j:=0 to ALTO-1 do begin
-                if RGB(MAT[i,j,0],MAT[i,j,1],MAT[i,j,2]) <= form2.param then
-                begin
-                     BM.Canvas.Pixels[i,j]:=0;
-                end
-                else
-                begin
-                     BM.Canvas.Pixels[i,j]:=255;
-                end;
-            end;
-        end;
+  //MAYOR > T -> 255
+  //menor_igual <= 0 -> 0
+  for i:=0 to ANCHO-1 do begin
+    for j:=0 to ALTO-1 do begin
+            if MAT[i,j,0] <= form2.param then
+               begin
+               MAT[i,j,0]:=0;
+               MAT[i,j,1]:=0;
+               MAT[i,j,2]:=0;
+               BM.Canvas.Pixels[i,j] := RGB(MAT[i,j,0],MAT[i,j,1],MAT[i,j,2]);
+               end
+            else
+               begin
+               MAT[i,j,0]:=255;
+               MAT[i,j,1]:=255;
+               MAT[i,j,2]:=255;
+               BM.Canvas.Pixels[i,j] := RGB(MAT[i,j,0],MAT[i,j,1],MAT[i,j,2]);
+               end;
+           end;
     end;
 
+  Image1.Picture.Assign(BM);
+  end;
 end;
+
+
 
 
 end.
