@@ -1,0 +1,103 @@
+object Form4: TForm4
+  Left = 1928
+  Height = 377
+  Top = 325
+  Width = 338
+  Caption = 'Convolución estandar '
+  ClientHeight = 0
+  ClientWidth = 0
+  LCLVersion = '1.8.2.0'
+  object Panel1: TPanel
+    Left = 8
+    Height = 48
+    Top = 8
+    Width = 320
+    ClientHeight = 48
+    ClientWidth = 320
+    Color = clTeal
+    ParentColor = False
+    TabOrder = 0
+    object RadioButton2: TRadioButton
+      Left = 132
+      Height = 19
+      Top = 13
+      Width = 49
+      Caption = 'Sobel'
+      OnChange = RadioButton2Change
+      ParentColor = False
+      TabOrder = 0
+    end
+    object RadioButton3: TRadioButton
+      Left = 244
+      Height = 19
+      Top = 13
+      Width = 60
+      Caption = 'Roberts'
+      OnChange = RadioButton3Change
+      ParentColor = False
+      TabOrder = 1
+    end
+    object RadioButton1: TRadioButton
+      Left = 28
+      Height = 19
+      Top = 13
+      Width = 53
+      Caption = 'Prewit'
+      OnChange = RadioButton1Change
+      ParentColor = False
+      TabOrder = 2
+    end
+  end
+  object Panel2: TPanel
+    Left = 8
+    Height = 82
+    Top = 61
+    Width = 320
+    Color = 16744448
+    ParentColor = False
+    TabOrder = 1
+    Visible = False
+  end
+  object Panel3: TPanel
+    Left = 8
+    Height = 82
+    Top = 150
+    Width = 320
+    Color = 16744448
+    ParentColor = False
+    TabOrder = 2
+    Visible = False
+  end
+  object Panel4: TPanel
+    Left = 8
+    Height = 82
+    Top = 240
+    Width = 320
+    Color = 16744448
+    ParentColor = False
+    TabOrder = 3
+    Visible = False
+  end
+  object BitBtn1: TBitBtn
+    Left = 200
+    Height = 30
+    Top = 336
+    Width = 75
+    Default = True
+    DefaultCaption = True
+    Kind = bkOK
+    ModalResult = 1
+    TabOrder = 4
+  end
+  object BitBtn2: TBitBtn
+    Left = 64
+    Height = 30
+    Top = 336
+    Width = 75
+    Cancel = True
+    DefaultCaption = True
+    Kind = bkCancel
+    ModalResult = 2
+    TabOrder = 5
+  end
+end

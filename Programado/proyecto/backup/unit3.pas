@@ -35,11 +35,10 @@ uses unit1;
 { TForm3 }
 
 procedure TForm3.TrackBar1Change(Sender: TObject);
-var i,j :Integer;
+
 begin
   param := TrackBar1.Position;
   Label1.Caption:=inttostr(param);
-
 end;
 
 end.

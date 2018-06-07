@@ -1,13 +1,12 @@
 object Form2: TForm2
-  Left = 698
+  Left = 1940
   Height = 145
-  Top = 615
+  Top = 525
   Width = 320
   Caption = 'Form2'
   ClientHeight = 145
   ClientWidth = 320
-  DesignTimePPI = 120
-  LCLVersion = '1.8.4.0'
+  LCLVersion = '1.8.2.0'
   object BitBtn1: TBitBtn
     Left = 205
     Height = 30
@@ -28,30 +27,31 @@ object Form2: TForm2
     DefaultCaption = True
     Kind = bkCancel
     ModalResult = 2
-    TabOrder = 1
+    TabOrder = 2
   end
   object TrackBar1: TTrackBar
     Left = 72
     Height = 33
     Top = 40
     Width = 156
+    Max = 255
     OnChange = TrackBar1Change
     Position = 0
-    TabOrder = 2
+    TabOrder = 1
   end
   object Label1: TLabel
     Left = 248
-    Height = 20
+    Height = 15
     Top = 40
-    Width = 44
+    Width = 34
     Caption = 'Label1'
     ParentColor = False
   end
   object Label2: TLabel
     Left = 128
-    Height = 20
+    Height = 15
     Top = 16
-    Width = 49
+    Width = 39
     Caption = 'Umbral'
     ParentColor = False
   end

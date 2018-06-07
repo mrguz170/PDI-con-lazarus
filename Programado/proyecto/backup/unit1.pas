@@ -14,10 +14,10 @@ type
 
   //tipos propios definidos
   MATRGB=Array of Array of Array of Byte;
+  MATCONV=Array[0..2,0..2] of Integer;
 
   TForm1 = class(TForm)
     Button1: TButton;
-    Button2: TButton;
     Image1: TImage;
     Image2: TImage;
     Image3: TImage;
@@ -37,9 +37,8 @@ type
     MenuItem19: TMenuItem;
     MenuItem2: TMenuItem;
     MenuItem20: TMenuItem;
-    MenuItem21: TMenuItem;
-    MenuItem22: TMenuItem;
     MenuItem23: TMenuItem;
+    MenuItem24: TMenuItem;
     MenuItem3: TMenuItem;
     MenuItem4: TMenuItem;
     MenuItem5: TMenuItem;
@@ -49,6 +48,8 @@ type
     MenuItem9: TMenuItem;
     OpenPictureDialog1: TOpenPictureDialog;
     Panel1: TPanel;
+    Panel2: TPanel;
+    Panel3: TPanel;
     RadioButton1: TRadioButton;
     RadioButton2: TRadioButton;
     RadioButton3: TRadioButton;
@@ -57,7 +58,7 @@ type
     StatusBar1: TStatusBar;
 
     procedure Button1Click(Sender: TObject);
-    procedure Button2Click(Sender: TObject);
+
     procedure FormCreate(Sender: TObject);
     procedure FormDestroy(Sender: TObject);
     procedure Image1MouseMove(Sender: TObject; Shift: TShiftState; X, Y: Integer
@@ -72,7 +73,9 @@ type
     procedure MenuItem16Click(Sender: TObject);
     procedure MenuItem17Click(Sender: TObject);
     procedure MenuItem18Click(Sender: TObject);
+    procedure MenuItem20Click(Sender: TObject);
     procedure MenuItem23Click(Sender: TObject);
+    procedure MenuItem24Click(Sender: TObject);
     procedure MenuItem2Click(Sender: TObject);
     procedure MenuItem4Click(Sender: TObject);
     procedure MenuItem7Click(Sender: TObject);
@@ -85,20 +88,28 @@ type
   private
 
   public
+    procedure verImgHis();
+    //filtros
     procedure grisR(var M:MATRGB);
     procedure grisG(var M:MATRGB);
     procedure grisB(var M:MATRGB);
     procedure grises_prom(var M:MATRGB);
+    procedure chn2GRB(var M:MATRGB); //cambia canal a GRB
+    procedure chn2BGR(var M:MATRGB); //cambia canal a BGR
+    procedure chn2RBG(var M:MATRGB);
+    procedure treshold();
+    procedure log(var M:MATRGB);
+
+
     procedure initR(var M:MATRGB);   //carga histograma Rojo
     procedure initG(var M:MATRGB);   //carga histograma verde
     procedure initB(var M:MATRGB);   //carga histograma azul
     procedure initI(var M:MATRGB);
-    procedure loadMatI(M:MATRGB);
-    procedure treshold();
-    procedure chn2GRB(var M:MATRGB); //cambia canal a GRB
-    procedure chn2BRG(M:MATRGB); //cambia canal a BRG
+    procedure loadMatI(var M:MATRGB);
+
     procedure clsH();
   end;
+
 
 var
   Form1: TForm1;
@@ -109,19 +120,50 @@ var
   HG            : Array [0..255] of integer;
   HB            : Array [0..255] of integer;
   HI            : Array [0..255] of integer;
+  IMAGEN        : integer;
 
 implementation
-uses unit2,unit3;
+uses unit2,unit3,unit4;
 {$R *.lfm}
 
 { TForm1 }
 
 //procedimientos propios
+
+//logaritmo
+//aplha = 1
+procedure tform1.log(var M:MATRGB);
+var
+i,j :Integer;
+k   :byte;
+begin
+  for i:=0 to ANCHO-1 do begin
+    for j:=0 to ALTO-1 do begin
+      for k:=0 to 2 do begin
+          M[i,j,k]:=round(ln(M[i,j,k]+1)/ln(256) * 255);
+      end;
+      BM.Canvas.Pixels[i,j] := RGB(M[i,j,0],M[i,j,1],M[i,j,2]);
+    end;
+  end;
+  verImgHis();
+end;
+
+//Update histograma e Imagen1
+procedure tform1.verImgHis();
+  begin
+     Image1.Picture.Assign(BM);
+
+     if RadioButton1.Checked   then initI(MAT_I);
+     if RadioButton2.Checked   then initR(MAT);
+     if RadioButton3.Checked   then initG(MAT);
+     if RadioButton4.Checked   then initB(MAT);
+
+  end;
+
 procedure tform1.grisR(var M:MATRGB);        // gris canal ROJO
 var
   i,j : Integer;
 begin
-  //Label1.Caption := 'Gris por canal';
   for i:=0 to ANCHO-1 do begin
     for j:=0 to ALTO-1 do begin
 
@@ -132,7 +174,7 @@ begin
 
     end;
   end;
-  Image1.Picture.Assign(BM);
+  verImgHis();
 end;
 procedure tform1.grisG(var M:MATRGB);        // gris canal VERDE
 var
@@ -149,7 +191,7 @@ begin
 
     end;
   end;
-  Image1.Picture.Assign(BM);
+  verImgHis();
 end;
 procedure tform1.grisB(var M:MATRGB);        // gris canal AZUL
 var
@@ -165,7 +207,7 @@ begin
 
     end;
   end;
-  Image1.Picture.Assign(BM);
+  verImgHis();
 end;
 procedure tform1.grises_prom(var M:MATRGB);
 var
@@ -191,42 +233,60 @@ begin
         end;
     end;
      //refresh img
-  Image1.Picture.Assign(BM);
+  verImgHis();
 
 end;
-//canal a GRB  --aun no jala
+//canal a GRB
 procedure tform1.chn2GRB(var M:MATRGB);
 var
 i,j  : Integer;
-aux :byte;
+v    :byte;
 begin
-   for i:=0 to ANCHO-1 do begin
-        for j:=0 to ALTO-1 do begin
-            aux:=M[i,j,0];
-            M[i,j,0]:=M[i,j,1];
-            M[i,j,1]:=aux;
+  for i:=0 to ANCHO-1 do begin
+     for j:=0 to ALTO-1 do begin
 
-            BM.Canvas.Pixels[i,j]:= RGB(M[i,j,0],M[i,j,1],M[i,j,2]);
-        end;
-   end;
+         v := M[i,j,0];
+         M[i,j,0]:=M[i,j,1];
+         M[i,j,1]:=v;
+         M[i,j,2]:=M[i,j,2];
+         BM.Canvas.Pixels[i,j]:=RGB(M[i,j,0],M[i,j,1],M[i,j,2]);
+     end;
+  end;
+  verImgHis();
 end;
-
-//canal a GRB  --aun no jala
-procedure tform1.chn2BRG(M:MATRGB);
+//canal a GRB
+procedure tform1.chn2BGR(var M:MATRGB);
 var
 i,j  : Integer;
-aux, aux2 :byte;
+v    : byte;
 begin
-   for i:=0 to ANCHO-1 do begin
-        for j:=0 to ALTO-1 do begin
-            aux:=M[i,j,1];
-
-            M[i,j,1]:=M[i,j,0];
+     for i:=0 to ANCHO-1 do begin
+         for j:=0 to ALTO-1 do begin
+            v:=M[i,j,0];
             M[i,j,0]:=M[i,j,2];
-
-            BM.Canvas.Pixels[i,j]:= RGB(M[i,j,0],M[i,j,1],M[i,j,2]);
-        end;
-   end;
+            M[i,j,1]:=M[i,j,1];
+            M[i,j,2]:=v;
+            BM.Canvas.Pixels[i,j]:=RGB(M[i,j,0],M[i,j,1],M[i,j,2]);
+         end;
+     end;
+   verImgHis();
+end;
+//canal a RBG
+procedure tform1.chn2RBG(var M:MATRGB);
+var
+i,j  : Integer;
+v    : byte;
+begin
+     for i:=0 to ANCHO-1 do begin
+         for j:=0 to ALTO-1 do begin
+            v:=M[i,j,1];
+            M[i,j,0]:=M[i,j,0];
+            M[i,j,1]:=M[i,j,2];
+            M[i,j,2]:=v;
+            BM.Canvas.Pixels[i,j]:=RGB(M[i,j,0],M[i,j,1],M[i,j,2]);
+         end;
+      end;
+   verImgHis();
 end;
 
 // binarización
@@ -234,6 +294,7 @@ procedure tform1.treshold();
 var
    i,j,T :Integer;
 begin
+T:=0;
 //sacar T (treshold)
 for i:=0 to ANCHO-1 do begin
     for j:=0 to ALTO-1 do begin
@@ -262,7 +323,7 @@ for i:=0 to ANCHO-1 do begin
            end;
     end;
 end;
- Image1.Picture.Assign(BM);
+ verImgHis();
 end;
 // crear paleta de tono ROJO
 procedure TForm1.initR(var M:MATRGB);
@@ -404,8 +465,6 @@ end;
 procedure TForm1.initI(var M:MATRGB);
 var
   i,j,yp  : Integer;
-  x,y,z   : Integer;
-  sum     : Integer;
   MAX     : Integer;
 begin
   clsH();
@@ -416,6 +475,7 @@ begin
      end;
      //
 
+  loadmatI(MAT_I);
   //inicializar vector de frecuencias
   for i:=0 to 255 do begin
     HI[i]:=0;
@@ -424,7 +484,7 @@ begin
   //calcular frecuencias
   for i:=0 to Ancho-1 do begin
     for j:=0 to Alto-1 do begin
-      inc(HI[M[i,j,0]]);
+      inc(HI[MAT_I[i,j,0]]);
     end;
   end;
 
@@ -456,7 +516,7 @@ begin
  Image2.Canvas.Rectangle(0,0,Image2.Width,Image2.Height);
 end;
 //carga matriz intensidad
-procedure tform1.loadMatI(M:MATRGB);
+procedure tform1.loadMatI(var M:MATRGB);
 var
   i,j,sum,d : Integer;
   x,y,z : Integer;
@@ -531,6 +591,7 @@ begin
 
     loadMatI(MAT_I); //LLENA MAT_I con el promedio gris
     Panel1.Visible:=true; //hacemos visible el panel de Hist
+    RadioButton1.Checked:=true;
     Menuitem3.enabled:=true;
   end;
 
@@ -554,7 +615,10 @@ begin
   end;  //j
 
  //visualizar resultado
- Image1.Picture.Assign(BM);
+
+verImgHis();
+
+
 end;
 
 //gris prom
@@ -565,14 +629,15 @@ end;
 //CARGAR hist I
 procedure TForm1.RadioButton1Change(Sender: TObject);
 begin
-  loadMatI(MAT_I);
+  //loadMatI(MAT_I);
   initI(MAT_I);
 end;
 //CARGAR hist R
 procedure TForm1.RadioButton2Change(Sender: TObject);
 begin
   initR(MAT);
-end;
+  //clsH();
+ end;
 //CARGAR hist G
 procedure TForm1.RadioButton3Change(Sender: TObject);
 begin
@@ -604,6 +669,18 @@ begin
   grisB(MAT);
 end;
 
+procedure TForm1.MenuItem20Click(Sender: TObject);
+begin
+form4.showmodal;
+
+  if Form4.ModalResult=MROK then begin
+     form4.conv(MAT);
+
+  end;
+end;
+
+
+//GAMMA
 procedure TForm1.MenuItem23Click(Sender: TObject);
 begin
   form3.TrackBar1.Position:=form2.TrackBar1.Min;
@@ -614,6 +691,12 @@ begin
   if Form3.ModalResult=MROK then begin
 
   end;
+
+end;
+
+procedure TForm1.MenuItem24Click(Sender: TObject);
+begin
+
 end;
 
 
@@ -639,16 +722,10 @@ begin
     end;
   end;
 
-  //BM.Canvas.Pixels[i,j]:=RGB(MATaux[i,j,0],MATaux[i,j,1],MATaux[i,j,2]);
-  Image1.Picture.Assign(BM);
+  verImgHis();
 end;
 
-procedure TForm1.Button2Click(Sender: TObject);
-begin
- //limpiar Canvas de Histograma
- Image2.Canvas.Pen.Color:=CLWhite;
- Image2.Canvas.Rectangle(0,0,Image2.Width,Image2.Height);
-end;
+
 
 procedure TForm1.FormDestroy(Sender: TObject);
 begin
@@ -685,29 +762,19 @@ end;
 
 procedure TForm1.MenuItem11Click(Sender: TObject);
 begin
-
+   chn2BGR(MAT);
 end;
 
 procedure TForm1.MenuItem12Click(Sender: TObject);
 begin
-   chn2GRB(MAT);
+   chn2RBG(MAT);
 end;
 //ln
 procedure TForm1.MenuItem13Click(Sender: TObject);
-var
-i,j :Integer;
-k   :byte;
 begin
-  for i:=0 to ANCHO-1 do begin
-    for j:=0 to ALTO-1 do begin
-      for k:=0 to 2 do begin
-          MAT[i,j,k]:=round(ln(MAT[i,j,k]+1)/ln(256) * 255);
-      end;
-      BM.Canvas.Pixels[i,j] := RGB(MAT[i,j,0],MAT[i,j,1],MAT[i,j,2]);
-    end;
-  end;
-  Image1.Picture.Assign(BM);
+log(MAT);
 end;
+
 //binarización
 procedure TForm1.MenuItem14Click(Sender: TObject);
 begin
@@ -715,6 +782,7 @@ begin
   Treshold();
 end;
 
+//recargar imagen
 procedure TForm1.MenuItem15Click(Sender: TObject);
 var
 i,j: Integer;
@@ -724,9 +792,8 @@ begin
   form2.Label1.Caption:=inttostr(form2.param);
   form2.showmodal;
 
-  if Form3.ModalResult=MROK then begin
-  //ShowMessage('el valor del parámetro + 5 es: ' + inttostr(form2.param+5));
-  form3.param := form3.param;
+  if Form2.ModalResult=MROK then begin
+  //form2.param := form2.param;
 
   //MAYOR > T -> 255
   //menor_igual <= 0 -> 0
@@ -749,7 +816,7 @@ begin
            end;
     end;
 
-  Image1.Picture.Assign(BM);
+ verImgHis();
   end;
 end;
 
