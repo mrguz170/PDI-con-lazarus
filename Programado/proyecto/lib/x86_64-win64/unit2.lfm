@@ -1,12 +1,13 @@
 object Form2: TForm2
-  Left = 1030
-  Height = 145
-  Top = 525
-  Width = 320
-  Caption = 'Form2'
-  ClientHeight = 145
-  ClientWidth = 320
-  LCLVersion = '1.8.2.0'
+  Left = 215
+  Height = 155
+  Top = 627
+  Width = 345
+  Caption = 'Treshold'
+  ClientHeight = 155
+  ClientWidth = 345
+  DesignTimePPI = 120
+  LCLVersion = '1.8.4.0'
   object BitBtn1: TBitBtn
     Left = 205
     Height = 30
@@ -33,7 +34,7 @@ object Form2: TForm2
     Left = 72
     Height = 33
     Top = 40
-    Width = 156
+    Width = 168
     Max = 255
     OnChange = TrackBar1Change
     Position = 0
@@ -41,18 +42,18 @@ object Form2: TForm2
   end
   object Label1: TLabel
     Left = 248
-    Height = 15
+    Height = 20
     Top = 40
-    Width = 34
+    Width = 44
     Caption = 'Label1'
     ParentColor = False
   end
   object Label2: TLabel
     Left = 128
-    Height = 15
+    Height = 20
     Top = 16
-    Width = 39
-    Caption = 'Umbral'
+    Width = 56
+    Caption = 'Treshold'
     ParentColor = False
   end
 end

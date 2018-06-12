@@ -37,6 +37,7 @@ type
     MenuItem19: TMenuItem;
     MenuItem2: TMenuItem;
     MenuItem20: TMenuItem;
+    MenuItem21: TMenuItem;
     MenuItem23: TMenuItem;
     MenuItem24: TMenuItem;
     MenuItem3: TMenuItem;
@@ -63,6 +64,7 @@ type
     procedure FormDestroy(Sender: TObject);
     procedure Image1MouseMove(Sender: TObject; Shift: TShiftState; X, Y: Integer
       );
+
     procedure Label4Click(Sender: TObject);
     procedure MenuItem10Click(Sender: TObject);
     procedure MenuItem11Click(Sender: TObject);
@@ -74,6 +76,7 @@ type
     procedure MenuItem17Click(Sender: TObject);
     procedure MenuItem18Click(Sender: TObject);
     procedure MenuItem20Click(Sender: TObject);
+    procedure MenuItem21Click(Sender: TObject);
     procedure MenuItem23Click(Sender: TObject);
     procedure MenuItem24Click(Sender: TObject);
     procedure MenuItem2Click(Sender: TObject);
@@ -105,7 +108,7 @@ type
     procedure initG(var M:MATRGB);   //carga histograma verde
     procedure initB(var M:MATRGB);   //carga histograma azul
     procedure initI(var M:MATRGB);
-    procedure loadMatI(var M:MATRGB);
+    procedure loadMatI(M:MATRGB);
 
     procedure clsH();
   end;
@@ -123,7 +126,7 @@ var
   IMAGEN        : integer;
 
 implementation
-uses unit2,unit3,unit4;
+uses unit2,unit3,unit4,Unit5;
 {$R *.lfm}
 
 { TForm1 }
@@ -153,7 +156,7 @@ procedure tform1.verImgHis();
   begin
      Image1.Picture.Assign(BM);
 
-     if RadioButton1.Checked   then initI(MAT_I);
+     if RadioButton1.Checked   then initI(MAT);
      if RadioButton2.Checked   then initR(MAT);
      if RadioButton3.Checked   then initG(MAT);
      if RadioButton4.Checked   then initB(MAT);
@@ -295,6 +298,7 @@ var
    i,j,T :Integer;
 begin
 T:=0;
+grises_prom(MAT); //pasamos a gris primero
 //sacar T (treshold)
 for i:=0 to ANCHO-1 do begin
     for j:=0 to ALTO-1 do begin
@@ -468,6 +472,8 @@ var
   MAX     : Integer;
 begin
   clsH();
+  //grises_prom(M); //pasamos a gris primero
+
      for i:=0 to Image3.Height-1 do begin
          for j:=0 to image3.Width-1 do begin
              Image3.Canvas.Pixels[j,i]:=RGB(j,j,j);
@@ -475,7 +481,7 @@ begin
      end;
      //
 
-  loadmatI(MAT_I);
+  loadmatI(M);
   //inicializar vector de frecuencias
   for i:=0 to 255 do begin
     HI[i]:=0;
@@ -516,25 +522,24 @@ begin
  Image2.Canvas.Rectangle(0,0,Image2.Width,Image2.Height);
 end;
 //carga matriz intensidad
-procedure tform1.loadMatI(var M:MATRGB);
+procedure tform1.loadMatI(M:MATRGB);
 var
-  i,j,sum,d : Integer;
+  i,j,sum : Integer;
   x,y,z : Integer;
 begin
-  d:=3; 
   ///
   for i:=0 to ANCHO-1 do begin
         for j:=0 to ALTO-1 do begin
 
-          x := MAT[i,j,0];
-          y := MAT[i,j,1];
-          z := MAT[i,j,2];
+          x := M[i,j,0];
+          y := M[i,j,1];
+          z := M[i,j,2];
 
-          sum := (x+y+z) div d;
+          sum := (x+y+z) div 3;
 
-          M[i,j,0] := sum;
-          M[i,j,1] := sum;
-          M[i,j,2] := sum;
+          MAT_I[i,j,0] := sum;
+          MAT_I[i,j,1] := sum;
+          MAT_I[i,j,2] := sum;
 
         end;
   end;
@@ -589,10 +594,11 @@ begin
       end; //j
     end;//i
 
-    loadMatI(MAT_I); //LLENA MAT_I con el promedio gris
+    //loadMatI(MAT_I); //LLENA MAT_I con el promedio gris
     Panel1.Visible:=true; //hacemos visible el panel de Hist
-    RadioButton1.Checked:=true;
+    //RadioButton1.Checked:=true;
     Menuitem3.enabled:=true;
+    verImgHis();
   end;
 
 end;
@@ -630,7 +636,7 @@ end;
 procedure TForm1.RadioButton1Change(Sender: TObject);
 begin
   //loadMatI(MAT_I);
-  initI(MAT_I);
+  initI(MAT);
 end;
 //CARGAR hist R
 procedure TForm1.RadioButton2Change(Sender: TObject);
@@ -678,18 +684,29 @@ form4.showmodal;
 
   end;
 end;
+//Tangente Hiperbolica
+procedure TForm1.MenuItem21Click(Sender: TObject);
+begin
+  form5.TrackBar1.Position:=form5.TrackBar1.Min;
+  form5.Label1.Caption:=inttostr(round(form5.alpha));
+  form5.showmodal;
+
+  if form5.ModalResult=MROK then begin
+     form5.TanHiper(MAT);
+  end;
+end;
 
 
 //GAMMA
 procedure TForm1.MenuItem23Click(Sender: TObject);
 begin
-  form3.TrackBar1.Position:=form2.TrackBar1.Min;
-  form3.param:=form3.TrackBar1.Position;
-  form3.Label1.Caption:=inttostr(form3.param);
+  form3.TrackBar1.Position:=form3.TrackBar1.Min;
+  //form3.gma:=form3.TrackBar1.Position;
+  form3.Label1.Caption:=inttostr(round(form3.gma));
   form3.showmodal;
 
   if Form3.ModalResult=MROK then begin
-
+     Form3.TanHiper(MAT);
   end;
 
 end;
@@ -750,6 +767,8 @@ begin
 
 end;
 
+
+
 procedure TForm1.Label4Click(Sender: TObject);
 begin
 
@@ -778,11 +797,10 @@ end;
 //binarización
 procedure TForm1.MenuItem14Click(Sender: TObject);
 begin
-  grises_prom(MAT); //pasamos a gris primero
   Treshold();
 end;
 
-//recargar imagen
+//binarización-dinamic
 procedure TForm1.MenuItem15Click(Sender: TObject);
 var
 i,j: Integer;
