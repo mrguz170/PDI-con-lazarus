@@ -89,7 +89,7 @@ begin
 
             for a:=-1 to 1 do begin
               for b:=-1to 1 do begin
-                   cnv:= cnv + (MASC[a+1,b+1] * M[i+a,j+b,k]);
+                  cnv:= cnv+ (MASC[a+1,b+1]*MAT[i+a,j+b,k]);
               end;
             end;//a
         AUX[i,j,k]:=abs(cnv) div 4; //almacenar en aux
@@ -116,6 +116,7 @@ begin
      Panel3.Visible:=false;
      Panel4.Visible:=false;
 end;
+
 
 procedure TForm4.RadioButton2Change(Sender: TObject);
 begin

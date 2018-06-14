@@ -28,9 +28,6 @@ type
   gma   : Integer;
   procedure gamma(var M:MATRGB);
 
-
-
-
   end;
 
 var

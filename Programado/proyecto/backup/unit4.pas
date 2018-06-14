@@ -25,6 +25,8 @@ type
     RadioButton1: TRadioButton;
     RadioButton2: TRadioButton;
     RadioButton3: TRadioButton;
+
+    procedure FormCreate(Sender: TObject);
     procedure RadioButton1Change(Sender: TObject);
     procedure RadioButton2Change(Sender: TObject);
     procedure RadioButton3Change(Sender: TObject);
@@ -89,7 +91,7 @@ begin
 
             for a:=-1 to 1 do begin
               for b:=-1to 1 do begin
-                   cnv:= cnv + (MASC[a+1,b+1] * M[i+a,j+b,k]);
+                  cnv:= cnv+ (MASC[a+1,b+1]*MAT[i+a,j+b,k]);
               end;
             end;//a
         AUX[i,j,k]:=abs(cnv) div 4; //almacenar en aux
@@ -107,7 +109,7 @@ begin
       end;
 
   end;
-  form1.Image1.Picture.Assign(BM);
+  form1.verImgHis();
 end;
 
 procedure TForm4.RadioButton1Change(Sender: TObject);
@@ -116,6 +118,13 @@ begin
      Panel3.Visible:=false;
      Panel4.Visible:=false;
 end;
+
+procedure TForm4.FormCreate(Sender: TObject);
+begin
+
+end;
+
+
 
 procedure TForm4.RadioButton2Change(Sender: TObject);
 begin

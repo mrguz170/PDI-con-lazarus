@@ -4,9 +4,10 @@ object Form4: TForm4
   Top = 325
   Width = 338
   Caption = 'Convolución estandar '
-  ClientHeight = 0
-  ClientWidth = 0
-  LCLVersion = '1.8.2.0'
+  ClientHeight = 377
+  ClientWidth = 338
+  DesignTimePPI = 120
+  LCLVersion = '1.8.4.0'
   object Panel1: TPanel
     Left = 8
     Height = 48
@@ -19,9 +20,9 @@ object Form4: TForm4
     TabOrder = 0
     object RadioButton2: TRadioButton
       Left = 132
-      Height = 19
+      Height = 24
       Top = 13
-      Width = 49
+      Width = 62
       Caption = 'Sobel'
       OnChange = RadioButton2Change
       ParentColor = False
@@ -29,9 +30,9 @@ object Form4: TForm4
     end
     object RadioButton3: TRadioButton
       Left = 244
-      Height = 19
+      Height = 24
       Top = 13
-      Width = 60
+      Width = 75
       Caption = 'Roberts'
       OnChange = RadioButton3Change
       ParentColor = False
@@ -39,9 +40,9 @@ object Form4: TForm4
     end
     object RadioButton1: TRadioButton
       Left = 28
-      Height = 19
+      Height = 24
       Top = 13
-      Width = 53
+      Width = 65
       Caption = 'Prewit'
       OnChange = RadioButton1Change
       ParentColor = False

@@ -551,7 +551,7 @@ end;
 ////  INTERFAZ    ////
 procedure TForm1.MenuItem2Click(Sender: TObject);
 var
-  i,j,k   : Integer;
+  i,j   : Integer;
   c       : Tcolor;     //puede ser Tcolor o Integer
 begin
   //abrir imagen
@@ -594,7 +594,6 @@ begin
       end; //j
     end;//i
 
-    //loadMatI(MAT_I); //LLENA MAT_I con el promedio gris
     Panel1.Visible:=true; //hacemos visible el panel de Hist
     //RadioButton1.Checked:=true;
     Menuitem3.enabled:=true;
@@ -613,7 +612,6 @@ begin
     for j:=0 to ALTO-1 do begin
       for k:=0 to 2 do begin
         MAT[i,j,k]:=255-MAT[i,j,k];
-       // MAT[i,j,k]:=not(MAT[i,j,k]);
       end;
       BM.Canvas.Pixels[i,j]:=RGB(MAT[i,j,0],MAT[i,j,1],MAT[i,j,2]);
 
@@ -642,7 +640,6 @@ end;
 procedure TForm1.RadioButton2Change(Sender: TObject);
 begin
   initR(MAT);
-  //clsH();
  end;
 //CARGAR hist G
 procedure TForm1.RadioButton3Change(Sender: TObject);
@@ -687,9 +684,10 @@ end;
 //Tangente Hiperbolica
 procedure TForm1.MenuItem21Click(Sender: TObject);
 begin
-  form5.TrackBar1.Position:=form5.TrackBar1.Min;
+
   form5.Label1.Caption:=inttostr(round(form5.alpha));
   form5.showmodal;
+  form5.TrackBar1.Position:=form5.TrackBar1.Min;
 
   if form5.ModalResult=MROK then begin
      form5.TanHiper(MAT);
@@ -811,8 +809,6 @@ begin
   form2.showmodal;
 
   if Form2.ModalResult=MROK then begin
-  //form2.param := form2.param;
-
   //MAYOR > T -> 255
   //menor_igual <= 0 -> 0
   for i:=0 to ANCHO-1 do begin
