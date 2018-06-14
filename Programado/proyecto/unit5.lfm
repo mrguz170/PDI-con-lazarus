@@ -1,13 +1,12 @@
 object Form5: TForm5
-  Left = 490
+  Left = 484
   Height = 166
-  Top = 448
+  Top = 365
   Width = 385
   Caption = 'Tanh'
   ClientHeight = 166
   ClientWidth = 385
-  DesignTimePPI = 120
-  LCLVersion = '1.8.4.0'
+  LCLVersion = '1.8.2.0'
   object BitBtn1: TBitBtn
     Left = 232
     Height = 38
@@ -42,17 +41,17 @@ object Form5: TForm5
   end
   object Label1: TLabel
     Left = 303
-    Height = 20
+    Height = 15
     Top = 51
-    Width = 44
+    Width = 34
     Caption = 'Label1'
     ParentColor = False
   end
   object Label2: TLabel
     Left = 156
-    Height = 20
+    Height = 15
     Top = 16
-    Width = 39
+    Width = 31
     Caption = 'Alpha'
     ParentColor = False
   end

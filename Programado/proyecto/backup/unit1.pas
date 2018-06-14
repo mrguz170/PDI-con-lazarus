@@ -684,10 +684,10 @@ end;
 //Tangente Hiperbolica
 procedure TForm1.MenuItem21Click(Sender: TObject);
 begin
-
-  form5.Label1.Caption:=inttostr(round(form5.alpha));
+  form5.TrackBar1.Position:=form5.TrackBar1.min;
+  form5.alpha:=form2.TrackBar1.Position;
+  form5.Label1.Caption:=FloatToStr(form5.alpha*0.1);
   form5.showmodal;
-  form5.TrackBar1.Position:=form5.TrackBar1.Min;
 
   if form5.ModalResult=MROK then begin
      form5.TanHiper(MAT);
@@ -809,8 +809,6 @@ begin
   form2.showmodal;
 
   if Form2.ModalResult=MROK then begin
-  //form2.param := form2.param;
-
   //MAYOR > T -> 255
   //menor_igual <= 0 -> 0
   for i:=0 to ANCHO-1 do begin

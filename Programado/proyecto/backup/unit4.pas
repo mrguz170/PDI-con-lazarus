@@ -25,8 +25,6 @@ type
     RadioButton1: TRadioButton;
     RadioButton2: TRadioButton;
     RadioButton3: TRadioButton;
-
-    procedure FormCreate(Sender: TObject);
     procedure RadioButton1Change(Sender: TObject);
     procedure RadioButton2Change(Sender: TObject);
     procedure RadioButton3Change(Sender: TObject);
@@ -118,12 +116,6 @@ begin
      Panel3.Visible:=false;
      Panel4.Visible:=false;
 end;
-
-procedure TForm4.FormCreate(Sender: TObject);
-begin
-
-end;
-
 
 
 procedure TForm4.RadioButton2Change(Sender: TObject);
