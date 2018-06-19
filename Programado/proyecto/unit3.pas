@@ -20,11 +20,11 @@ type
     Label2: TLabel;
     TrackBar1: TTrackBar;
 
+    procedure FormCreate(Sender: TObject);
     procedure TrackBar1Change(Sender: TObject);
   private
 
   public
-  param : Integer;
   gma   : Integer;
   procedure gamma(var M:MATRGB);
 
@@ -44,6 +44,7 @@ procedure Tform3.gamma(var M:MATRGB);
 var
    i,j,k    : Integer;
 begin
+  form1.ant();
   for i:=0 to ANCHO-1 do begin
     for j:=0 to ALTO-1 do begin
        for k:=0 to 2 do begin
@@ -62,6 +63,11 @@ procedure TForm3.TrackBar1Change(Sender: TObject);
 begin
   gma := TrackBar1.Position;
   Label1.Caption:=inttostr(gma);
+end;
+
+procedure TForm3.FormCreate(Sender: TObject);
+begin
+  gma:=1;
 end;
 
 

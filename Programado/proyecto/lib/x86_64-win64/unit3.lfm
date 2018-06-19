@@ -1,11 +1,12 @@
 object Form3: TForm3
-  Left = 444
+  Left = 176
   Height = 158
-  Top = 522
+  Top = 517
   Width = 352
   Caption = 'Gamma'
   ClientHeight = 158
   ClientWidth = 352
+  OnCreate = FormCreate
   LCLVersion = '1.8.2.0'
   object TrackBar1: TTrackBar
     Left = 72

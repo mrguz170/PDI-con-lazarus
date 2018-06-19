@@ -21,6 +21,7 @@ type
     Label1: TLabel;
     Label2: TLabel;
     TrackBar1: TTrackBar;
+    procedure FormCreate(Sender: TObject);
     procedure TrackBar1Change(Sender: TObject);
   private
 
@@ -49,7 +50,6 @@ uses unit1;
 procedure tform5.TanHiper(var M:MATRGB);
 var
    i,j,k     : Integer;
-
 begin
 
   for i:=0 to ANCHO-1 do begin
@@ -61,9 +61,8 @@ begin
          end;
      BM.Canvas.Pixels[i,j] := RGB(M[i,j,0],M[i,j,1],M[i,j,2]);
      end;
-   form1.verImgHis();
    end;
-
+   form1.verImgHis();
 end;
 
 
@@ -72,7 +71,11 @@ procedure TForm5.TrackBar1Change(Sender: TObject);
 begin
   alpha := TrackBar1.Position;
   Label1.Caption:=FloatToStr(alpha*0.1);
-  //Label1.Caption:=inttostr(alpha);
+end;
+
+procedure TForm5.FormCreate(Sender: TObject);
+begin
+  alpha:=1;
 end;
 
 end.

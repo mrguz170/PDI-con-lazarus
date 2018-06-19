@@ -1,16 +1,17 @@
 object Form5: TForm5
-  Left = 484
-  Height = 166
-  Top = 365
+  Left = 176
+  Height = 148
+  Top = 534
   Width = 385
   Caption = 'Tanh'
-  ClientHeight = 166
+  ClientHeight = 148
   ClientWidth = 385
+  OnCreate = FormCreate
   LCLVersion = '1.8.2.0'
   object BitBtn1: TBitBtn
     Left = 232
     Height = 38
-    Top = 101
+    Top = 94
     Width = 94
     Default = True
     DefaultCaption = True
@@ -21,7 +22,7 @@ object Form5: TForm5
   object BitBtn2: TBitBtn
     Left = 44
     Height = 38
-    Top = 101
+    Top = 94
     Width = 94
     Cancel = True
     DefaultCaption = True
@@ -36,7 +37,7 @@ object Form5: TForm5
     Width = 176
     Min = 1
     OnChange = TrackBar1Change
-    Position = 1
+    Position = 2
     TabOrder = 2
   end
   object Label1: TLabel

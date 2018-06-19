@@ -42,12 +42,12 @@ end;
 procedure TForm1.Button2Click(Sender: TObject);
 begin
   image1.Canvas.Brush.color:= clwhite;
-  image1.Canvas.Ellipse(15,12,70,80);
+  image1.Canvas.Ellipse(15,12,20,30);
 end;
 
 procedure TForm1.FormCreate(Sender: TObject);
 begin
-  image1.Canvas.Brush.color:= clwhite;
+  image1.Canvas.Brush.color:= clred;
   image1.Canvas.Pen.color:=CLblack;
   image1.Canvas.Rectangle(0,0, image1.Width, image1.Height);
 end;

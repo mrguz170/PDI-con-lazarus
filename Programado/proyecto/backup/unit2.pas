@@ -18,6 +18,7 @@ type
     Label1: TLabel;
     Label2: TLabel;
     TrackBar1: TTrackBar;
+    procedure FormCreate(Sender: TObject);
     procedure TrackBar1Change(Sender: TObject);
   private
 
@@ -38,7 +39,11 @@ procedure TForm2.TrackBar1Change(Sender: TObject);
 begin
   param := TrackBar1.Position;
   Label1.Caption:=inttostr(param);
+end;
 
+procedure TForm2.FormCreate(Sender: TObject);
+begin
+  param:=  0;
 end;
 
 end.

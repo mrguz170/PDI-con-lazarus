@@ -1,27 +1,27 @@
 object Form1: TForm1
-  Left = 83
-  Height = 512
-  Top = 127
-  Width = 852
-  Caption = 'Form1'
-  ClientHeight = 492
-  ClientWidth = 852
+  Left = 235
+  Height = 538
+  Top = 112
+  Width = 913
+  Caption = 'Proyecto PDI'
+  ClientHeight = 518
+  ClientWidth = 913
+  Color = clMenuHighlight
   Menu = MainMenu1
   OnCreate = FormCreate
   OnDestroy = FormDestroy
   LCLVersion = '1.8.2.0'
   object ScrollBox1: TScrollBox
-    Left = 32
-    Height = 426
-    Top = 48
-    Width = 428
+    Left = 8
+    Height = 480
+    Top = 8
+    Width = 496
     HorzScrollBar.Page = 96
     VertScrollBar.Page = 88
-    ClientHeight = 422
-    ClientWidth = 424
+    ClientHeight = 476
+    ClientWidth = 492
     Enabled = False
     TabOrder = 0
-    OnClick = ScrollBox1Click
     object Image1: TImage
       Cursor = crCross
       Left = 0
@@ -35,8 +35,8 @@ object Form1: TForm1
   object StatusBar1: TStatusBar
     Left = 0
     Height = 23
-    Top = 469
-    Width = 852
+    Top = 495
+    Width = 913
     Panels = <    
       item
         Text = 'X,Y'
@@ -67,35 +67,35 @@ object Form1: TForm1
     SimplePanel = False
   end
   object Button1: TButton
-    Left = 377
+    Left = 512
     Height = 25
-    Top = 8
-    Width = 75
+    Top = 248
+    Width = 76
     Caption = 'Reload'
     OnClick = Button1Click
     TabOrder = 2
   end
   object Panel1: TPanel
-    Left = 464
-    Height = 192
-    Top = 48
+    Left = 512
+    Height = 216
+    Top = 8
     Width = 384
-    ClientHeight = 192
+    ClientHeight = 216
     ClientWidth = 384
-    Color = clSilver
+    Color = clTeal
     ParentColor = False
     TabOrder = 3
     Visible = False
     object Image2: TImage
       Left = 12
-      Height = 116
+      Height = 140
       Top = 8
       Width = 256
     end
     object Label2: TLabel
       Left = 10
       Height = 15
-      Top = 169
+      Top = 193
       Width = 6
       Caption = '0'
       ParentColor = False
@@ -103,23 +103,23 @@ object Form1: TForm1
     object Label3: TLabel
       Left = 250
       Height = 15
-      Top = 169
+      Top = 193
       Width = 18
       Caption = '255'
       ParentColor = False
     end
     object Panel2: TPanel
-      Left = 278
-      Height = 162
-      Top = 8
-      Width = 98
-      ClientHeight = 162
-      ClientWidth = 98
+      Left = 280
+      Height = 186
+      Top = 7
+      Width = 96
+      ClientHeight = 186
+      ClientWidth = 96
       Color = clWhite
       ParentColor = False
       TabOrder = 0
       object RadioButton1: TRadioButton
-        Left = 9
+        Left = 8
         Height = 19
         Top = 13
         Width = 65
@@ -130,9 +130,9 @@ object Form1: TForm1
         TabStop = True
       end
       object RadioButton2: TRadioButton
-        Left = 9
+        Left = 10
         Height = 19
-        Top = 49
+        Top = 57
         Width = 27
         Caption = 'R'
         OnChange = RadioButton2Change
@@ -141,7 +141,7 @@ object Form1: TForm1
       object RadioButton3: TRadioButton
         Left = 9
         Height = 19
-        Top = 88
+        Top = 105
         Width = 28
         Caption = 'G'
         OnChange = RadioButton3Change
@@ -150,7 +150,7 @@ object Form1: TForm1
       object RadioButton4: TRadioButton
         Left = 9
         Height = 19
-        Top = 125
+        Top = 157
         Width = 27
         Caption = 'B'
         OnChange = RadioButton4Change
@@ -158,31 +158,68 @@ object Form1: TForm1
       end
     end
     object Panel3: TPanel
-      Left = 10
+      Left = 11
       Height = 33
-      Top = 136
-      Width = 259
+      Top = 160
+      Width = 261
       ClientHeight = 33
-      ClientWidth = 259
+      ClientWidth = 261
       Color = clWhite
       ParentColor = False
       TabOrder = 1
       object Image3: TImage
-        Left = 1
+        Left = 2
         Height = 28
         Top = 2
         Width = 256
       end
     end
   end
+  object Button2: TButton
+    Left = 589
+    Height = 25
+    Top = 248
+    Width = 75
+    Caption = 'Deshacer'
+    OnClick = Button2Click
+    TabOrder = 4
+  end
+  object Label4: TLabel
+    Left = 534
+    Height = 15
+    Top = 306
+    Width = 34
+    Caption = 'Label4'
+    ParentColor = False
+  end
+  object Edit1: TEdit
+    Left = 582
+    Height = 23
+    Top = 304
+    Width = 80
+    TabOrder = 5
+  end
+  object Button3: TButton
+    Left = 670
+    Height = 25
+    Top = 248
+    Width = 75
+    Caption = 'Ecualizar'
+    OnClick = Button3Click
+    TabOrder = 6
+  end
   object MainMenu1: TMainMenu
-    left = 40
-    top = 8
+    left = 848
+    top = 448
     object MenuItem1: TMenuItem
       Caption = 'Archivo'
       object MenuItem2: TMenuItem
         Caption = 'Abrir'
         OnClick = MenuItem2Click
+      end
+      object MenuItem38: TMenuItem
+        Caption = 'Restaurar'
+        OnClick = MenuItem38Click
       end
     end
     object MenuItem3: TMenuItem
@@ -255,16 +292,63 @@ object Form1: TForm1
     object MenuItem19: TMenuItem
       Caption = 'Filtros x Region'
       object MenuItem20: TMenuItem
-        Caption = 'Convolución-Std Kernel'
-        OnClick = MenuItem20Click
+        Caption = 'Bordes'
+        object MenuItem22: TMenuItem
+          Caption = 'Standar Kernel'
+          OnClick = MenuItem22Click
+        end
+        object MenuItem25: TMenuItem
+          Caption = 'Libre'
+          OnClick = MenuItem25Click
+        end
       end
       object MenuItem24: TMenuItem
-        Caption = 'custom'
+        Caption = '...'
         OnClick = MenuItem24Click
       end
+    end
+    object MenuItem26: TMenuItem
+      Caption = 'Transf. Geometricas'
+      object MenuItem27: TMenuItem
+        Caption = 'Escalar'
+      end
+      object MenuItem28: TMenuItem
+        Caption = 'Rotar'
+      end
+      object MenuItem29: TMenuItem
+        Caption = 'Reflejar'
+      end
+    end
+    object MenuItem30: TMenuItem
+      Caption = 'Contraste'
+      object MenuItem37: TMenuItem
+        Caption = 'Ecualizar'
+        OnClick = MenuItem37Click
+      end
+    end
+    object MenuItem31: TMenuItem
+      Caption = 'Op Morfologicas'
+      object MenuItem32: TMenuItem
+        Caption = 'Erosión'
+        OnClick = MenuItem32Click
+      end
+      object MenuItem33: TMenuItem
+        Caption = 'Dilatación'
+      end
+      object MenuItem34: TMenuItem
+        Caption = 'Apertura'
+      end
+      object MenuItem35: TMenuItem
+        Caption = 'Cierre'
+      end
+    end
+    object MenuItem36: TMenuItem
+      Caption = 'ALU'
     end
   end
   object OpenPictureDialog1: TOpenPictureDialog
     Filter = '*.bmp|*.bmp'
+    left = 808
+    top = 448
   end
 end

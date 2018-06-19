@@ -6,7 +6,7 @@ interface
 
 uses
   Classes, SysUtils, FileUtil, Forms, Controls, Graphics, Dialogs, ExtCtrls,
-  Menus, ExtDlgs, LCLintf, ComCtrls, StdCtrls, Buttons, math;
+  Menus, ExtDlgs, LCLintf, ComCtrls, StdCtrls, Buttons;
 
 type
 
@@ -14,15 +14,18 @@ type
 
   //tipos propios definidos
   MATRGB=Array of Array of Array of Byte;
-  MATCONV=Array[0..2,0..2] of Integer;
 
   TForm1 = class(TForm)
     Button1: TButton;
+    Button2: TButton;
+    Button3: TButton;
+    Edit1: TEdit;
     Image1: TImage;
     Image2: TImage;
     Image3: TImage;
     Label2: TLabel;
     Label3: TLabel;
+    Label4: TLabel;
     MainMenu1: TMainMenu;
     MenuItem1: TMenuItem;
     MenuItem10: TMenuItem;
@@ -38,9 +41,24 @@ type
     MenuItem2: TMenuItem;
     MenuItem20: TMenuItem;
     MenuItem21: TMenuItem;
+    MenuItem22: TMenuItem;
     MenuItem23: TMenuItem;
     MenuItem24: TMenuItem;
+    MenuItem25: TMenuItem;
+    MenuItem26: TMenuItem;
+    MenuItem27: TMenuItem;
+    MenuItem28: TMenuItem;
+    MenuItem29: TMenuItem;
     MenuItem3: TMenuItem;
+    MenuItem30: TMenuItem;
+    MenuItem31: TMenuItem;
+    MenuItem32: TMenuItem;
+    MenuItem33: TMenuItem;
+    MenuItem34: TMenuItem;
+    MenuItem35: TMenuItem;
+    MenuItem36: TMenuItem;
+    MenuItem37: TMenuItem;
+    MenuItem38: TMenuItem;
     MenuItem4: TMenuItem;
     MenuItem5: TMenuItem;
     MenuItem6: TMenuItem;
@@ -59,12 +77,12 @@ type
     StatusBar1: TStatusBar;
 
     procedure Button1Click(Sender: TObject);
-
+    procedure Button2Click(Sender: TObject);
+    procedure Button3Click(Sender: TObject);
     procedure FormCreate(Sender: TObject);
     procedure FormDestroy(Sender: TObject);
     procedure Image1MouseMove(Sender: TObject; Shift: TShiftState; X, Y: Integer
       );
-
     procedure Label4Click(Sender: TObject);
     procedure MenuItem10Click(Sender: TObject);
     procedure MenuItem11Click(Sender: TObject);
@@ -75,23 +93,33 @@ type
     procedure MenuItem16Click(Sender: TObject);
     procedure MenuItem17Click(Sender: TObject);
     procedure MenuItem18Click(Sender: TObject);
-    procedure MenuItem20Click(Sender: TObject);
     procedure MenuItem21Click(Sender: TObject);
+    procedure MenuItem22Click(Sender: TObject);
     procedure MenuItem23Click(Sender: TObject);
     procedure MenuItem24Click(Sender: TObject);
+    procedure MenuItem25Click(Sender: TObject);
     procedure MenuItem2Click(Sender: TObject);
+    procedure MenuItem32Click(Sender: TObject);
+    procedure MenuItem37Click(Sender: TObject);
+    procedure MenuItem38Click(Sender: TObject);
     procedure MenuItem4Click(Sender: TObject);
     procedure MenuItem7Click(Sender: TObject);
-
     procedure RadioButton1Change(Sender: TObject);
     procedure RadioButton2Change(Sender: TObject);
     procedure RadioButton3Change(Sender: TObject);
     procedure RadioButton4Change(Sender: TObject);
-    procedure ScrollBox1Click(Sender: TObject);
   private
+    procedure clsH();
+    procedure restaurar();
+    procedure deshacer();
+
+    procedure loadMatI(M:MATRGB);
+    procedure ecualizar(var M:MATRGB);
 
   public
+    //function ecualizado(j :Integer; ch: Integer):Integer;
     procedure verImgHis();
+    procedure ant();
     //filtros
     procedure grisR(var M:MATRGB);
     procedure grisG(var M:MATRGB);
@@ -102,44 +130,156 @@ type
     procedure chn2RBG(var M:MATRGB);
     procedure treshold();
     procedure log(var M:MATRGB);
-
-
     procedure initR(var M:MATRGB);   //carga histograma Rojo
     procedure initG(var M:MATRGB);   //carga histograma verde
     procedure initB(var M:MATRGB);   //carga histograma azul
     procedure initI(var M:MATRGB);
-    procedure loadMatI(M:MATRGB);
 
-    procedure clsH();
+
   end;
 
 
 var
   Form1: TForm1;
-  BM            : Tbitmap;
-  MAT, MAT_I, Maux     : MATRGB;
-  ALTO, ANCHO   : Integer;
-  HR            : Array [0..255] of integer;
-  HG            : Array [0..255] of integer;
-  HB            : Array [0..255] of integer;
-  HI            : Array [0..255] of integer;
-  IMAGEN        : integer;
+  BM, BM2            : Tbitmap;
+  MAT, MAT_I, Maux, MDes     : MATRGB;
+  ALTO, ANCHO,cnt   : Integer;
+  HR,HG,HB,HI   : Array [0..255] of integer;
+  EHR,EHG,EHB   : Array [0..255] of integer;
+
 
 implementation
-uses unit2,unit3,unit4,Unit5;
+uses unit2,unit3,unit4,Unit5,unit6;
 {$R *.lfm}
 
 { TForm1 }
 
-//procedimientos propios
+//////////////---------- metodos gus -----------////////////////////////
+/////////////////////////////////////////////////////////////////////
 
-//logaritmo
-//aplha = 1
+//ecualizar
+procedure tform1.ecualizar(var M:MATRGB);
+var
+i,j : Integer;
+sum,sum2,sum3     : Integer;
+begin
+  clsH();
+  ant();
+
+  sum:=0;
+  sum2:=0;
+  sum3:=0;
+
+ //star ecualizador
+ for i:=0 to 255 do EHR[i]:=0;
+ for i:=0 to 255 do EHG[i]:=0;
+ for i:=0 to 255 do EHB[i]:=0;
+ for i:=0 to 255 do HR[i]:=0;
+ for i:=0 to 255 do HG[i]:=0;
+ for i:=0 to 255 do HB[i]:=0;
+
+ for i:=0 to ancho-1 do begin
+   for j:=0 to ALTO-1 do begin
+     inc(HR[M[i,j,0]]);
+   end;
+ end;
+
+ for i:=0 to ancho-1 do begin
+   for j:=0 to ALTO-1 do begin
+     inc(HG[M[i,j,1]]);
+   end;
+ end;
+
+ for i:=0 to ancho-1 do begin
+   for j:=0 to ALTO-1 do begin
+     inc(HB[M[i,j,2]]);
+   end;
+ end;
+
+ for i:=0 to 255 do begin
+     sum  := sum  + HR[i];
+     sum2 := sum2 + HG[i];
+     sum3 := sum3 + HB[i];
+     EHR[i]:=round(255*sum/(ANCHO*ALTO));
+     EHG[i]:=round(255*sum2/(ANCHO*ALTO));
+     EHB[i]:=round(255*sum3/(ANCHO*ALTO));
+ end;
+
+  ///MIRAR
+  for i:=0 to ANCHO-1 do begin
+    for j:=0 to ALTO-1 do begin
+
+       M[i,j,0]:=EHR[M[i,j,0]];
+       M[i,j,1]:=EHG[M[i,j,1]];
+       M[i,j,2]:=EHB[M[i,j,2]];
+
+      BM.Canvas.Pixels[i,j]:=RGB(M[i,j,0],M[i,j,1],M[i,j,2]);
+    end;
+  end;
+
+ verImgHis();
+
+end;
+
+//restaurar
+procedure tform1.restaurar();
+var
+i,j :Integer;
+begin
+for i:=0 to ANCHO-1 do begin
+    for j:=0 to ALTO-1 do begin
+      BM.Canvas.Pixels[i,j]:= RGB(Maux[i,j,0],Maux[i,j,1],Maux[i,j,2]);
+      MAT[i,j,0]:=Maux[i,j,0];
+      MAT[i,j,1]:=Maux[i,j,1];
+      MAT[i,j,2]:=Maux[i,j,2];
+    end;
+end;
+  verImgHis();
+end;
+//anterior
+procedure TForm1.ant();
+var
+i,j :Integer;
+begin
+  for i:=0 to ANCHO-1 do begin
+    for j:=0 to ALTO-1 do begin
+
+      Mdes[i,j,0]:=MAT[i,j,0];
+      Mdes[i,j,1]:=MAT[i,j,1];
+      Mdes[i,j,2]:=MAT[i,j,2];
+
+    end;
+  end;
+end;
+
+//Deshace el utlimo filtro
+procedure tform1.deshacer();
+var
+i,j :Integer;
+begin
+  for i:=0 to ANCHO-1 do begin
+    for j:=0 to ALTO-1 do begin
+
+      MAT[i,j,0]:=Mdes[i,j,0];
+      MAT[i,j,1]:=Mdes[i,j,1];
+      MAT[i,j,2]:=Mdes[i,j,2];
+
+      BM.Canvas.Pixels[i,j]:= RGB(MAT[i,j,0],MAT[i,j,1],MAT[i,j,2]);
+    end;
+  end;
+  verImgHis();
+end;
+
+
+
+
+//logaritmo (aplha=1)
 procedure tform1.log(var M:MATRGB);
 var
 i,j :Integer;
 k   :byte;
 begin
+  ant();
   for i:=0 to ANCHO-1 do begin
     for j:=0 to ALTO-1 do begin
       for k:=0 to 2 do begin
@@ -167,6 +307,7 @@ procedure tform1.grisR(var M:MATRGB);        // gris canal ROJO
 var
   i,j : Integer;
 begin
+  ant();
   for i:=0 to ANCHO-1 do begin
     for j:=0 to ALTO-1 do begin
 
@@ -183,7 +324,7 @@ procedure tform1.grisG(var M:MATRGB);        // gris canal VERDE
 var
   i,j : Integer;
 begin
-  //Label1.Caption := 'Gris por canal';
+  ant();
   for i:=0 to ANCHO-1 do begin
     for j:=0 to ALTO-1 do begin
 
@@ -200,6 +341,7 @@ procedure tform1.grisB(var M:MATRGB);        // gris canal AZUL
 var
   i,j : Integer;
 begin
+  ant();
   for i:=0 to ANCHO-1 do begin
     for j:=0 to ALTO-1 do begin
 
@@ -218,6 +360,7 @@ var
   sum, d  : Integer;
   x,y,z  : Integer;
 begin
+  ant();
   d:=3;  //3 por canales RGB
      for i:=0 to ANCHO-1 do begin
         for j:=0 to ALTO-1 do begin
@@ -245,6 +388,7 @@ var
 i,j  : Integer;
 v    :byte;
 begin
+  ant();
   for i:=0 to ANCHO-1 do begin
      for j:=0 to ALTO-1 do begin
 
@@ -263,6 +407,7 @@ var
 i,j  : Integer;
 v    : byte;
 begin
+  ant();
      for i:=0 to ANCHO-1 do begin
          for j:=0 to ALTO-1 do begin
             v:=M[i,j,0];
@@ -280,6 +425,7 @@ var
 i,j  : Integer;
 v    : byte;
 begin
+   ant();
      for i:=0 to ANCHO-1 do begin
          for j:=0 to ALTO-1 do begin
             v:=M[i,j,1];
@@ -291,12 +437,13 @@ begin
       end;
    verImgHis();
 end;
-
 // binarización
 procedure tform1.treshold();
 var
    i,j,T :Integer;
 begin
+ant();
+
 T:=0;
 grises_prom(MAT); //pasamos a gris primero
 //sacar T (treshold)
@@ -336,13 +483,14 @@ var
   MAX    : Integer;
 begin
   clsH();
+
      for i:=0 to Image3.Height-1 do begin
          for j:=0 to image3.Width-1 do begin
              Image3.Canvas.Pixels[j,i]:=RGB(j,0,0);
          end;
      end;
 
-      //inicializar vector de frecuencias
+  //inicializar vector de frecuencias
   for i:=0 to 255 do begin
     HR[i]:=0;
   end;
@@ -460,7 +608,7 @@ begin
   image2.Canvas.MoveTo(0,yp);
   //comenzara a trazar lineas
   for i:=1 to 255 do begin
-   yp:=round((Image2.Height-1)*(1-HR[i]/MAX)  );
+   yp:=round((Image2.Height-1)*(1-HB[i]/MAX)  );
    Image2.Canvas.LineTo(i,Image2.Height);
    Image2.Canvas.LineTo(i,yp);
   end;
@@ -472,7 +620,6 @@ var
   MAX     : Integer;
 begin
   clsH();
-  //grises_prom(M); //pasamos a gris primero
 
      for i:=0 to Image3.Height-1 do begin
          for j:=0 to image3.Width-1 do begin
@@ -546,9 +693,8 @@ begin
   ///
 end;
 
-//  FIN METODOS PROPIOS
-
-////  INTERFAZ    ////
+//////////////---------- INTERFAZ -----------////////////////////////
+/////////////////////////////////////////////////////////////////////
 procedure TForm1.MenuItem2Click(Sender: TObject);
 var
   i,j   : Integer;
@@ -574,6 +720,7 @@ begin
     setlength(MAT,ANCHO,ALTO,3);
     setlength(Maux,ANCHO,ALTO,3);
     setlength(MAT_I,ANCHO,ALTO,3);
+    setlength(MDes,ANCHO,ALTO,3);
 
     //leer y copiar RGB de imagen a MAT y MATaux
     for i:=0 to ANCHO-1 do begin
@@ -591,6 +738,10 @@ begin
         MAT_I[i,j,0]:=GetRvalue(c);
         MAT_I[i,j,1]:=GetGvalue(c);
         MAT_I[i,j,2]:=GetBvalue(c);
+        //matriz para Intensidad
+        Mdes[i,j,0]:=GetRvalue(c);
+        Mdes[i,j,1]:=GetGvalue(c);
+        Mdes[i,j,2]:=GetBvalue(c);
       end; //j
     end;//i
 
@@ -602,12 +753,30 @@ begin
 
 end;
 
+procedure TForm1.MenuItem32Click(Sender: TObject);
+begin
+
+end;
+//ecualizar
+procedure TForm1.MenuItem37Click(Sender: TObject);
+begin
+  ecualizar(MAT);
+end;
+
+procedure TForm1.MenuItem38Click(Sender: TObject);
+begin
+  restaurar();
+end;
+
+
 //filtro negativo
 procedure TForm1.MenuItem4Click(Sender: TObject);
 var
 i,j : Integer;
 k   : Byte;
 begin
+  ant();
+
   for i:=0 to ANCHO-1 do begin
     for j:=0 to ALTO-1 do begin
       for k:=0 to 2 do begin
@@ -619,9 +788,7 @@ begin
   end;  //j
 
  //visualizar resultado
-
 verImgHis();
-
 
 end;
 
@@ -633,7 +800,6 @@ end;
 //CARGAR hist I
 procedure TForm1.RadioButton1Change(Sender: TObject);
 begin
-  //loadMatI(MAT_I);
   initI(MAT);
 end;
 //CARGAR hist R
@@ -651,17 +817,10 @@ procedure TForm1.RadioButton4Change(Sender: TObject);
 begin
  initB(MAT);
 end;
-
-procedure TForm1.ScrollBox1Click(Sender: TObject);
-begin
-
-end;
-
 procedure TForm1.MenuItem16Click(Sender: TObject);
 begin
   grisR(MAT);
 end;
-
 procedure TForm1.MenuItem17Click(Sender: TObject);
 begin
   grisG(MAT);
@@ -672,20 +831,10 @@ begin
   grisB(MAT);
 end;
 
-procedure TForm1.MenuItem20Click(Sender: TObject);
-begin
-form4.showmodal;
-
-  if Form4.ModalResult=MROK then begin
-     form4.conv(MAT);
-
-  end;
-end;
 //Tangente Hiperbolica
 procedure TForm1.MenuItem21Click(Sender: TObject);
 begin
   form5.TrackBar1.Position:=form5.TrackBar1.min;
-  form5.alpha:=form2.TrackBar1.Position;
   form5.Label1.Caption:=FloatToStr(form5.alpha*0.1);
   form5.showmodal;
 
@@ -694,13 +843,24 @@ begin
   end;
 end;
 
+//convolucion
+procedure TForm1.MenuItem22Click(Sender: TObject);
+begin
+  form4.RadioButton2.Checked:=True;
+  form4.showmodal;
+
+  if Form4.ModalResult=MROK then begin
+     if form4.RadioButton2.Checked then form4.sobel(MAT);
+     if form4.RadioButton1.Checked then form4.prewitt(MAT);
+  end;
+end;
 
 //GAMMA
 procedure TForm1.MenuItem23Click(Sender: TObject);
 begin
   form3.TrackBar1.Position:=form3.TrackBar1.Min;
-  //form3.gma:=form3.TrackBar1.Position;
-  form3.Label1.Caption:=inttostr(round(form3.gma));
+  form3.gma:=form3.TrackBar1.Position;
+  form3.Label1.Caption:=inttostr(form3.gma);
   form3.showmodal;
 
   if Form3.ModalResult=MROK then begin
@@ -714,6 +874,20 @@ begin
 
 end;
 
+//convolución libre
+procedure TForm1.MenuItem25Click(Sender: TObject);
+begin
+  form6.TrackBar1.Position:=form6.TrackBar1.Min;
+  form6.dim:=form6.TrackBar1.Position;
+  form6.Label1.Caption:=inttostr(form6.dim);
+  form6.showmodal;
+
+  if Form6.ModalResult=MROK then begin
+     Form6.libre(MAT);
+
+  end;
+end;
+
 
 procedure TForm1.FormCreate(Sender: TObject);
 begin
@@ -722,30 +896,25 @@ end;
 
 //Reload imagen a traves de una matriz auxiliar guardada al abrir la imagen
 procedure TForm1.Button1Click(Sender: TObject);
-var
-i,j :Integer;
 begin
+  restaurar();
+end;
 
-  for i:=0 to ANCHO-1 do begin
-    for j:=0 to ALTO-1 do begin
-
-      BM.Canvas.Pixels[i,j]:= RGB(Maux[i,j,0],Maux[i,j,1],Maux[i,j,2]);
-      MAT[i,j,0]:=Maux[i,j,0];
-      MAT[i,j,1]:=Maux[i,j,1];
-      MAT[i,j,2]:=Maux[i,j,2];
-
-    end;
-  end;
-
-  verImgHis();
+procedure TForm1.Button2Click(Sender: TObject);
+begin
+  deshacer();
 end;
 
 
+//ECUALIZAR rojo boton
+procedure TForm1.Button3Click(Sender: TObject);
+begin
+  ecualizar(MAT);
+end;
 
 procedure TForm1.FormDestroy(Sender: TObject);
 begin
   BM.Destroy;
-
 end;
 
 procedure TForm1.Image1MouseMove(Sender: TObject; Shift: TShiftState; X,
@@ -764,6 +933,7 @@ begin
 
 
 end;
+
 
 
 

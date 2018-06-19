@@ -20,11 +20,11 @@ type
     Label2: TLabel;
     TrackBar1: TTrackBar;
 
+    procedure FormCreate(Sender: TObject);
     procedure TrackBar1Change(Sender: TObject);
   private
 
   public
-  param : Integer;
   gma   : Integer;
   procedure gamma(var M:MATRGB);
 
@@ -62,6 +62,11 @@ procedure TForm3.TrackBar1Change(Sender: TObject);
 begin
   gma := TrackBar1.Position;
   Label1.Caption:=inttostr(gma);
+end;
+
+procedure TForm3.FormCreate(Sender: TObject);
+begin
+  gma:=1;
 end;
 
 
