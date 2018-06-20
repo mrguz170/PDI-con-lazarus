@@ -6,6 +6,7 @@ object Form6: TForm6
   Caption = 'Convolución libre'
   ClientHeight = 413
   ClientWidth = 417
+  Color = clMenuHighlight
   OnCreate = FormCreate
   LCLVersion = '1.8.2.0'
   object StringGrid1: TStringGrid

@@ -149,7 +149,7 @@ var
 
 
 implementation
-uses unit2,unit3,unit4,Unit5,unit6;
+uses unit2,unit3,unit4,Unit5,unit6,unit7;
 {$R *.lfm}
 
 { TForm1 }
@@ -755,7 +755,7 @@ end;
 
 procedure TForm1.MenuItem32Click(Sender: TObject);
 begin
-
+    form7.erosionBin(MAT);
 end;
 //ecualizar
 procedure TForm1.MenuItem37Click(Sender: TObject);

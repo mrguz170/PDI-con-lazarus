@@ -6,7 +6,7 @@ object Form4: TForm4
   Caption = 'Kernel de convolución'
   ClientHeight = 419
   ClientWidth = 406
-  Color = clActiveCaption
+  Color = clMenuHighlight
   LCLVersion = '1.8.2.0'
   object Panel1: TPanel
     Left = 8
