@@ -7,7 +7,8 @@ object Form4: TForm4
   ClientHeight = 419
   ClientWidth = 406
   Color = clMenuHighlight
-  LCLVersion = '1.8.2.0'
+  DesignTimePPI = 120
+  LCLVersion = '1.8.4.0'
   object Panel1: TPanel
     Left = 8
     Height = 48
@@ -20,9 +21,9 @@ object Form4: TForm4
     TabOrder = 0
     object RadioButton2: TRadioButton
       Left = 93
-      Height = 19
+      Height = 24
       Top = 13
-      Width = 49
+      Width = 62
       Caption = 'Sobel'
       OnChange = RadioButton2Change
       ParentColor = False
@@ -30,9 +31,9 @@ object Form4: TForm4
     end
     object RadioButton3: TRadioButton
       Left = 156
-      Height = 19
+      Height = 24
       Top = 13
-      Width = 60
+      Width = 75
       Caption = 'Roberts'
       OnChange = RadioButton3Change
       ParentColor = False
@@ -40,9 +41,9 @@ object Form4: TForm4
     end
     object RadioButton1: TRadioButton
       Left = 28
-      Height = 19
+      Height = 24
       Top = 13
-      Width = 53
+      Width = 65
       Caption = 'Prewit'
       OnChange = RadioButton1Change
       ParentColor = False
@@ -300,17 +301,17 @@ object Form4: TForm4
   end
   object Label1: TLabel
     Left = 266
-    Height = 15
+    Height = 20
     Top = 12
-    Width = 34
+    Width = 42
     Caption = 'Fondo'
     ParentColor = False
   end
   object Label2: TLabel
     Left = 266
-    Height = 15
+    Height = 20
     Top = 44
-    Width = 31
+    Width = 40
     Caption = 'Borde'
     ParentColor = False
   end

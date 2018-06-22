@@ -59,7 +59,14 @@ type
     MenuItem36: TMenuItem;
     MenuItem37: TMenuItem;
     MenuItem38: TMenuItem;
+    MenuItem39: TMenuItem;
     MenuItem4: TMenuItem;
+    MenuItem40: TMenuItem;
+    MenuItem41: TMenuItem;
+    MenuItem42: TMenuItem;
+    MenuItem43: TMenuItem;
+    MenuItem44: TMenuItem;
+    MenuItem45: TMenuItem;
     MenuItem5: TMenuItem;
     MenuItem6: TMenuItem;
     MenuItem7: TMenuItem;
@@ -75,6 +82,7 @@ type
     RadioButton4: TRadioButton;
     ScrollBox1: TScrollBox;
     StatusBar1: TStatusBar;
+    Timer1: TTimer;
 
     procedure Button1Click(Sender: TObject);
     procedure Button2Click(Sender: TObject);
@@ -100,14 +108,24 @@ type
     procedure MenuItem25Click(Sender: TObject);
     procedure MenuItem2Click(Sender: TObject);
     procedure MenuItem32Click(Sender: TObject);
+    procedure MenuItem33Click(Sender: TObject);
+    procedure MenuItem36Click(Sender: TObject);
     procedure MenuItem37Click(Sender: TObject);
     procedure MenuItem38Click(Sender: TObject);
+    procedure MenuItem39Click(Sender: TObject);
+    procedure MenuItem40Click(Sender: TObject);
+    procedure MenuItem41Click(Sender: TObject);
+    procedure MenuItem42Click(Sender: TObject);
+    procedure MenuItem43Click(Sender: TObject);
+    procedure MenuItem44Click(Sender: TObject);
+    procedure MenuItem45Click(Sender: TObject);
     procedure MenuItem4Click(Sender: TObject);
     procedure MenuItem7Click(Sender: TObject);
     procedure RadioButton1Change(Sender: TObject);
     procedure RadioButton2Change(Sender: TObject);
     procedure RadioButton3Change(Sender: TObject);
     procedure RadioButton4Change(Sender: TObject);
+    procedure Timer1Timer(Sender: TObject);
   private
     procedure clsH();
     procedure restaurar();
@@ -134,6 +152,12 @@ type
     procedure initG(var M:MATRGB);   //carga histograma verde
     procedure initB(var M:MATRGB);   //carga histograma azul
     procedure initI(var M:MATRGB);
+    procedure refl_x(var M:MATRGB);
+    procedure refl_y(var M:MATRGB);
+    procedure rotacion_I(var M:MATRGB);
+    procedure rotacion_D(var M:MATRGB);
+    procedure zoom_in(var M:MATRGB);
+    procedure zoom_out(var M:MATRGB);
 
 
   end;
@@ -141,21 +165,229 @@ type
 
 var
   Form1: TForm1;
-  BM, BM2            : Tbitmap;
+  BM          : Tbitmap;
   MAT, MAT_I, Maux, MDes     : MATRGB;
-  ALTO, ANCHO,cnt   : Integer;
+  MATresp                    : MATRGB;
+  MAT_rotacion, MAT_geo      : MATRGB;
+  ALTO, ANCHO, W_aux, H_aux, cnt   : Integer;
   HR,HG,HB,HI   : Array [0..255] of integer;
   EHR,EHG,EHB   : Array [0..255] of integer;
 
 
 implementation
-uses unit2,unit3,unit4,Unit5,unit6,unit7;
+uses unit2,unit3,unit4,Unit5,unit6,unit7,unit9;
 {$R *.lfm}
 
 { TForm1 }
 
 //////////////---------- metodos gus -----------////////////////////////
 /////////////////////////////////////////////////////////////////////
+
+//zoom OUT
+procedure tform1.zoom_out(var M:MATRGB);
+var i, j,k, zoomOUT_ANCHO, zoomOUT_ALTO  :Integer;
+begin
+  zoomOUT_ANCHO:=round(ANCHO/2);
+  zoomOUT_ALTO:=round(ALTO/2); ;
+  BM.SetSize(zoomOUT_ANCHO,zoomOUT_ALTO);
+  setlength(MAT_geo,zoomOUT_ANCHO,zoomOUT_ALTO,3);
+
+  for i:=0 to zoomOUT_ANCHO-1 do begin
+        for j:=0 to zoomOUT_ALTO-1 do begin
+            for k:=0 to 2 do begin
+                MAT_geo[i,j,k]:=M[i*2,j*2,k];
+
+            end;
+        end;
+  end;
+
+    ANCHO:= zoomOUT_ANCHO;
+    ALTO:= zoomOUT_ALTO;
+
+    //Actualizamos matrices que se usaran para otras operaciones
+    setlength(M, ANCHO, ALTO, 3);
+    setlength(MAT_I, ANCHO,ALTO,3);
+    setlength(MDes,ANCHO,ALTO,3);
+
+      for i:=0 to ANCHO-1 do begin
+        for j:=0 to ALTO-1 do begin
+            for k:=0 to 2 do begin
+                M[i,j,k]:=MAT_geo[i,j,k]
+            end;
+            BM.Canvas.Pixels[i,j]:=RGB(M[i,j,0],M[i,j,1],M[i,j,2]);
+        end;
+      end;
+
+      verImgHis();
+
+end;
+
+//zoom in
+procedure tform1.zoom_in(var M:MATRGB);
+var i, j,k, zoomIN_ANCHO, zoomIN_ALTO  :Integer;
+begin
+  zoomIN_ANCHO:=2*ANCHO;
+  zoomIN_ALTO:=2*ALTO;
+  BM.SetSize(zoomIN_ANCHO,zoomIN_ALTO);
+  setlength(MAT_geo,zoomIN_ANCHO,zoomIN_ALTO,3);
+
+  for i:=0 to ANCHO-1 do begin
+        for j:=0 to ALTO-1 do begin
+            for k:=0 to 2 do begin
+                MAT_geo[i*2, j*2, k]:=M[i,j,k];
+                MAT_geo[i*2+1, j*2, k]:=M[i,j,k];
+                MAT_geo[i*2, j*2+1, k]:=M[i,j,k];
+                MAT_geo[i*2+1, j*2+1, k]:=M[i,j,k];
+            end;
+        end;
+  end;
+
+    ANCHO:= zoomIN_ANCHO;
+    ALTO:= zoomIN_ALTO;
+
+    //Actualizamos matrices que se usaran para otras operaciones
+    setlength(M, ANCHO, ALTO, 3);
+    setlength(MAT_I, ANCHO,ALTO,3);
+    setlength(MDes,ANCHO,ALTO,3);
+
+      for i:=0 to ANCHO-1 do begin
+        for j:=0 to ALTO-1 do begin
+            for k:=0 to 2 do begin
+                M[i,j,k]:=MAT_geo[i,j,k]
+            end;
+            BM.Canvas.Pixels[i,j]:=RGB(M[i,j,0],M[i,j,1],M[i,j,2]);
+        end;
+      end;
+
+      verImgHis();
+
+end;
+
+//rotar izquierda
+procedure Tform1.rotacion_I(var M:MATRGB);
+var
+  i,j :integer;
+begin
+  setlength(MAT_rotacion,ALTO,ANCHO,3);
+
+  for i:=0 to ANCHO-1 do begin
+    for j:=0 to ALTO-1 do begin
+      MAT_rotacion[j,(ANCHO-(i+1))]:=M[i,j];
+      end;
+  end;
+
+  //--------------------------------------
+  //cambiamos la dimenensiones M*N
+  BM.SetSize(ALTO,ANCHO);
+
+  //actualizamos el alto y ancho
+  ALTO:=BM.Height;
+  ANCHO:=BM.Width;
+
+  //cambiamos forma de M
+  setlength(M, ANCHO,ALTO,3);
+  setlength(MAT_I, ANCHO,ALTO,3);
+  setlength(MAT_geo,ANCHO,ALTO,3);
+  setlength(MDes,ANCHO,ALTO,3);
+  //----------------------------------------
+
+  for i:=0 to ANCHO-1 do begin
+    for j:=0 to ALTO-1 do begin
+      M[i,j,0]:=MAT_rotacion[i,j,0];
+      M[i,j,1]:=MAT_rotacion[i,j,1];
+      M[i,j,2]:=MAT_rotacion[i,j,2];
+
+      BM.Canvas.Pixels[i,j]:= RGB(MAT_rotacion[i,j,0],MAT_rotacion[i,j,1],MAT_rotacion[i,j,2]);
+    end;
+  end;
+
+  verImgHis();
+
+end;
+
+//rotar Derecha
+procedure Tform1.rotacion_D(var M:MATRGB);
+var
+  i,j :integer;
+begin
+  setlength(MAT_rotacion,ALTO,ANCHO,3);
+
+  Edit1.Text:=inttostr(alto);
+  for i:=0 to ANCHO-1 do begin
+    for j:=0 to ALTO-1 do begin
+      MAT_rotacion[(ALTO-(j+1)),i]:=M[i,j];
+      end;
+  end;
+
+  //--------------------------------------
+  //cambiamos la dimenensiones M*N
+  BM.Height:=ANCHO;
+  BM.Width:=ALTO;
+
+  //actualizamos el alto y ancho
+  ALTO:=BM.Height;
+  ANCHO:=BM.Width;
+
+  //cambiamos forma de M
+  setlength(M, ANCHO,ALTO,3);
+  setlength(MAT_I, ANCHO,ALTO,3);
+  setlength(MAT_geo,ANCHO,ALTO,3);
+  setlength(MDes,ANCHO,ALTO,3);
+  //----------------------------------------
+
+  for i:=0 to ANCHO-1 do begin
+    for j:=0 to ALTO-1 do begin
+      M[i,j,0]:=MAT_rotacion[i,j,0];
+      M[i,j,1]:=MAT_rotacion[i,j,1];
+      M[i,j,2]:=MAT_rotacion[i,j,2];
+
+      BM.Canvas.Pixels[i,j]:= RGB(MAT_rotacion[i,j,0],MAT_rotacion[i,j,1],MAT_rotacion[i,j,2]);
+    end;
+  end;
+
+  verImgHis();
+
+end;
+
+// reflejar en x
+procedure tform1.refl_x(var M:MATRGB);
+var
+  i,j :integer;
+begin
+  for i:=0 to ANCHO-1 do begin
+    for j:=0 to ALTO-1 do begin
+      MAT_geo[i,j]:=M[i,ALTO-(j+1)];
+      BM.Canvas.Pixels[i,j]:= RGB(MAT_geo[i,j,0],MAT_geo[i,j,1],MAT_geo[i,j,2]);
+    end;
+  end;
+
+  for i:=0 to ANCHO-1 do begin
+    for j:=0 to ALTO-1 do begin
+      M[i,j]:=MAT_geo[i,j];
+    end;
+  end;
+    verImgHis();
+end;
+
+// reflejar en y
+procedure tform1.refl_y(var M:MATRGB);
+var
+  i,j :integer;
+begin
+  for i:=0 to ANCHO-1 do begin
+    for j:=0 to ALTO-1 do begin
+      MAT_geo[i,j]:=M[ANCHO-(i+1),j];
+      BM.Canvas.Pixels[i,j]:= RGB(MAT_geo[i,j,0],MAT_geo[i,j,1],MAT_geo[i,j,2]);
+    end;
+  end;
+
+  for i:=0 to ANCHO-1 do begin
+    for j:=0 to ALTO-1 do begin
+      M[i,j]:=MAT_geo[i,j];
+    end;
+  end;
+    verImgHis();
+end;
 
 //ecualizar
 procedure tform1.ecualizar(var M:MATRGB);
@@ -226,8 +458,21 @@ procedure tform1.restaurar();
 var
 i,j :Integer;
 begin
-for i:=0 to ANCHO-1 do begin
-    for j:=0 to ALTO-1 do begin
+ //RESET matrices RGB actualizamos el ANCHO Y ALTO
+ setlength(MAT,W_aux,H_aux,3);
+ setlength(MAT_I, W_aux,H_aux,3);
+ setlength(MAT_geo,W_aux,H_aux,3);
+ //setlength(Maux,W_aux,H_aux,3); --no estoy seguro si va jaja
+ setlength(MDes,W_aux,H_aux,3);
+
+ BM.Width:=W_aux;
+ BM.Height:=H_aux;
+
+ ANCHO:=W_aux;
+ ALTO:= H_aux;
+
+for i:=0 to BM.Width-1 do begin
+    for j:=0 to BM.Height-1 do begin
       BM.Canvas.Pixels[i,j]:= RGB(Maux[i,j,0],Maux[i,j,1],Maux[i,j,2]);
       MAT[i,j,0]:=Maux[i,j,0];
       MAT[i,j,1]:=Maux[i,j,1];
@@ -236,6 +481,7 @@ for i:=0 to ANCHO-1 do begin
 end;
   verImgHis();
 end;
+
 //anterior
 procedure TForm1.ant();
 var
@@ -269,9 +515,6 @@ begin
   end;
   verImgHis();
 end;
-
-
-
 
 //logaritmo (aplha=1)
 procedure tform1.log(var M:MATRGB);
@@ -715,12 +958,17 @@ begin
 
     ALTO:=BM.Height;
     ANCHO:=BM.Width;
+    //preservar la altura y ancho original
+    H_aux:=BM.Height;
+    W_aux:=BM.Width;
 
     //crear arreglo 3D RGB de ALTOxANCHOx3
     setlength(MAT,ANCHO,ALTO,3);
     setlength(Maux,ANCHO,ALTO,3);
     setlength(MAT_I,ANCHO,ALTO,3);
     setlength(MDes,ANCHO,ALTO,3);
+    setlength(MAT_geo,ANCHO,ALTO,3); //matriz aux para reflejar
+    setlength(MAT_rotacion,ALTO,ANCHO,3); //matriz aux para rotar
 
     //leer y copiar RGB de imagen a MAT y MATaux
     for i:=0 to ANCHO-1 do begin
@@ -752,11 +1000,22 @@ begin
   end;
 
 end;
-
+//erosion binaria
 procedure TForm1.MenuItem32Click(Sender: TObject);
 begin
-    //form7.erosionBin(MAT);
+    form7.erosionBin(MAT);
 end;
+//dilatacion binaria
+procedure TForm1.MenuItem33Click(Sender: TObject);
+begin
+   form7.dilatacionbin(MAT);
+end;
+
+procedure TForm1.MenuItem36Click(Sender: TObject);
+begin
+
+end;
+
 //ecualizar
 procedure TForm1.MenuItem37Click(Sender: TObject);
 begin
@@ -768,6 +1027,43 @@ begin
   restaurar();
 end;
 
+procedure TForm1.MenuItem39Click(Sender: TObject);
+begin
+   refl_x(MAT);
+end;
+
+procedure TForm1.MenuItem40Click(Sender: TObject);
+begin
+    refl_y(MAT);
+end;
+
+procedure TForm1.MenuItem41Click(Sender: TObject);
+begin
+  rotacion_D(MAT);
+end;
+
+procedure TForm1.MenuItem42Click(Sender: TObject);
+begin
+   rotacion_I(MAT);
+end;
+
+procedure TForm1.MenuItem43Click(Sender: TObject);
+begin
+  form8.showmodal;
+
+
+
+end;
+
+procedure TForm1.MenuItem44Click(Sender: TObject);
+begin
+  zoom_IN(MAT);
+end;
+
+procedure TForm1.MenuItem45Click(Sender: TObject);
+begin
+  zoom_OUT(MAT);
+end;
 
 //filtro negativo
 procedure TForm1.MenuItem4Click(Sender: TObject);
@@ -817,6 +1113,12 @@ procedure TForm1.RadioButton4Change(Sender: TObject);
 begin
  initB(MAT);
 end;
+
+procedure TForm1.Timer1Timer(Sender: TObject);
+begin
+
+end;
+
 procedure TForm1.MenuItem16Click(Sender: TObject);
 begin
   grisR(MAT);
@@ -888,7 +1190,6 @@ begin
   end;
 end;
 
-
 procedure TForm1.FormCreate(Sender: TObject);
 begin
   BM:=Tbitmap.Create;
@@ -904,7 +1205,6 @@ procedure TForm1.Button2Click(Sender: TObject);
 begin
   deshacer();
 end;
-
 
 //ECUALIZAR rojo boton
 procedure TForm1.Button3Click(Sender: TObject);
@@ -933,9 +1233,6 @@ begin
 
 
 end;
-
-
-
 
 procedure TForm1.Label4Click(Sender: TObject);
 begin

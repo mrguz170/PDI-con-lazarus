@@ -9,6 +9,7 @@ uses
 type
    kernel=Array[0..2,0..2] of Integer;
 
+
 implementation
 
 end.

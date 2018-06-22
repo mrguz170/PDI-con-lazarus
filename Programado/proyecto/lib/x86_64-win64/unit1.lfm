@@ -1,25 +1,26 @@
 object Form1: TForm1
-  Left = 235
-  Height = 538
-  Top = 116
-  Width = 913
+  Left = 58
+  Height = 619
+  Top = 144
+  Width = 996
   Caption = 'Proyecto PDI'
-  ClientHeight = 518
-  ClientWidth = 913
+  ClientHeight = 594
+  ClientWidth = 996
   Color = clMenuHighlight
+  DesignTimePPI = 120
   Menu = MainMenu1
   OnCreate = FormCreate
   OnDestroy = FormDestroy
-  LCLVersion = '1.8.2.0'
+  LCLVersion = '1.8.4.0'
   object ScrollBox1: TScrollBox
     Left = 8
     Height = 480
-    Top = 8
-    Width = 496
+    Top = 64
+    Width = 576
     HorzScrollBar.Page = 96
     VertScrollBar.Page = 88
     ClientHeight = 476
-    ClientWidth = 492
+    ClientWidth = 572
     Enabled = False
     TabOrder = 0
     object Image1: TImage
@@ -34,9 +35,9 @@ object Form1: TForm1
   end
   object StatusBar1: TStatusBar
     Left = 0
-    Height = 23
-    Top = 495
-    Width = 913
+    Height = 29
+    Top = 565
+    Width = 996
     Panels = <    
       item
         Text = 'X,Y'
@@ -67,18 +68,18 @@ object Form1: TForm1
     SimplePanel = False
   end
   object Button1: TButton
-    Left = 512
+    Left = 600
     Height = 25
-    Top = 248
+    Top = 304
     Width = 76
     Caption = 'Reload'
     OnClick = Button1Click
     TabOrder = 2
   end
   object Panel1: TPanel
-    Left = 512
+    Left = 600
     Height = 216
-    Top = 8
+    Top = 64
     Width = 384
     ClientHeight = 216
     ClientWidth = 384
@@ -94,17 +95,17 @@ object Form1: TForm1
     end
     object Label2: TLabel
       Left = 10
-      Height = 15
+      Height = 20
       Top = 193
-      Width = 6
+      Width = 8
       Caption = '0'
       ParentColor = False
     end
     object Label3: TLabel
       Left = 250
-      Height = 15
+      Height = 20
       Top = 193
-      Width = 18
+      Width = 24
       Caption = '255'
       ParentColor = False
     end
@@ -120,9 +121,9 @@ object Form1: TForm1
       TabOrder = 0
       object RadioButton1: TRadioButton
         Left = 8
-        Height = 19
+        Height = 24
         Top = 13
-        Width = 65
+        Width = 79
         Caption = 'Intensity'
         Checked = True
         OnChange = RadioButton1Change
@@ -131,27 +132,27 @@ object Form1: TForm1
       end
       object RadioButton2: TRadioButton
         Left = 10
-        Height = 19
+        Height = 24
         Top = 57
-        Width = 27
+        Width = 33
         Caption = 'R'
         OnChange = RadioButton2Change
         TabOrder = 1
       end
       object RadioButton3: TRadioButton
         Left = 9
-        Height = 19
+        Height = 24
         Top = 105
-        Width = 28
+        Width = 34
         Caption = 'G'
         OnChange = RadioButton3Change
         TabOrder = 2
       end
       object RadioButton4: TRadioButton
         Left = 9
-        Height = 19
+        Height = 24
         Top = 157
-        Width = 27
+        Width = 33
         Caption = 'B'
         OnChange = RadioButton4Change
         TabOrder = 3
@@ -176,41 +177,41 @@ object Form1: TForm1
     end
   end
   object Button2: TButton
-    Left = 589
+    Left = 677
     Height = 25
-    Top = 248
+    Top = 304
     Width = 75
     Caption = 'Deshacer'
     OnClick = Button2Click
     TabOrder = 4
   end
   object Label4: TLabel
-    Left = 534
-    Height = 15
-    Top = 306
-    Width = 34
+    Left = 622
+    Height = 20
+    Top = 362
+    Width = 44
     Caption = 'Label4'
     ParentColor = False
   end
   object Edit1: TEdit
-    Left = 582
-    Height = 23
-    Top = 304
+    Left = 670
+    Height = 28
+    Top = 360
     Width = 80
     TabOrder = 5
   end
   object Button3: TButton
-    Left = 670
+    Left = 758
     Height = 25
-    Top = 248
+    Top = 304
     Width = 75
     Caption = 'Ecualizar'
     OnClick = Button3Click
     TabOrder = 6
   end
   object MainMenu1: TMainMenu
-    left = 848
-    top = 448
+    left = 936
+    top = 504
     object MenuItem1: TMenuItem
       Caption = 'Archivo'
       object MenuItem2: TMenuItem
@@ -311,12 +312,36 @@ object Form1: TForm1
       Caption = 'Transf. Geometricas'
       object MenuItem27: TMenuItem
         Caption = 'Escalar'
+        object MenuItem44: TMenuItem
+          Caption = 'Zoom (IN +)'
+          OnClick = MenuItem44Click
+        end
+        object MenuItem45: TMenuItem
+          Caption = 'Zoom (OUT -)'
+          OnClick = MenuItem45Click
+        end
       end
       object MenuItem28: TMenuItem
         Caption = 'Rotar'
+        object MenuItem41: TMenuItem
+          Caption = '+90° Derecha'
+          OnClick = MenuItem41Click
+        end
+        object MenuItem42: TMenuItem
+          Caption = '-90 Izquierda'
+          OnClick = MenuItem42Click
+        end
       end
       object MenuItem29: TMenuItem
         Caption = 'Reflejar'
+        object MenuItem39: TMenuItem
+          Caption = 'x'
+          OnClick = MenuItem39Click
+        end
+        object MenuItem40: TMenuItem
+          Caption = 'y'
+          OnClick = MenuItem40Click
+        end
       end
     end
     object MenuItem30: TMenuItem
@@ -334,6 +359,7 @@ object Form1: TForm1
       end
       object MenuItem33: TMenuItem
         Caption = 'Dilatación'
+        OnClick = MenuItem33Click
       end
       object MenuItem34: TMenuItem
         Caption = 'Apertura'
@@ -343,12 +369,21 @@ object Form1: TForm1
       end
     end
     object MenuItem36: TMenuItem
-      Caption = 'ALU'
+      Caption = 'Op: Aritm/Log'
+      object MenuItem43: TMenuItem
+        Caption = 'ALU'
+        OnClick = MenuItem43Click
+      end
     end
   end
   object OpenPictureDialog1: TOpenPictureDialog
     Filter = '*.bmp|*.bmp'
-    left = 808
-    top = 448
+    left = 896
+    top = 504
+  end
+  object Timer1: TTimer
+    OnTimer = Timer1Timer
+    left = 848
+    top = 504
   end
 end

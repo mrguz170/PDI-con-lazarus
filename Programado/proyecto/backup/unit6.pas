@@ -15,11 +15,9 @@ type
   //
   MATRGB=Array of Array of Array of Byte;
 
-
   TForm6 = class(TForm)
-    BitBtn1: TBitBtn;
-    BitBtn2: TBitBtn;
-
+  BitBtn1: TBitBtn;
+  BitBtn2: TBitBtn;
   Label1: TLabel;
   StringGrid1: TStringGrid;
   TrackBar1: TTrackBar;

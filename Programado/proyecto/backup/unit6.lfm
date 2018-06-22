@@ -1,14 +1,15 @@
 object Form6: TForm6
-  Left = 176
+  Left = 386
   Height = 413
-  Top = 254
+  Top = 373
   Width = 417
   Caption = 'Convolución libre'
   ClientHeight = 413
   ClientWidth = 417
   Color = clMenuHighlight
+  DesignTimePPI = 120
   OnCreate = FormCreate
-  LCLVersion = '1.8.2.0'
+  LCLVersion = '1.8.4.0'
   object StringGrid1: TStringGrid
     Left = 34
     Height = 96
@@ -37,9 +38,9 @@ object Form6: TForm6
   end
   object Label1: TLabel
     Left = 192
-    Height = 15
+    Height = 20
     Top = 32
-    Width = 34
+    Width = 44
     Caption = 'Label1'
     ParentColor = False
   end
