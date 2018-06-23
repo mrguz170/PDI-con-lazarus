@@ -4,6 +4,5 @@ object Form7: TForm7
   Top = 548
   Width = 211
   Caption = 'Form7'
-  DesignTimePPI = 120
-  LCLVersion = '1.8.4.0'
+  LCLVersion = '1.8.2.0'
 end

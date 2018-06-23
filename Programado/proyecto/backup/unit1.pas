@@ -67,6 +67,9 @@ type
     MenuItem43: TMenuItem;
     MenuItem44: TMenuItem;
     MenuItem45: TMenuItem;
+    MenuItem46: TMenuItem;
+    MenuItem47: TMenuItem;
+    MenuItem48: TMenuItem;
     MenuItem5: TMenuItem;
     MenuItem6: TMenuItem;
     MenuItem7: TMenuItem;
@@ -119,6 +122,7 @@ type
     procedure MenuItem43Click(Sender: TObject);
     procedure MenuItem44Click(Sender: TObject);
     procedure MenuItem45Click(Sender: TObject);
+    procedure MenuItem47Click(Sender: TObject);
     procedure MenuItem4Click(Sender: TObject);
     procedure MenuItem7Click(Sender: TObject);
     procedure RadioButton1Change(Sender: TObject);
@@ -192,8 +196,8 @@ begin
   BM.SetSize(zoomOUT_ANCHO,zoomOUT_ALTO);
   setlength(MAT_geo,zoomOUT_ANCHO,zoomOUT_ALTO,3);
 
-  for i:=0 to ANCHO-1 do begin
-        for j:=0 to ALTO-1 do begin
+  for i:=0 to zoomOUT_ANCHO-1 do begin
+        for j:=0 to zoomOUT_ALTO-1 do begin
             for k:=0 to 2 do begin
                 MAT_geo[i,j,k]:=M[i*2,j*2,k];
 
@@ -1050,9 +1054,6 @@ end;
 procedure TForm1.MenuItem43Click(Sender: TObject);
 begin
   form8.showmodal;
-
-
-
 end;
 
 procedure TForm1.MenuItem44Click(Sender: TObject);
@@ -1063,6 +1064,11 @@ end;
 procedure TForm1.MenuItem45Click(Sender: TObject);
 begin
   zoom_OUT(MAT);
+end;
+
+procedure TForm1.MenuItem47Click(Sender: TObject);
+begin
+ form7.erosionGris(MAT);
 end;
 
 //filtro negativo

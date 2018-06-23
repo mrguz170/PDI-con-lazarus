@@ -67,6 +67,9 @@ type
     MenuItem43: TMenuItem;
     MenuItem44: TMenuItem;
     MenuItem45: TMenuItem;
+    MenuItem46: TMenuItem;
+    MenuItem47: TMenuItem;
+    MenuItem48: TMenuItem;
     MenuItem5: TMenuItem;
     MenuItem6: TMenuItem;
     MenuItem7: TMenuItem;
@@ -119,6 +122,7 @@ type
     procedure MenuItem43Click(Sender: TObject);
     procedure MenuItem44Click(Sender: TObject);
     procedure MenuItem45Click(Sender: TObject);
+    procedure MenuItem47Click(Sender: TObject);
     procedure MenuItem4Click(Sender: TObject);
     procedure MenuItem7Click(Sender: TObject);
     procedure RadioButton1Change(Sender: TObject);
@@ -1050,9 +1054,6 @@ end;
 procedure TForm1.MenuItem43Click(Sender: TObject);
 begin
   form8.showmodal;
-
-
-
 end;
 
 procedure TForm1.MenuItem44Click(Sender: TObject);
@@ -1063,6 +1064,11 @@ end;
 procedure TForm1.MenuItem45Click(Sender: TObject);
 begin
   zoom_OUT(MAT);
+end;
+
+procedure TForm1.MenuItem47Click(Sender: TObject);
+begin
+ //form7.erosionGris(MAT);
 end;
 
 //filtro negativo

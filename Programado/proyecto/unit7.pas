@@ -18,6 +18,8 @@ type
     procedure erosionBin(var M:MATRGB);
     procedure dilatacionbin(var M:MATRGB);
 
+    //procedure erosionGris(var M:MATRGB);
+
 
   end;
 
@@ -29,13 +31,15 @@ type
 
 var
   Form7: TForm7;
+  Mtmp      : MATRGB;
 
 implementation
 uses unit1;
 
 {$R *.lfm}
-//erosion
-procedure tform7.erosionBin(var M:MATRGB);
+
+//erosion GRIS
+procedure erosionGris(var M:MATRGB);
 var
   i,j,k,a,b,val,bval : Integer;
   fnd           :Boolean;
@@ -43,22 +47,11 @@ var
 begin
   //form1.ant();
   //pivote:=B1[1,1];
-  for i:=1 to ANCHO-2 do begin
-    for j:=1 to ALTO-2 do begin
-
-    end;
-  end;
-
-
+  setlength(Mtmp, ANCHO,ALTO,3);
 
   for i:=1 to ANCHO-2 do begin
     for j:=1 to ALTO-2 do begin
 
-
-
-      if M[i,j,0]= B1[1,1] then
-        begin
-        //form1.Edit1.Text:=IntToStr(B1[1,1]);
         fnd:=True;
 
           for a:=-1 to 1 do begin
@@ -77,75 +70,76 @@ begin
           begin
           //Si Coincide estructura
 
-          for a:=-1 to 1 do begin
-               for b:=-1to 1 do begin
+            Mtmp[i,j,0]:=255;
+            Mtmp[i,j,1]:=255;
+            Mtmp[i,j,2]:=255;
 
-                  M[i+a,j+b,0]:=0;
-                  M[i+a,j+b,1]:=0;
-                  M[i+a,j+b,2]:=0;
-
-               end; //b
-          end;//a
-
-          M[i,j,0] := 255;
-          M[i,j,1] := 255;
-          M[i,j,2] := 255;
-
-
-          end;//end if
-
-
-        end;//end if
+        end//end if
+        Else begin
+            Mtmp[i,j,0]:=0;
+            Mtmp[i,j,1]:=0;
+            Mtmp[i,j,2]:=0;
+        end;
     end;
   end;//end i
 
-  (*
+  //copiar a MAT, BM
+  for i:=0 to ANCHO-1 do begin
+      for j:=0 to ALTO-1  do begin
+      BM.Canvas.Pixels[i,j]:=RGB(Mtmp[i,j,0],Mtmp[i,j,1],Mtmp[i,j,2]);
+      end;
+  end;
+  form1.verImgHis();
+end;
+
+//erosion
+procedure tform7.erosionBin(var M:MATRGB);
+var
+  i,j,k,a,b,val,bval : Integer;
+  fnd           :Boolean;
+  pivote        :Array of Integer;
+begin
+  //form1.ant();
+  setlength(Mtmp, ANCHO,ALTO,3);
+
   for i:=1 to ANCHO-2 do begin
     for j:=1 to ALTO-2 do begin
 
         fnd:=True;
 
-        for a:=-1 to 1 do begin
-              for b:=-1to 1 do begin
+          for a:=-1 to 1 do begin
+             for b:=-1to 1 do begin
 
-                 val:=M[i+a,j+b,0];
-                 bval:=B1[a+1,b+1];
+                   val:=M[i+a,j+b,0];
+                   bval:=B1[a+1,b+1];
 
-                 if val <> bval then fnd:=False;
+                   if val <> bval then fnd:=False;
 
-              end; //b
-        end;//a
+             end; //b
+          end;//a
 
-        //si coincide toda la estructura entonces no se preserva
+      //si coincide toda la estructura entonces no se preserva
         if fnd=True then
           begin
           //Si Coincide estructura
 
-              for a:=-1 to 1 do begin
-               for b:=-1to 1 do begin
+            Mtmp[i,j,0]:=255;
+            Mtmp[i,j,1]:=255;
+            Mtmp[i,j,2]:=255;
 
-                  M[i+a,j+b,0]:=0;
-                  M[i+a,j+b,1]:=0;
-                  M[i+a,j+b,2]:=0;
+        end//end if
+        Else begin
+            Mtmp[i,j,0]:=0;
+            Mtmp[i,j,1]:=0;
+            Mtmp[i,j,2]:=0;
+        end;
+    end;
+  end;//end i
 
-               end; //b
-              end;//a
-
-          M[i,j,0] := 255;
-          M[i,j,1] := 255;
-          M[i,j,2] := 255;
-
-          end;//end if
-
-    end;//j
-  end;//i
-
-
-  *)
   //copiar a MAT, BM
   for i:=0 to ANCHO-1 do begin
       for j:=0 to ALTO-1  do begin
-      BM.Canvas.Pixels[i,j]:=RGB(M[i,j,0],M[i,j,1],M[i,j,2]);
+      BM.Canvas.Pixels[i,j]:=RGB(Mtmp[i,j,0],Mtmp[i,j,1],Mtmp[i,j,2]);
       end;
   end;
   form1.verImgHis();

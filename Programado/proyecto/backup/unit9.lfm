@@ -1,15 +1,14 @@
 object Form8: TForm8
-  Left = 112
-  Height = 704
-  Top = 219
-  Width = 1412
+  Left = -12
+  Height = 695
+  Top = 5
+  Width = 1370
   Caption = 'ALU'
   ClientHeight = 0
   ClientWidth = 0
   Color = clMenuHighlight
-  DesignTimePPI = 120
   OnCreate = FormCreate
-  LCLVersion = '1.8.4.0'
+  LCLVersion = '1.8.2.0'
   object Panel1: TPanel
     Left = 232
     Height = 65
@@ -22,25 +21,25 @@ object Form8: TForm8
     TabOrder = 0
     object RadioButton1: TRadioButton
       Left = 80
-      Height = 24
+      Height = 19
       Top = 32
-      Width = 99
+      Width = 80
       Caption = 'Aritmeticas'
       TabOrder = 0
     end
     object RadioButton2: TRadioButton
       Left = 416
-      Height = 24
+      Height = 19
       Top = 32
-      Width = 74
+      Width = 60
       Caption = 'Logicas'
       TabOrder = 1
     end
     object RadioButton3: TRadioButton
       Left = 712
-      Height = 24
+      Height = 19
       Top = 32
-      Width = 87
+      Width = 72
       Caption = 'MAX/min'
       TabOrder = 2
     end
@@ -262,7 +261,7 @@ object Form8: TForm8
   end
   object Edit1: TEdit
     Left = 1096
-    Height = 28
+    Height = 23
     Top = 550
     Width = 100
     TabOrder = 12
@@ -270,7 +269,7 @@ object Form8: TForm8
   end
   object Edit2: TEdit
     Left = 1224
-    Height = 28
+    Height = 23
     Top = 550
     Width = 100
     TabOrder = 13
