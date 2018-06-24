@@ -6,7 +6,7 @@ interface
 
 uses
   Classes, SysUtils, FileUtil, Forms, Controls, Graphics, Dialogs, StdCtrls,
-  ExtCtrls, Buttons,LCLintf, Grids, ColorBox,math;
+  ExtCtrls, Buttons,LCLintf, Grids, ColorBox;
 
 type
 
@@ -25,10 +25,8 @@ type
     Panel1: TPanel;
     Panel2: TPanel;
     Panel3: TPanel;
-    Panel4: TPanel;
     RadioButton1: TRadioButton;
     RadioButton2: TRadioButton;
-    RadioButton3: TRadioButton;
     StringGrid1: TStringGrid;
     StringGrid2: TStringGrid;
     StringGrid3: TStringGrid;
@@ -43,6 +41,7 @@ type
   procedure sobel(var M:MATRGB);
   procedure prewitt(var M:MATRGB);
   procedure test(var M:MATRGB);
+  procedure ToBin(var M:MATRGB);
 
 
   end;
@@ -79,6 +78,43 @@ uses unit1;
 { TForm4 }
 
 //metodos propios
+procedure Tform4.ToBin(var M:MATRGB);
+var
+  i,j,T: Integer;
+begin
+  T:=0;
+  form1.grises_prom(M);
+  for i:=0 to ANCHO-1 do begin
+    for j:=0 to ALTO-1 do begin
+        T := T + M[i,j,0];
+    end;
+  end;
+
+T:= T div (ANCHO*ALTO);
+
+//MAYOR > T -> 255
+//menor_igual <= 0 -> 0
+for i:=0 to ANCHO-1 do begin
+    for j:=0 to ALTO-1 do begin
+        if M[i,j,0] <= T then
+           begin
+           M[i,j,0]:=getRvalue(ColorBox1.Selected);
+           M[i,j,1]:=getGvalue(ColorBox1.Selected);
+           M[i,j,2]:=getBvalue(ColorBox1.Selected);
+           BM.Canvas.Pixels[i,j] := ColorBox1.Selected;
+           end
+        else
+           begin
+           M[i,j,0]:=getRvalue(ColorBox2.Selected);
+           M[i,j,1]:=getGvalue(ColorBox2.Selected);
+           M[i,j,2]:=getBvalue(ColorBox2.Selected);
+           BM.Canvas.Pixels[i,j] := ColorBox2.Selected;
+           end;
+    end;
+end;
+
+end;
+
 procedure Tform4.test(var M:MATRGB);
 var
   i,j,k     :Integer;
@@ -129,11 +165,12 @@ begin
           for k:=0 to 2 do begin
               M[i,j,k] := AUX[i,j,k];
           end;
-      BM.Canvas.Pixels[i,j]:=RGB(M[i,j,0],M[i,j,1],M[i,j,2]);
+          BM.Canvas.Pixels[i,j]:=RGB(M[i,j,0],M[i,j,1],M[i,j,2]);
       end;
-
   end;
-  form1.verImgHis();
+
+  ToBin(M);
+
 end;
 
 //conv SOBEL
@@ -162,24 +199,24 @@ begin
     end;//j
   end;//i
 
-  //copiar a MAT, BM
+   //copiar a MAT, BM
   for i:=0 to ANCHO-1 do begin
       for j:=0 to ALTO-1  do begin
           for k:=0 to 2 do begin
               M[i,j,k] := AUX[i,j,k];
           end;
-      BM.Canvas.Pixels[i,j]:=RGB(M[i,j,0],M[i,j,1],M[i,j,2]);
+          BM.Canvas.Pixels[i,j]:=RGB(M[i,j,0],M[i,j,1],M[i,j,2]);
       end;
-
   end;
-  form1.verImgHis();
+
+  ToBin(M);
 end;
 
 procedure TForm4.RadioButton1Change(Sender: TObject);
 begin
      Panel2.Color:=RGB(0,255,0);
      Panel3.Color:=CLwhite;
-     Panel4.Color:=CLwhite;
+     //Panel4.Color:=CLwhite;
 end;
 
 procedure TForm4.ColorBox1Change(Sender: TObject);
@@ -191,14 +228,14 @@ procedure TForm4.RadioButton2Change(Sender: TObject);
 begin
      Panel2.Color:=CLwhite;
      Panel3.Color:=RGB(0,255,0);
-     Panel4.Color:=CLwhite;
+     //Panel4.Color:=CLwhite;
 end;
 
 procedure TForm4.RadioButton3Change(Sender: TObject);
 begin
      Panel2.Color:=CLwhite;
      Panel3.Color:=CLwhite;
-     Panel4.Color:=RGB(0,255,0);
+     //Panel4.Color:=RGB(0,255,0);
 end;
 
 end.

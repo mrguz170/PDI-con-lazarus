@@ -44,6 +44,7 @@ type
     RadioButton1: TRadioButton;
     RadioButton2: TRadioButton;
     RadioButton3: TRadioButton;
+    SaveDialog1: TSaveDialog;
     ScrollBox1: TScrollBox;
     ScrollBox2: TScrollBox;
     ScrollBox3: TScrollBox;

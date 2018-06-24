@@ -1,11 +1,11 @@
 object Form6: TForm6
-  Left = 386
+  Left = 315
   Height = 413
-  Top = 373
-  Width = 417
+  Top = 262
+  Width = 451
   Caption = 'Convolución libre'
   ClientHeight = 413
-  ClientWidth = 417
+  ClientWidth = 451
   Color = clMenuHighlight
   DesignTimePPI = 120
   OnCreate = FormCreate
@@ -29,7 +29,7 @@ object Form6: TForm6
     Left = 32
     Height = 25
     Top = 27
-    Width = 160
+    Width = 128
     Max = 9
     Min = 3
     OnChange = TrackBar1Change
@@ -37,7 +37,7 @@ object Form6: TForm6
     TabOrder = 1
   end
   object Label1: TLabel
-    Left = 192
+    Left = 168
     Height = 20
     Top = 32
     Width = 44
@@ -45,10 +45,10 @@ object Form6: TForm6
     ParentColor = False
   end
   object BitBtn1: TBitBtn
-    Left = 328
+    Left = 336
     Height = 30
-    Top = 24
-    Width = 75
+    Top = 320
+    Width = 96
     Default = True
     DefaultCaption = True
     Kind = bkOK
@@ -56,14 +56,22 @@ object Form6: TForm6
     TabOrder = 2
   end
   object BitBtn2: TBitBtn
-    Left = 328
+    Left = 336
     Height = 30
-    Top = 64
-    Width = 75
+    Top = 360
+    Width = 96
     Cancel = True
     DefaultCaption = True
     Kind = bkCancel
     ModalResult = 2
     TabOrder = 3
+  end
+  object ColorListBox1: TColorListBox
+    Left = 320
+    Height = 100
+    Top = 63
+    Width = 125
+    ItemHeight = 0
+    TabOrder = 4
   end
 end

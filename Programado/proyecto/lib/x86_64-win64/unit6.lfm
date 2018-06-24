@@ -1,11 +1,11 @@
 object Form6: TForm6
-  Left = 265
+  Left = 315
   Height = 413
-  Top = 434
-  Width = 417
+  Top = 262
+  Width = 451
   Caption = 'Convolución libre'
   ClientHeight = 413
-  ClientWidth = 417
+  ClientWidth = 451
   Color = clMenuHighlight
   DesignTimePPI = 120
   OnCreate = FormCreate
@@ -26,10 +26,10 @@ object Form6: TForm6
     TabOrder = 0
   end
   object TrackBar1: TTrackBar
-    Left = 32
+    Left = 16
     Height = 25
     Top = 27
-    Width = 160
+    Width = 128
     Max = 9
     Min = 3
     OnChange = TrackBar1Change
@@ -37,7 +37,7 @@ object Form6: TForm6
     TabOrder = 1
   end
   object Label1: TLabel
-    Left = 192
+    Left = 160
     Height = 20
     Top = 32
     Width = 44
@@ -45,10 +45,10 @@ object Form6: TForm6
     ParentColor = False
   end
   object BitBtn1: TBitBtn
-    Left = 328
+    Left = 336
     Height = 30
-    Top = 24
-    Width = 75
+    Top = 320
+    Width = 96
     Default = True
     DefaultCaption = True
     Kind = bkOK
@@ -56,14 +56,41 @@ object Form6: TForm6
     TabOrder = 2
   end
   object BitBtn2: TBitBtn
-    Left = 328
+    Left = 336
     Height = 30
-    Top = 64
-    Width = 75
+    Top = 360
+    Width = 96
     Cancel = True
     DefaultCaption = True
     Kind = bkCancel
     ModalResult = 2
     TabOrder = 3
+  end
+  object ColorDialog1: TColorDialog
+    Color = clBlack
+    CustomColors.Strings = (
+      'ColorA=000000'
+      'ColorB=000080'
+      'ColorC=008000'
+      'ColorD=008080'
+      'ColorE=800000'
+      'ColorF=800080'
+      'ColorG=808000'
+      'ColorH=808080'
+      'ColorI=C0C0C0'
+      'ColorJ=0000FF'
+      'ColorK=00FF00'
+      'ColorL=00FFFF'
+      'ColorM=FF0000'
+      'ColorN=FF00FF'
+      'ColorO=FFFF00'
+      'ColorP=FFFFFF'
+      'ColorQ=C0DCC0'
+      'ColorR=F0CAA6'
+      'ColorS=F0FBFF'
+      'ColorT=A4A0A0'
+    )
+    left = 384
+    top = 40
   end
 end

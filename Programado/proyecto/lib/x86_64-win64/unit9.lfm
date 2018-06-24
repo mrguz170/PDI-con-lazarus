@@ -1,45 +1,46 @@
 object Form8: TForm8
-  Left = -1
+  Left = 197
   Height = 695
-  Top = 9
+  Top = 107
   Width = 1269
   Caption = 'ALU'
-  ClientHeight = 695
-  ClientWidth = 1269
+  ClientHeight = 0
+  ClientWidth = 0
   Color = clMenuHighlight
+  DesignTimePPI = 120
   OnCreate = FormCreate
-  LCLVersion = '1.8.2.0'
+  LCLVersion = '1.8.4.0'
   object Panel1: TPanel
     Left = 184
-    Height = 65
-    Top = 456
+    Height = 57
+    Top = 464
     Width = 912
-    ClientHeight = 65
+    ClientHeight = 57
     ClientWidth = 912
     Color = 8256256
     ParentColor = False
     TabOrder = 0
     object RadioButton1: TRadioButton
       Left = 80
-      Height = 19
+      Height = 24
       Top = 32
-      Width = 80
+      Width = 99
       Caption = 'Aritmeticas'
       TabOrder = 0
     end
     object RadioButton2: TRadioButton
       Left = 416
-      Height = 19
+      Height = 24
       Top = 32
-      Width = 60
+      Width = 74
       Caption = 'Logicas'
       TabOrder = 1
     end
     object RadioButton3: TRadioButton
       Left = 712
-      Height = 19
+      Height = 24
       Top = 32
-      Width = 72
+      Width = 87
       Caption = 'MAX/min'
       TabOrder = 2
     end
@@ -261,7 +262,7 @@ object Form8: TForm8
   end
   object Edit1: TEdit
     Left = 1136
-    Height = 23
+    Height = 28
     Top = 488
     Width = 100
     TabOrder = 12
@@ -269,18 +270,22 @@ object Form8: TForm8
   end
   object Edit2: TEdit
     Left = 1136
-    Height = 23
+    Height = 28
     Top = 528
     Width = 100
     TabOrder = 13
     Text = 'Edit2'
   end
   object OpenPictureDialog1: TOpenPictureDialog
-    left = 32
+    left = 96
     top = 408
   end
   object OpenPictureDialog2: TOpenPictureDialog
-    left = 32
-    top = 464
+    left = 512
+    top = 400
+  end
+  object SaveDialog1: TSaveDialog
+    left = 1136
+    top = 416
   end
 end

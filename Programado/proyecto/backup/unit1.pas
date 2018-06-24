@@ -16,6 +16,7 @@ type
   MATRGB=Array of Array of Array of Byte;
 
   TForm1 = class(TForm)
+    BitBtn1: TBitBtn;
     Button1: TButton;
     Button2: TButton;
     Button3: TButton;
@@ -23,6 +24,7 @@ type
     Image1: TImage;
     Image2: TImage;
     Image3: TImage;
+    ImageList1: TImageList;
     Label2: TLabel;
     Label3: TLabel;
     Label4: TLabel;
@@ -70,6 +72,7 @@ type
     MenuItem46: TMenuItem;
     MenuItem47: TMenuItem;
     MenuItem48: TMenuItem;
+    MenuItem49: TMenuItem;
     MenuItem5: TMenuItem;
     MenuItem6: TMenuItem;
     MenuItem7: TMenuItem;
@@ -83,6 +86,7 @@ type
     RadioButton2: TRadioButton;
     RadioButton3: TRadioButton;
     RadioButton4: TRadioButton;
+    SaveDialog1: TSaveDialog;
     ScrollBox1: TScrollBox;
     StatusBar1: TStatusBar;
     Timer1: TTimer;
@@ -111,7 +115,8 @@ type
     procedure MenuItem25Click(Sender: TObject);
     procedure MenuItem2Click(Sender: TObject);
     procedure MenuItem32Click(Sender: TObject);
-    procedure MenuItem33Click(Sender: TObject);
+    procedure MenuItem34Click(Sender: TObject);
+    procedure MenuItem35Click(Sender: TObject);
     procedure MenuItem36Click(Sender: TObject);
     procedure MenuItem37Click(Sender: TObject);
     procedure MenuItem38Click(Sender: TObject);
@@ -123,7 +128,11 @@ type
     procedure MenuItem44Click(Sender: TObject);
     procedure MenuItem45Click(Sender: TObject);
     procedure MenuItem47Click(Sender: TObject);
+    procedure MenuItem48Click(Sender: TObject);
+    procedure MenuItem49Click(Sender: TObject);
     procedure MenuItem4Click(Sender: TObject);
+    procedure MenuItem50Click(Sender: TObject);
+    procedure MenuItem51Click(Sender: TObject);
     procedure MenuItem7Click(Sender: TObject);
     procedure RadioButton1Change(Sender: TObject);
     procedure RadioButton2Change(Sender: TObject);
@@ -622,11 +631,11 @@ begin
             M[i,j,1] := sum;
             M[i,j,2] := sum;
 
-            BM.Canvas.Pixels[i,j]:= RGB(MAT[i,j,0],MAT[i,j,1],MAT[i,j,2]);
+            BM.Canvas.Pixels[i,j]:= RGB(M[i,j,0],M[i,j,1],M[i,j,2]);
         end;
     end;
      //refresh img
-  verImgHis();
+
 
 end;
 //canal a GRB
@@ -990,7 +999,7 @@ begin
         MAT_I[i,j,0]:=GetRvalue(c);
         MAT_I[i,j,1]:=GetGvalue(c);
         MAT_I[i,j,2]:=GetBvalue(c);
-        //matriz para Intensidad
+        //matriz para deshacer cambios
         Mdes[i,j,0]:=GetRvalue(c);
         Mdes[i,j,1]:=GetGvalue(c);
         Mdes[i,j,2]:=GetBvalue(c);
@@ -1004,15 +1013,22 @@ begin
   end;
 
 end;
-//erosion binaria
+ //quitar ruido
 procedure TForm1.MenuItem32Click(Sender: TObject);
 begin
-    form7.erosionBin(MAT);
+  form7.open(MAT);
+  form7.close(MAT);
 end;
-//dilatacion binaria
-procedure TForm1.MenuItem33Click(Sender: TObject);
+
+//apertura
+procedure TForm1.MenuItem34Click(Sender: TObject);
 begin
-   form7.dilatacionbin(MAT);
+   form7.open(MAT);
+end;
+//cierre
+procedure TForm1.MenuItem35Click(Sender: TObject);
+begin
+  form7.close(MAT);
 end;
 
 procedure TForm1.MenuItem36Click(Sender: TObject);
@@ -1068,7 +1084,20 @@ end;
 
 procedure TForm1.MenuItem47Click(Sender: TObject);
 begin
- form7.erosionGris(MAT);
+ form7.gradiente(MAT);
+end;
+
+procedure TForm1.MenuItem48Click(Sender: TObject);
+begin
+  if (SaveDialog1.Execute) then
+  begin
+    BM.SaveToFile(SaveDialog1.FileName);
+  end;
+end;
+
+procedure TForm1.MenuItem49Click(Sender: TObject);
+begin
+
 end;
 
 //filtro negativo
@@ -1094,10 +1123,21 @@ verImgHis();
 
 end;
 
+procedure TForm1.MenuItem50Click(Sender: TObject);
+begin
+    form7.closeGris(MAT);
+end;
+
+procedure TForm1.MenuItem51Click(Sender: TObject);
+begin
+  //form7.tophat(MAT, Maux);
+end;
+
 //gris prom
 procedure TForm1.MenuItem7Click(Sender: TObject);
 begin
   grises_prom(MAT);
+  verImgHis();
 end;
 //CARGAR hist I
 procedure TForm1.RadioButton1Change(Sender: TObject);
@@ -1160,6 +1200,8 @@ begin
   if Form4.ModalResult=MROK then begin
      if form4.RadioButton2.Checked then form4.sobel(MAT);
      if form4.RadioButton1.Checked then form4.prewitt(MAT);
+
+     verImgHis();
   end;
 end;
 
@@ -1235,8 +1277,6 @@ begin
   StatusBar1.Panels[4].Text:=Inttostr(MAT[X,Y,0]);
   StatusBar1.Panels[5].Text:=Inttostr(MAT[X,Y,1]);
   StatusBar1.Panels[6].Text:=Inttostr(MAT[X,Y,2]);
-
-
 
 end;
 

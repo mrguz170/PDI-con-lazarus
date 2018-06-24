@@ -1,0 +1,21 @@
+object Form9: TForm9
+  Left = 582
+  Height = 195
+  Top = 624
+  Width = 545
+  Caption = 'Form9'
+  ClientHeight = 195
+  ClientWidth = 545
+  Color = clMenuHighlight
+  DesignTimePPI = 120
+  LCLVersion = '1.8.4.0'
+  object ColorBox1: TColorBox
+    Left = 359
+    Height = 28
+    Top = 75
+    Width = 125
+    Color = clHighlight
+    ItemHeight = 20
+    TabOrder = 0
+  end
+end

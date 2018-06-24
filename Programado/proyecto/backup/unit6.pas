@@ -6,7 +6,7 @@ interface
 
 uses
   Classes, SysUtils, FileUtil, Forms, Controls, Graphics, Dialogs, Grids,
-  ComCtrls, StdCtrls, Buttons,LCLintf;
+  ComCtrls, StdCtrls, Buttons,LCLintf, ColorBox;
 
 type
 
@@ -18,6 +18,7 @@ type
   TForm6 = class(TForm)
   BitBtn1: TBitBtn;
   BitBtn2: TBitBtn;
+  ColorListBox1: TColorListBox;
   Label1: TLabel;
   StringGrid1: TStringGrid;
   TrackBar1: TTrackBar;
@@ -77,7 +78,7 @@ begin
  StringGrid1.Width:=(StringGrid1.ColCount*StringGrid1.DefaultColWidth)+5;
  StringGrid1.Height:=(StringGrid1.RowCount*StringGrid1.DefaultRowHeight)+5;
 
- //lenams con 0's las celdas
+ //llenams con 0's las celdas
  for i:=0 to StringGrid1.ColCount-1 do begin
    for j:=0 to StringGrid1.RowCount-1 do begin
       StringGrid1.Cells[i,j]:='0';
