@@ -1,11 +1,11 @@
 object Form2: TForm2
-  Left = 86
+  Left = 179
   Height = 155
-  Top = 551
+  Top = 464
   Width = 345
   Caption = 'Treshold'
-  ClientHeight = 155
-  ClientWidth = 345
+  ClientHeight = 0
+  ClientWidth = 0
   OnCreate = FormCreate
   LCLVersion = '1.8.2.0'
   object BitBtn1: TBitBtn

@@ -4,8 +4,9 @@ object Form5: TForm5
   Top = 534
   Width = 385
   Caption = 'Tanh'
-  ClientHeight = 148
-  ClientWidth = 385
+  ClientHeight = 0
+  ClientWidth = 0
+  Color = clMenuHighlight
   OnCreate = FormCreate
   LCLVersion = '1.8.2.0'
   object BitBtn1: TBitBtn

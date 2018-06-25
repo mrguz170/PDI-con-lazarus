@@ -18,8 +18,13 @@ type
   TForm4 = class(TForm)
     BitBtn1: TBitBtn;
     BitBtn2: TBitBtn;
+    Button1: TButton;
+    Button2: TButton;
     ColorBox1: TColorBox;
     ColorBox2: TColorBox;
+    ColorDialog1: TColorDialog;
+    Image1: TImage;
+    Image2: TImage;
     Label1: TLabel;
     Label2: TLabel;
     Panel1: TPanel;
@@ -31,7 +36,10 @@ type
     StringGrid2: TStringGrid;
     StringGrid3: TStringGrid;
     StringGrid4: TStringGrid;
+    procedure Button1Click(Sender: TObject);
+    procedure Button2Click(Sender: TObject);
     procedure ColorBox1Change(Sender: TObject);
+    procedure FormCreate(Sender: TObject);
     procedure RadioButton1Change(Sender: TObject);
     procedure RadioButton2Change(Sender: TObject);
     procedure RadioButton3Change(Sender: TObject);
@@ -70,6 +78,7 @@ CONST
 
 var
   Form4: TForm4;
+  c1, c2 :Tcolor;
 
 implementation
 uses unit1;
@@ -98,17 +107,17 @@ for i:=0 to ANCHO-1 do begin
     for j:=0 to ALTO-1 do begin
         if M[i,j,0] <= T then
            begin
-           M[i,j,0]:=getRvalue(ColorBox1.Selected);
-           M[i,j,1]:=getGvalue(ColorBox1.Selected);
-           M[i,j,2]:=getBvalue(ColorBox1.Selected);
-           BM.Canvas.Pixels[i,j] := ColorBox1.Selected;
+           M[i,j,0]:=getRvalue(c1);
+           M[i,j,1]:=getGvalue(c1);
+           M[i,j,2]:=getBvalue(c1);
+           BM.Canvas.Pixels[i,j] := c1;
            end
         else
            begin
-           M[i,j,0]:=getRvalue(ColorBox2.Selected);
-           M[i,j,1]:=getGvalue(ColorBox2.Selected);
-           M[i,j,2]:=getBvalue(ColorBox2.Selected);
-           BM.Canvas.Pixels[i,j] := ColorBox2.Selected;
+           M[i,j,0]:=getRvalue(c2);
+           M[i,j,1]:=getGvalue(c2);
+           M[i,j,2]:=getBvalue(c2);
+           BM.Canvas.Pixels[i,j] := c2;
            end;
     end;
 end;
@@ -136,11 +145,12 @@ end;
 //conv PREWITT
 procedure tform4.prewitt(var M:MATRGB);
 var
-  i,j,k,a,b,cnv : Integer;
+  i,j,k,a,b,cnv,T : Integer;
   AUX           : MATRGB;
 begin
-  form1.ant();
   setlength(AUX, ANCHO, ALTO,3);
+
+
 
   //hacer convoluvion de imagn con MASC
   for i:=1 to ANCHO-2 do begin
@@ -169,7 +179,7 @@ begin
       end;
   end;
 
-  ToBin(M);
+    ToBin(M);
 
 end;
 
@@ -179,7 +189,7 @@ var
 i,j,k,a,b,cnv : Integer;
 AUX           : MATRGB;
 begin
-  form1.ant();
+  //form1.ant();
   setlength(AUX, ANCHO, ALTO,3);
 
   //hacer convoluvion de imagn con MASC
@@ -223,6 +233,42 @@ procedure TForm4.ColorBox1Change(Sender: TObject);
 begin
 
 end;
+
+procedure TForm4.FormCreate(Sender: TObject);
+begin
+  c1:=clwhite;
+  c2:=Clblack;
+  Image1.Canvas.Pen.Color:=clblack;
+  Image1.Canvas.Brush.Color:=c1;
+  Image1.Canvas.Rectangle(0,0,Image1.Width,Image1.Height);
+
+  Image1.Canvas.Pen.Color:=clblack;
+  Image2.Canvas.Brush.Color:=c2;
+  Image2.Canvas.Rectangle(0,0,Image1.Width,Image1.Height);
+end;
+
+procedure TForm4.Button1Click(Sender: TObject);
+begin
+  if colordialog1.Execute then begin
+      c1:=colordialog1.Color;
+      Image1.Canvas.Pen.Color:=clblack;
+      Image1.Canvas.Brush.Color:=c1;
+      Image1.Canvas.Rectangle(0,0,Image1.Width,Image1.Height);
+  end;
+
+end;
+
+procedure TForm4.Button2Click(Sender: TObject);
+begin
+    if colordialog1.Execute then begin
+      c2:=colordialog1.Color;
+      Image2.Canvas.Pen.Color:=clblack;
+      Image2.Canvas.Brush.Color:=c2;
+      Image2.Canvas.Rectangle(0,0,Image2.Width,Image2.Height);
+  end;
+end;
+
+
 
 procedure TForm4.RadioButton2Change(Sender: TObject);
 begin

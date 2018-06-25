@@ -6,7 +6,7 @@ interface
 
 uses
   Classes, SysUtils, FileUtil, Forms, Controls, Graphics, Dialogs, Grids,
-  ComCtrls, StdCtrls, Buttons,LCLintf, ColorBox;
+  ComCtrls, StdCtrls, Buttons,LCLintf, ColorBox, ExtCtrls;
 
 type
 
@@ -18,10 +18,16 @@ type
   TForm6 = class(TForm)
   BitBtn1: TBitBtn;
   BitBtn2: TBitBtn;
-  ColorListBox1: TColorListBox;
+  Button1: TButton;
+  Button2: TButton;
+  ColorDialog1: TColorDialog;
+  Image1: TImage;
+  Image2: TImage;
   Label1: TLabel;
   StringGrid1: TStringGrid;
   TrackBar1: TTrackBar;
+  procedure Button1Click(Sender: TObject);
+  procedure Button2Click(Sender: TObject);
   procedure FormCreate(Sender: TObject);
   procedure TrackBar1Change(Sender: TObject);
 
@@ -30,17 +36,56 @@ type
   public
   dim  : Integer;
   procedure libre(var M:MATRGB);
+  procedure ToBin(var M:MATRGB);
 
   end;
 
 var
   Form6: TForm6;
   dim  :  byte;
+  c1, c2 :Tcolor;
 
 implementation
-uses unit1;
+uses unit1,UNIT4;
 
-//
+//metodos GUS //
+procedure Tform6.ToBin(var M:MATRGB);
+var
+  i,j,T: Integer;
+begin
+  T:=0;
+  form1.grises_prom(M);
+  for i:=0 to ANCHO-1 do begin
+    for j:=0 to ALTO-1 do begin
+        T := T + M[i,j,0];
+    end;
+  end;
+
+T:= T div (ANCHO*ALTO);
+
+//MAYOR > T -> 255
+//menor_igual <= 0 -> 0
+for i:=0 to ANCHO-1 do begin
+    for j:=0 to ALTO-1 do begin
+        if M[i,j,0] <= T then
+           begin
+           M[i,j,0]:=getRvalue(c1);
+           M[i,j,1]:=getGvalue(c1);
+           M[i,j,2]:=getBvalue(c1);
+           BM.Canvas.Pixels[i,j] := c1;
+           end
+        else
+           begin
+           M[i,j,0]:=getRvalue(c2);
+           M[i,j,1]:=getGvalue(c2);
+           M[i,j,2]:=getBvalue(c2);
+           BM.Canvas.Pixels[i,j] := c2;
+           end;
+    end;
+end;
+
+end;
+
 procedure TForm6.TrackBar1Change(Sender: TObject);
 var
   i,j : Byte;
@@ -86,6 +131,36 @@ begin
    end;
  end;
 
+  c1:=clwhite;
+  c2:=Clblack;
+  Image1.Canvas.Pen.Color:=clblack;
+  Image1.Canvas.Brush.Color:=c1;
+  Image1.Canvas.Rectangle(0,0,Image1.Width,Image1.Height);
+
+  Image1.Canvas.Pen.Color:=clblack;
+  Image2.Canvas.Brush.Color:=c2;
+  Image2.Canvas.Rectangle(0,0,Image1.Width,Image1.Height);
+
+end;
+
+procedure TForm6.Button1Click(Sender: TObject);
+begin
+     if colordialog1.Execute then begin
+      c1:=colordialog1.Color;
+      Image1.Canvas.Pen.Color:=clblack;
+      Image1.Canvas.Brush.Color:=c1;
+      Image1.Canvas.Rectangle(0,0,Image1.Width,Image1.Height);
+  end;
+end;
+
+procedure TForm6.Button2Click(Sender: TObject);
+begin
+     if colordialog1.Execute then begin
+      c2:=colordialog1.Color;
+      Image2.Canvas.Pen.Color:=clblack;
+      Image2.Canvas.Brush.Color:=c2;
+      Image2.Canvas.Rectangle(0,0,Image2.Width,Image2.Height);
+  end;
 end;
 
 //////////////---------Metodos gus---------- ////////////////////
@@ -98,7 +173,6 @@ i,j,k,a,b,cnt : Integer;
 cnv           : Integer  ;
 AUX           : MATRGB;
 begin
-  form1.ant();
   setlength(AUX, ANCHO, ALTO,3);
   cnt:=0;
 
@@ -143,10 +217,10 @@ begin
           end;
       BM.Canvas.Pixels[i,j]:=RGB(M[i,j,0],M[i,j,1],M[i,j,2]);
       end;
-
   end;
 
-  form1.verImgHis();
+  ToBin(M);
+
 end;
 
 //---------------

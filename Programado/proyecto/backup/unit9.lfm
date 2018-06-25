@@ -1,176 +1,75 @@
 object Form8: TForm8
-  Left = 197
-  Height = 695
-  Top = 107
-  Width = 1269
+  Left = 161
+  Height = 574
+  Top = 84
+  Width = 1062
   Caption = 'ALU'
-  ClientHeight = 695
-  ClientWidth = 1269
+  ClientHeight = 0
+  ClientWidth = 0
   Color = clMenuHighlight
-  DesignTimePPI = 120
   OnCreate = FormCreate
-  LCLVersion = '1.8.4.0'
+  LCLVersion = '1.8.2.0'
   object Panel1: TPanel
-    Left = 184
-    Height = 65
-    Top = 456
-    Width = 912
-    ClientHeight = 65
-    ClientWidth = 912
-    Color = 8256256
+    Left = 46
+    Height = 160
+    Top = 398
+    Width = 891
+    ClientHeight = 160
+    ClientWidth = 891
+    Color = clYellow
     ParentColor = False
     TabOrder = 0
     object RadioButton1: TRadioButton
-      Left = 80
-      Height = 24
-      Top = 32
-      Width = 99
+      Left = 32
+      Height = 19
+      Top = 47
+      Width = 80
       Caption = 'Aritmeticas'
+      OnChange = RadioButton1Change
       TabOrder = 0
     end
     object RadioButton2: TRadioButton
-      Left = 416
-      Height = 24
-      Top = 32
-      Width = 74
+      Left = 32
+      Height = 19
+      Top = 90
+      Width = 60
       Caption = 'Logicas'
+      OnChange = RadioButton2Change
       TabOrder = 1
     end
     object RadioButton3: TRadioButton
-      Left = 712
-      Height = 24
-      Top = 32
-      Width = 87
+      Left = 32
+      Height = 19
+      Top = 131
+      Width = 72
       Caption = 'MAX/min'
+      OnChange = RadioButton3Change
       TabOrder = 2
     end
     object Panel5: TPanel
-      Left = 0
+      Left = -21
       Height = 32
       Top = 0
-      Width = 912
+      Width = 917
       Caption = 'Operaciones'
-      Color = clInfoBk
+      Color = clAqua
       ParentColor = False
       TabOrder = 3
     end
   end
-  object Panel2: TPanel
-    Left = 264
-    Height = 46
-    Top = 528
-    Width = 752
-    ClientHeight = 46
-    ClientWidth = 752
-    Color = clWhite
-    ParentColor = False
-    TabOrder = 1
-    object Button4: TButton
-      Left = 56
-      Height = 31
-      Top = 8
-      Width = 94
-      Caption = 'Suma'
-      OnClick = Button4Click
-      TabOrder = 0
-    end
-    object Button5: TButton
-      Left = 240
-      Height = 31
-      Top = 8
-      Width = 94
-      Caption = 'Resta'
-      TabOrder = 1
-    end
-    object Button6: TButton
-      Left = 416
-      Height = 31
-      Top = 8
-      Width = 110
-      Caption = 'Multiplicación'
-      TabOrder = 2
-    end
-    object Button7: TButton
-      Left = 600
-      Height = 31
-      Top = 8
-      Width = 94
-      Caption = 'Division'
-      TabOrder = 3
-    end
-  end
-  object Panel3: TPanel
-    Left = 264
-    Height = 46
-    Top = 581
-    Width = 752
-    ClientHeight = 46
-    ClientWidth = 752
-    Color = clWhite
-    ParentColor = False
-    TabOrder = 2
-    object Button8: TButton
-      Left = 144
-      Height = 31
-      Top = 8
-      Width = 94
-      Caption = 'AND'
-      TabOrder = 0
-    end
-    object Button9: TButton
-      Left = 328
-      Height = 31
-      Top = 8
-      Width = 94
-      Caption = 'OR'
-      TabOrder = 1
-    end
-    object Button10: TButton
-      Left = 504
-      Height = 31
-      Top = 8
-      Width = 94
-      Caption = 'XOR'
-      TabOrder = 2
-    end
-  end
-  object Panel4: TPanel
-    Left = 264
-    Height = 46
-    Top = 634
-    Width = 752
-    ClientHeight = 46
-    ClientWidth = 752
-    Color = clWhite
-    ParentColor = False
-    TabOrder = 3
-    object Button11: TButton
-      Left = 197
-      Height = 31
-      Top = 8
-      Width = 94
-      Caption = 'MAX'
-      TabOrder = 0
-    end
-    object Button12: TButton
-      Left = 464
-      Height = 31
-      Top = 8
-      Width = 94
-      Caption = 'min'
-      TabOrder = 1
-    end
-  end
   object ScrollBox1: TScrollBox
-    Left = 8
-    Height = 396
-    Top = 8
-    Width = 389
+    Left = 16
+    Height = 300
+    Top = 27
+    Width = 300
     HorzScrollBar.Page = 113
+    HorzScrollBar.Range = 113
     VertScrollBar.Page = 113
-    ClientHeight = 392
-    ClientWidth = 385
-    TabOrder = 4
+    VertScrollBar.Range = 113
+    AutoScroll = False
+    ClientHeight = 296
+    ClientWidth = 296
+    TabOrder = 1
     object Image1: TImage
       Left = 0
       Height = 113
@@ -180,15 +79,18 @@ object Form8: TForm8
     end
   end
   object ScrollBox2: TScrollBox
-    Left = 445
-    Height = 396
-    Top = 9
-    Width = 389
+    Left = 336
+    Height = 300
+    Top = 24
+    Width = 300
     HorzScrollBar.Page = 113
+    HorzScrollBar.Range = 113
     VertScrollBar.Page = 113
-    ClientHeight = 392
-    ClientWidth = 385
-    TabOrder = 5
+    VertScrollBar.Range = 113
+    AutoScroll = False
+    ClientHeight = 296
+    ClientWidth = 296
+    TabOrder = 2
     object Image2: TImage
       Left = 0
       Height = 113
@@ -198,15 +100,18 @@ object Form8: TForm8
     end
   end
   object ScrollBox3: TScrollBox
-    Left = 872
-    Height = 396
-    Top = 9
-    Width = 389
+    Left = 672
+    Height = 300
+    Top = 27
+    Width = 300
     HorzScrollBar.Page = 113
+    HorzScrollBar.Range = 113
     VertScrollBar.Page = 113
-    ClientHeight = 392
-    ClientWidth = 385
-    TabOrder = 6
+    VertScrollBar.Range = 113
+    AutoScroll = False
+    ClientHeight = 296
+    ClientWidth = 296
+    TabOrder = 3
     object Image3: TImage
       Left = 0
       Height = 113
@@ -216,72 +121,200 @@ object Form8: TForm8
     end
   end
   object Button1: TButton
-    Left = 165
+    Left = 69
     Height = 31
-    Top = 417
+    Top = 348
     Width = 94
     Caption = 'Open 1'
     OnClick = Button1Click
-    TabOrder = 7
+    TabOrder = 4
   end
   object Button2: TButton
-    Left = 597
+    Left = 437
     Height = 31
-    Top = 417
+    Top = 348
     Width = 94
     Caption = 'Open 2'
     OnClick = Button2Click
-    TabOrder = 8
+    TabOrder = 5
   end
   object Button3: TButton
-    Left = 1032
+    Left = 776
     Height = 31
-    Top = 417
+    Top = 348
     Width = 94
     Caption = 'Save'
-    TabOrder = 9
+    OnClick = Button3Click
+    TabOrder = 6
   end
   object BitBtn1: TBitBtn
-    Left = 1167
-    Height = 38
-    Top = 634
+    Left = 952
+    Height = 30
+    Top = 529
     Width = 94
     DefaultCaption = True
     Kind = bkClose
     ModalResult = 11
-    TabOrder = 10
-  end
-  object BitBtn2: TBitBtn
-    Left = 16
-    Height = 38
-    Top = 642
-    Width = 94
-    DefaultCaption = True
-    Kind = bkHelp
-    TabOrder = 11
-  end
-  object Edit1: TEdit
-    Left = 1136
-    Height = 28
-    Top = 488
-    Width = 100
-    TabOrder = 12
-    Text = 'Edit1'
+    TabOrder = 7
   end
   object Edit2: TEdit
-    Left = 1136
-    Height = 28
-    Top = 528
-    Width = 100
-    TabOrder = 13
-    Text = 'Edit2'
+    Left = 985
+    Height = 23
+    Top = 185
+    Width = 52
+    Alignment = taCenter
+    TabOrder = 8
+  end
+  object Edit1: TEdit
+    Left = 985
+    Height = 23
+    Top = 123
+    Width = 52
+    Alignment = taCenter
+    TabOrder = 9
+  end
+  object Label1: TLabel
+    Left = 990
+    Height = 15
+    Top = 109
+    Width = 43
+    Caption = 'ANCHO'
+    ParentColor = False
+  end
+  object Label2: TLabel
+    Left = 990
+    Height = 15
+    Top = 167
+    Width = 28
+    Caption = 'ALTO'
+    ParentColor = False
+  end
+  object Panel2: TPanel
+    Left = 185
+    Height = 43
+    Top = 429
+    Width = 752
+    ClientHeight = 43
+    ClientWidth = 752
+    Color = clWhite
+    Enabled = False
+    ParentColor = False
+    TabOrder = 10
+    object Button4: TButton
+      Left = 56
+      Height = 25
+      Top = 9
+      Width = 94
+      Caption = 'Suma'
+      OnClick = Button4Click
+      TabOrder = 0
+    end
+    object Button5: TButton
+      Left = 240
+      Height = 25
+      Top = 9
+      Width = 94
+      Caption = 'Resta'
+      OnClick = Button5Click
+      TabOrder = 1
+    end
+    object Button6: TButton
+      Left = 416
+      Height = 25
+      Top = 9
+      Width = 110
+      Caption = 'Multiplicación'
+      OnClick = Button6Click
+      TabOrder = 2
+    end
+    object Button7: TButton
+      Left = 600
+      Height = 25
+      Top = 9
+      Width = 94
+      Caption = 'Division'
+      OnClick = Button7Click
+      TabOrder = 3
+    end
+  end
+  object Panel3: TPanel
+    Left = 185
+    Height = 44
+    Top = 471
+    Width = 752
+    ClientHeight = 44
+    ClientWidth = 752
+    Color = clWhite
+    Enabled = False
+    ParentColor = False
+    TabOrder = 11
+    object Button8: TButton
+      Left = 144
+      Height = 25
+      Top = 10
+      Width = 94
+      Caption = 'AND'
+      OnClick = Button8Click
+      TabOrder = 0
+    end
+    object Button9: TButton
+      Left = 328
+      Height = 25
+      Top = 10
+      Width = 94
+      Caption = 'OR'
+      OnClick = Button9Click
+      TabOrder = 1
+    end
+    object Button10: TButton
+      Left = 504
+      Height = 25
+      Top = 10
+      Width = 94
+      Caption = 'XOR'
+      OnClick = Button10Click
+      TabOrder = 2
+    end
+  end
+  object Panel4: TPanel
+    Left = 185
+    Height = 44
+    Top = 514
+    Width = 752
+    ClientHeight = 44
+    ClientWidth = 752
+    Enabled = False
+    ParentColor = False
+    TabOrder = 12
+    object Button11: TButton
+      Left = 197
+      Height = 25
+      Top = 9
+      Width = 94
+      Caption = 'MAX'
+      OnClick = Button11Click
+      TabOrder = 0
+    end
+    object Button12: TButton
+      Left = 464
+      Height = 25
+      Top = 8
+      Width = 94
+      Caption = 'min'
+      OnClick = Button12Click
+      TabOrder = 1
+    end
   end
   object OpenPictureDialog1: TOpenPictureDialog
-    left = 32
-    top = 408
+    left = 16
+    top = 336
   end
   object OpenPictureDialog2: TOpenPictureDialog
-    left = 32
-    top = 464
+    left = 352
+    top = 331
+  end
+  object SaveDialog1: TSaveDialog
+    left = 880
+    top = 347
   end
 end

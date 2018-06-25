@@ -57,8 +57,8 @@ uses unit1;
 procedure tform7.gradiente(var M:MATRGB);
 var i,j,k:   Integer;
 begin
-  setlength(M1, unit1.W_aux, unit1.H_aux,3);
-  setlength(M2, unit1.W_aux, unit1.H_aux,3);
+  setlength(M1, unit1.Ancho, unit1.Alto,3);
+  setlength(M2, unit1.Ancho, unit1.Alto,3);
 
   for i:=0 to ANCHO-1 do begin
       for j:=0 to ALTO-1  do begin
@@ -180,7 +180,7 @@ begin
       BM.Canvas.Pixels[i,j]:=RGB(M[i,j,0],M[i,j,1],M[i,j,2]);
       end;
   end;
-   //form1.Image5.Picture.Assign(BM);
+
   form1.verImgHis();
 end;
 
@@ -219,7 +219,7 @@ begin
       BM.Canvas.Pixels[i,j]:=RGB(M[i,j,0],M[i,j,1],M[i,j,2]);
       end;
   end;
-  //form1.Image4.Picture.Assign(BM);
+
   form1.verImgHis();
 end;
 

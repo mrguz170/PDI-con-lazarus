@@ -51,7 +51,7 @@ procedure tform5.TanHiper(var M:MATRGB);
 var
    i,j,k     : Integer;
 begin
-
+  form1.ant();
   for i:=0 to ANCHO-1 do begin
      for j:=0 to ALTO-1 do begin
          for k:=0 to 2 do begin

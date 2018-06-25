@@ -16,7 +16,6 @@ type
 
   TForm8 = class(TForm)
     BitBtn1: TBitBtn;
-    BitBtn2: TBitBtn;
     Button1: TButton;
     Button10: TButton;
     Button11: TButton;
@@ -34,6 +33,8 @@ type
     Image1: TImage;
     Image2: TImage;
     Image3: TImage;
+    Label1: TLabel;
+    Label2: TLabel;
     OpenPictureDialog1: TOpenPictureDialog;
     OpenPictureDialog2: TOpenPictureDialog;
     Panel1: TPanel;
@@ -48,14 +49,34 @@ type
     ScrollBox1: TScrollBox;
     ScrollBox2: TScrollBox;
     ScrollBox3: TScrollBox;
+    procedure Button10Click(Sender: TObject);
+    procedure Button11Click(Sender: TObject);
+    procedure Button12Click(Sender: TObject);
     procedure Button1Click(Sender: TObject);
     procedure Button2Click(Sender: TObject);
+    procedure Button3Click(Sender: TObject);
     procedure Button4Click(Sender: TObject);
+    procedure Button5Click(Sender: TObject);
+    procedure Button6Click(Sender: TObject);
+    procedure Button7Click(Sender: TObject);
+    procedure Button8Click(Sender: TObject);
+    procedure Button9Click(Sender: TObject);
     procedure FormCreate(Sender: TObject);
+    procedure RadioButton1Change(Sender: TObject);
+    procedure RadioButton2Change(Sender: TObject);
+    procedure RadioButton3Change(Sender: TObject);
   private
 
   public
     procedure suma(var M1, M2:MATRGB);
+    procedure resta(var M1, M2:MATRGB);
+    procedure mult(var M1, M2:MATRGB);
+    procedure divn(var M1, M2:MATRGB);
+    procedure op_and(var M1, M2:MATRGB);
+    procedure op_OR(var M1, M2:MATRGB);
+    procedure op_XOR(var M1, M2:MATRGB);
+    procedure OP_MAX(var M1, M2:MATRGB);
+    procedure op_min(var M1, M2:MATRGB);
 
   end;
 
@@ -76,24 +97,281 @@ implementation
 //------------------------- METODOS gus ---------------------------//
 //-----------------------------------------------------------------//
 
-//suma --NO funciona
-procedure tform8.suma(var M1, M2:MATRGB);
+//Operacion min
+procedure tform8.OP_min(var M1, M2:MATRGB);
 var
   nn,mm,i,j,k :Integer;
 begin
-   nn:=max(ANCHO_alu1,ANCHO_alu2);
-   mm:=max(ALTO_alu1,ALTO_alu2);
+   nn:=min(ANCHO_alu1,ANCHO_alu2);
+   mm:=min(ALTO_alu1,ALTO_alu2);
 
-   BM_alu3.Width:=nn;
-   BM_alu3.Height:=mm;
+   BM_alu3.SetSize(nn,mm);
 
    Edit1.Text:=inttostr(nn);
    Edit2.Text:=inttostr(mm);
 
    setlength(MAT_ALU3,nn,mm,3);
 
-   for j:=0 to mm-1 do begin
-     for i:=0 to nn-1 do begin
+   for i:=0 to nn-1 do begin
+     for j:=0 to mm-1 do begin
+       for k:=0 to 2 do begin
+
+        MAT_ALU3[i,j,k]:= min(M1[i,j,k], M2[i,j,k]);
+
+       end;
+       BM_alu3.Canvas.Pixels[i,j]:=RGB(MAT_ALU3[i,j,0],MAT_ALU3[i,j,1],MAT_ALU3[i,j,2]);
+     end;
+   end;
+
+   Image3.Picture.Assign(BM_alu3);
+
+end;
+
+//Operacion MAX
+procedure tform8.OP_MAX(var M1, M2:MATRGB);
+var
+  nn,mm,i,j,k :Integer;
+begin
+   nn:=min(ANCHO_alu1,ANCHO_alu2);
+   mm:=min(ALTO_alu1,ALTO_alu2);
+
+   BM_alu3.SetSize(nn,mm);
+
+   Edit1.Text:=inttostr(nn);
+   Edit2.Text:=inttostr(mm);
+
+   setlength(MAT_ALU3,nn,mm,3);
+
+   for i:=0 to nn-1 do begin
+     for j:=0 to mm-1 do begin
+       for k:=0 to 2 do begin
+
+        MAT_ALU3[i,j,k]:= MAX(M1[i,j,k], M2[i,j,k]);
+
+       end;
+       BM_alu3.Canvas.Pixels[i,j]:=RGB(MAT_ALU3[i,j,0],MAT_ALU3[i,j,1],MAT_ALU3[i,j,2]);
+     end;
+   end;
+
+   Image3.Picture.Assign(BM_alu3);
+
+end;
+
+//AND LOGICO
+procedure tform8.op_and(var M1, M2:MATRGB);
+var
+  nn,mm,i,j,k :Integer;
+begin
+   nn:=min(ANCHO_alu1,ANCHO_alu2);
+   mm:=min(ALTO_alu1,ALTO_alu2);
+
+   BM_alu3.SetSize(nn,mm);
+
+   Edit1.Text:=inttostr(nn);
+   Edit2.Text:=inttostr(mm);
+
+   setlength(MAT_ALU3,nn,mm,3);
+
+   for i:=0 to nn-1 do begin
+     for j:=0 to mm-1 do begin
+       for k:=0 to 2 do begin
+
+        MAT_ALU3[i,j,k]:= (M1[i,j,k] AND  M2[i,j,k]);
+
+       end;
+       BM_alu3.Canvas.Pixels[i,j]:=RGB(MAT_ALU3[i,j,0],MAT_ALU3[i,j,1],MAT_ALU3[i,j,2]);
+     end;
+   end;
+
+   Image3.Picture.Assign(BM_alu3);
+
+end;
+
+ //OR LOGICO
+procedure TForm8.op_OR(var M1, M2: MATRGB);
+var
+  nn,mm,i,j,k :Integer;
+begin
+   nn:=min(ANCHO_alu1,ANCHO_alu2);
+   mm:=min(ALTO_alu1,ALTO_alu2);
+
+   BM_alu3.SetSize(nn,mm);
+
+   Edit1.Text:=inttostr(nn);
+   Edit2.Text:=inttostr(mm);
+
+   setlength(MAT_ALU3,nn,mm,3);
+
+   for i:=0 to nn-1 do begin
+     for j:=0 to mm-1 do begin
+       for k:=0 to 2 do begin
+
+        MAT_ALU3[i,j,k]:= (M1[i,j,k] OR  M2[i,j,k]);
+
+       end;
+       BM_alu3.Canvas.Pixels[i,j]:=RGB(MAT_ALU3[i,j,0],MAT_ALU3[i,j,1],MAT_ALU3[i,j,2]);
+     end;
+   end;
+
+   Image3.Picture.Assign(BM_alu3);
+
+end;
+//XOR LOGICO
+procedure TForm8.op_XOR(var M1, M2: MATRGB);
+var
+  nn,mm,i,j,k :Integer;
+begin
+   nn:=min(ANCHO_alu1,ANCHO_alu2);
+   mm:=min(ALTO_alu1,ALTO_alu2);
+
+   BM_alu3.SetSize(nn,mm);
+
+   Edit1.Text:=inttostr(nn);
+   Edit2.Text:=inttostr(mm);
+
+   setlength(MAT_ALU3,nn,mm,3);
+
+   for i:=0 to nn-1 do begin
+     for j:=0 to mm-1 do begin
+       for k:=0 to 2 do begin
+
+        MAT_ALU3[i,j,k]:= (M1[i,j,k] XOR  M2[i,j,k]);
+
+       end;
+       BM_alu3.Canvas.Pixels[i,j]:=RGB(MAT_ALU3[i,j,0],MAT_ALU3[i,j,1],MAT_ALU3[i,j,2]);
+     end;
+   end;
+
+   Image3.Picture.Assign(BM_alu3);
+
+end;
+
+//resta
+procedure tform8.resta(var M1, M2:MATRGB);
+var
+  nn,mm,i,j,k :Integer;
+begin
+   nn:=min(ANCHO_alu1,ANCHO_alu2);
+   mm:=min(ALTO_alu1,ALTO_alu2);
+
+   BM_alu3.SetSize(nn,mm);
+
+   Edit1.Text:=inttostr(nn);
+   Edit2.Text:=inttostr(mm);
+
+   setlength(MAT_ALU3,nn,mm,3);
+
+   for i:=0 to nn-1 do begin
+     for j:=0 to mm-1 do begin
+       for k:=0 to 2 do begin
+        if  (M1[i,j,k] >= M2[i,j,k]) then begin
+            MAT_ALU3[i,j,k]:= abs((M1[i,j,k] - M2[i,j,k]));
+        end
+        else begin
+            MAT_ALU3[i,j,k]:= 0;
+        end;
+        BM_alu3.Canvas.Pixels[i,j]:=RGB(MAT_ALU3[i,j,0],MAT_ALU3[i,j,1],MAT_ALU3[i,j,2]);
+       end;
+     end;
+   end;
+
+   Image3.Picture.Assign(BM_alu3);
+
+end;
+
+//multiplicacion
+procedure tform8.mult(var M1, M2:MATRGB);
+var
+  nn,mm,i,j,k :Integer;
+begin
+   nn:=min(ANCHO_alu1,ANCHO_alu2);
+   mm:=min(ALTO_alu1,ALTO_alu2);
+
+   BM_alu3.SetSize(nn,mm);
+
+   Edit1.Text:=inttostr(nn);
+   Edit2.Text:=inttostr(mm);
+
+   setlength(MAT_ALU3,nn,mm,3);
+
+   for i:=0 to nn-1 do begin
+     for j:=0 to mm-1 do begin
+       for k:=0 to 2 do begin
+
+        MAT_ALU3[i,j,k]:= (M1[i,j,k] * M2[i,j,k]) div 255;
+
+       end;
+       BM_alu3.Canvas.Pixels[i,j]:=RGB(MAT_ALU3[i,j,0],MAT_ALU3[i,j,1],MAT_ALU3[i,j,2]);
+     end;
+   end;
+
+   Image3.Picture.Assign(BM_alu3);
+
+end;
+
+//division --NO FUNCIONA
+procedure tform8.divn(var M1, M2:MATRGB);
+var
+  nn,mm,i,j,k :Integer;
+begin
+   nn:=min(ANCHO_alu1,ANCHO_alu2);
+   mm:=min(ALTO_alu1,ALTO_alu2);
+
+   BM_alu3.SetSize(nn,mm);
+
+   Edit1.Text:=inttostr(nn);
+   Edit2.Text:=inttostr(mm);
+
+   setlength(MAT_ALU3,nn,mm,3);
+
+   for i:=0 to nn-1 do begin
+     for j:=0 to mm-1 do begin
+     (*+++++++++++++++++++++++++++++++++++++++++++++++++*)
+          if M2[i,j,0]=0 then begin
+             MAT_ALU3[i,j,0]:= (M1[i,j,0]) ;
+          end
+          else begin
+             MAT_ALU3[i,j,0]:= (M1[i,j,0] div M2[i,j,0]) ;
+          end;
+
+          if M2[i,j,1]=0 then begin
+             MAT_ALU3[i,j,1]:= (M1[i,j,1]) ;
+          end
+          else begin
+             MAT_ALU3[i,j,1]:= (M1[i,j,1] div M2[i,j,1]) ;
+          end;
+
+           if M2[i,j,2]=0 then begin
+             MAT_ALU3[i,j,2]:= (M1[i,j,2]) ;
+          end
+          else begin
+             MAT_ALU3[i,j,2]:= (M1[i,j,2] div M2[i,j,2]) ;
+          end;
+      (*+++++++++++++++++++++++++++++++++++++++++++++++++*)
+       BM_alu3.Canvas.Pixels[i,j]:=RGB(MAT_ALU3[i,j,0],MAT_ALU3[i,j,1],MAT_ALU3[i,j,2]);
+     end;
+   end;
+
+   Image3.Picture.Assign(BM_alu3);
+
+end;
+//suma
+procedure tform8.suma(var M1, M2:MATRGB);
+var
+  nn,mm,i,j,k :Integer;
+begin
+   nn:=min(ANCHO_alu1,ANCHO_alu2);
+   mm:=min(ALTO_alu1,ALTO_alu2);
+
+   BM_alu3.SetSize(nn,mm);
+
+   Edit1.Text:=inttostr(nn);
+   Edit2.Text:=inttostr(mm);
+
+   setlength(MAT_ALU3,nn,mm,3);
+
+   for i:=0 to nn-1 do begin
+     for j:=0 to mm-1 do begin
        for k:=0 to 2 do begin
 
         MAT_ALU3[i,j,k]:= (M1[i,j,k] + M2[i,j,k]) div 2;
@@ -103,10 +381,11 @@ begin
      end;
    end;
 
-   Image3.Canvas.Assign(BM_alu3);
+   Image3.Picture.Assign(BM_alu3);
 
 end;
 
+ //abrir imagen 1
 procedure TForm8.Button1Click(Sender: TObject);
 var
   i,j   : Integer;
@@ -128,7 +407,6 @@ begin
     ANCHO_alu1:=BM_alu1.Width;
     ALTO_alu1:=BM_alu1.Height;
 
-
     //crear arreglo 3D RGB de ALTOxANCHOx3
     setlength(MAT_ALU1,ANCHO_alu1,ALTO_alu1,3);
 
@@ -146,6 +424,7 @@ begin
 
   end;
 end;
+
 
 procedure TForm8.Button2Click(Sender: TObject);
 var
@@ -184,10 +463,58 @@ begin
 
   end;
 end;
-
+ //save img 3
+procedure TForm8.Button3Click(Sender: TObject);
+begin
+    if (SaveDialog1.Execute) then
+  begin
+    BM_alu3.SaveToFile(SaveDialog1.FileName);
+  end;
+end;
+ //suma
 procedure TForm8.Button4Click(Sender: TObject);
 begin
   suma(MAT_alu1,MAT_alu2);
+end;
+//resta
+procedure TForm8.Button5Click(Sender: TObject);
+begin
+     resta(MAT_alu1,MAT_alu2);
+end;
+ //multiplicación
+procedure TForm8.Button6Click(Sender: TObject);
+begin
+     mult(MAT_alu1,MAT_alu2);
+end;
+//divison
+procedure TForm8.Button7Click(Sender: TObject);
+begin
+    divn(MAT_alu1,MAT_alu2);
+end;
+ //and
+procedure TForm8.Button8Click(Sender: TObject);
+begin
+  op_and(MAT_alu1,MAT_alu2);
+end;
+
+procedure TForm8.Button9Click(Sender: TObject);
+begin
+   op_OR(MAT_alu1,MAT_alu2);
+end;
+
+procedure TForm8.Button10Click(Sender: TObject);
+begin
+    op_XOR(MAT_alu1,MAT_alu2);
+end;
+
+procedure TForm8.Button11Click(Sender: TObject);
+begin
+  OP_MAX(MAT_alu1,MAT_alu2);
+end;
+
+procedure TForm8.Button12Click(Sender: TObject);
+begin
+  OP_MIN(MAT_alu1,MAT_alu2);
 end;
 
 procedure TForm8.FormCreate(Sender: TObject);
@@ -195,6 +522,39 @@ begin
    BM_alu1:=Tbitmap.Create;
    BM_alu2:=Tbitmap.Create;
    BM_alu3:=Tbitmap.Create;
+end;
+
+procedure TForm8.RadioButton1Change(Sender: TObject);
+begin
+    panel2.Enabled:=True;
+    panel3.Enabled:=False;
+    panel4.Enabled:=False;
+
+    panel2.Color  :=RGB(0,255,0);
+    panel3.Color  :=clWhite;
+    panel4.Color  :=clWhite;
+end;
+
+procedure TForm8.RadioButton2Change(Sender: TObject);
+begin
+    panel2.Enabled:=False;
+    panel3.Enabled:=True;
+    panel4.Enabled:=False;
+
+    panel2.Color  :=clWhite;
+    panel3.Color  :=RGB(0,255,0); ;
+    panel4.Color  :=clWhite;
+end;
+
+procedure TForm8.RadioButton3Change(Sender: TObject);
+begin
+  panel2.Enabled:=False;
+  panel3.Enabled:=False;
+  panel4.Enabled:=True;
+
+  panel2.Color  :=clWhite;
+  panel3.Color  :=clWhite;
+  panel4.Color  :=RGB(0,255,0);
 end;
 
 end.

@@ -4,8 +4,9 @@ object Form3: TForm3
   Top = 517
   Width = 352
   Caption = 'Gamma'
-  ClientHeight = 158
-  ClientWidth = 352
+  ClientHeight = 0
+  ClientWidth = 0
+  Color = clMenuHighlight
   OnCreate = FormCreate
   LCLVersion = '1.8.2.0'
   object TrackBar1: TTrackBar

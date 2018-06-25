@@ -17,17 +17,22 @@ type
 
   TForm1 = class(TForm)
     BitBtn1: TBitBtn;
-    Button1: TButton;
-    Button2: TButton;
-    Button3: TButton;
-    Edit1: TEdit;
+    BitBtn10: TBitBtn;
+    BitBtn11: TBitBtn;
+    BitBtn2: TBitBtn;
+    BitBtn3: TBitBtn;
+    BitBtn4: TBitBtn;
+    BitBtn5: TBitBtn;
+    BitBtn6: TBitBtn;
+    BitBtn7: TBitBtn;
+    BitBtn8: TBitBtn;
+    BitBtn9: TBitBtn;
     Image1: TImage;
     Image2: TImage;
     Image3: TImage;
     ImageList1: TImageList;
     Label2: TLabel;
     Label3: TLabel;
-    Label4: TLabel;
     MainMenu1: TMainMenu;
     MenuItem1: TMenuItem;
     MenuItem10: TMenuItem;
@@ -60,7 +65,6 @@ type
     MenuItem35: TMenuItem;
     MenuItem36: TMenuItem;
     MenuItem37: TMenuItem;
-    MenuItem38: TMenuItem;
     MenuItem39: TMenuItem;
     MenuItem4: TMenuItem;
     MenuItem40: TMenuItem;
@@ -72,7 +76,6 @@ type
     MenuItem46: TMenuItem;
     MenuItem47: TMenuItem;
     MenuItem48: TMenuItem;
-    MenuItem49: TMenuItem;
     MenuItem5: TMenuItem;
     MenuItem6: TMenuItem;
     MenuItem7: TMenuItem;
@@ -82,6 +85,8 @@ type
     Panel1: TPanel;
     Panel2: TPanel;
     Panel3: TPanel;
+    Panel4: TPanel;
+    Panel5: TPanel;
     RadioButton1: TRadioButton;
     RadioButton2: TRadioButton;
     RadioButton3: TRadioButton;
@@ -91,6 +96,17 @@ type
     StatusBar1: TStatusBar;
     Timer1: TTimer;
 
+    procedure BitBtn10Click(Sender: TObject);
+    procedure BitBtn11Click(Sender: TObject);
+    procedure BitBtn1Click(Sender: TObject);
+    procedure BitBtn2Click(Sender: TObject);
+    procedure BitBtn3Click(Sender: TObject);
+    procedure BitBtn4Click(Sender: TObject);
+    procedure BitBtn5Click(Sender: TObject);
+    procedure BitBtn6Click(Sender: TObject);
+    procedure BitBtn7Click(Sender: TObject);
+    procedure BitBtn8Click(Sender: TObject);
+    procedure BitBtn9Click(Sender: TObject);
     procedure Button1Click(Sender: TObject);
     procedure Button2Click(Sender: TObject);
     procedure Button3Click(Sender: TObject);
@@ -143,14 +159,16 @@ type
     procedure clsH();
     procedure restaurar();
     procedure deshacer();
-
     procedure loadMatI(M:MATRGB);
     procedure ecualizar(var M:MATRGB);
-
+    procedure initR(var M:MATRGB);   //carga histograma Rojo
+    procedure initG(var M:MATRGB);   //carga histograma verde
+    procedure initB(var M:MATRGB);   //carga histograma azul
   public
     //function ecualizado(j :Integer; ch: Integer):Integer;
     procedure verImgHis();
     procedure ant();
+    procedure abrir();
     //filtros
     procedure grisR(var M:MATRGB);
     procedure grisG(var M:MATRGB);
@@ -161,9 +179,7 @@ type
     procedure chn2RBG(var M:MATRGB);
     procedure treshold();
     procedure log(var M:MATRGB);
-    procedure initR(var M:MATRGB);   //carga histograma Rojo
-    procedure initG(var M:MATRGB);   //carga histograma verde
-    procedure initB(var M:MATRGB);   //carga histograma azul
+
     procedure initI(var M:MATRGB);
     procedure refl_x(var M:MATRGB);
     procedure refl_y(var M:MATRGB);
@@ -183,18 +199,91 @@ var
   MATresp                    : MATRGB;
   MAT_rotacion, MAT_geo      : MATRGB;
   ALTO, ANCHO, W_aux, H_aux, cnt   : Integer;
+  W_des, H_des        :Integer;
   HR,HG,HB,HI   : Array [0..255] of integer;
   EHR,EHG,EHB   : Array [0..255] of integer;
 
 
 implementation
-uses unit2,unit3,unit4,Unit5,unit6,unit7,unit9;
+uses unit2,unit3,unit4,Unit5,unit6,unit7,unit9,unit10;
 {$R *.lfm}
 
 { TForm1 }
 
 //////////////---------- metodos gus -----------////////////////////////
 /////////////////////////////////////////////////////////////////////
+
+procedure tform1.abrir();
+var
+  i,j   : Integer;
+  c       : Tcolor;     //puede ser Tcolor o Integer
+begin
+  //abrir imagen
+  if (OpenPictureDialog1.Execute) then
+  begin
+    ScrollBox1.Enabled:=True;
+    //asignar archivo a BM
+    BM.LoadFromFile(OpenPictureDialog1.FileName);
+    if (BM.PixelFormat<>pf24bit) then
+    begin
+    BM.PixelFormat:=pf24bit;
+    end;
+
+    Image1.Picture.Assign(BM);
+
+    ALTO:=BM.Height;
+    ANCHO:=BM.Width;
+    //preservar la altura y ancho original
+    H_aux:=BM.Height;
+    W_aux:=BM.Width;
+
+    //crear arreglo 3D RGB de ALTOxANCHOx3
+    setlength(MAT,ANCHO,ALTO,3);
+    setlength(Maux,ANCHO,ALTO,3);
+    setlength(MAT_I,ANCHO,ALTO,3);
+    setlength(MDes,ANCHO,ALTO,3);
+    setlength(MAT_geo,ANCHO,ALTO,3); //matriz aux para reflejar
+    setlength(MAT_rotacion,ALTO,ANCHO,3); //matriz aux para rotar
+
+    //leer y copiar RGB de imagen a MAT y MATaux
+    for i:=0 to ANCHO-1 do begin
+      for j:=0 to ALTO-1 do begin
+        c:=BM.Canvas.Pixels[i,j];
+        //matriz para canvas
+        MAT[i,j,0]:=GetRvalue(c);
+        MAT[i,j,1]:=GetGvalue(c);
+        MAT[i,j,2]:=GetBvalue(c);
+        //matriz para recargar
+        Maux[i,j,0]:=GetRvalue(c);
+        Maux[i,j,1]:=GetGvalue(c);
+        Maux[i,j,2]:=GetBvalue(c);
+        //matriz para Intensidad
+        MAT_I[i,j,0]:=GetRvalue(c);
+        MAT_I[i,j,1]:=GetGvalue(c);
+        MAT_I[i,j,2]:=GetBvalue(c);
+        //matriz para deshacer cambios
+        Mdes[i,j,0]:=GetRvalue(c);
+        Mdes[i,j,1]:=GetGvalue(c);
+        Mdes[i,j,2]:=GetBvalue(c);
+      end; //j
+    end;//i
+
+    Panel1.Visible:=true; //hacemos visible el panel de Hist
+    Menuitem3.enabled:=true;
+    Menuitem19.enabled:=true;
+    Menuitem26.enabled:=true;
+    Menuitem30.enabled:=true;
+    Menuitem31.enabled:=true;
+    Menuitem46.enabled:=true;
+    Menuitem48.enabled:=true;
+
+    Panel4.Enabled:=TRUE;
+
+
+    verImgHis();
+  end;
+
+end;
 
 //zoom OUT
 procedure tform1.zoom_out(var M:MATRGB);
@@ -220,7 +309,7 @@ begin
     //Actualizamos matrices que se usaran para otras operaciones
     setlength(M, ANCHO, ALTO, 3);
     setlength(MAT_I, ANCHO,ALTO,3);
-    setlength(MDes,ANCHO,ALTO,3);
+    //setlength(MDes,ANCHO,ALTO,3);
 
       for i:=0 to ANCHO-1 do begin
         for j:=0 to ALTO-1 do begin
@@ -261,7 +350,7 @@ begin
     //Actualizamos matrices que se usaran para otras operaciones
     setlength(M, ANCHO, ALTO, 3);
     setlength(MAT_I, ANCHO,ALTO,3);
-    setlength(MDes,ANCHO,ALTO,3);
+    //setlength(MDes,ANCHO,ALTO,3);
 
       for i:=0 to ANCHO-1 do begin
         for j:=0 to ALTO-1 do begin
@@ -301,7 +390,7 @@ begin
   setlength(M, ANCHO,ALTO,3);
   setlength(MAT_I, ANCHO,ALTO,3);
   setlength(MAT_geo,ANCHO,ALTO,3);
-  setlength(MDes,ANCHO,ALTO,3);
+  //setlength(MDes,ANCHO,ALTO,3);
   //----------------------------------------
 
   for i:=0 to ANCHO-1 do begin
@@ -325,7 +414,6 @@ var
 begin
   setlength(MAT_rotacion,ALTO,ANCHO,3);
 
-  Edit1.Text:=inttostr(alto);
   for i:=0 to ANCHO-1 do begin
     for j:=0 to ALTO-1 do begin
       MAT_rotacion[(ALTO-(j+1)),i,0]:=M[i,j,0];
@@ -347,7 +435,7 @@ begin
   setlength(M, ANCHO,ALTO,3);
   setlength(MAT_I, ANCHO,ALTO,3);
   setlength(MAT_geo,ANCHO,ALTO,3);
-  setlength(MDes,ANCHO,ALTO,3);
+  //setlength(MDes,ANCHO,ALTO,3);
   //----------------------------------------
 
   for i:=0 to ANCHO-1 do begin
@@ -502,8 +590,14 @@ procedure TForm1.ant();
 var
 i,j :Integer;
 begin
-  for i:=0 to ANCHO-1 do begin
-    for j:=0 to ALTO-1 do begin
+  W_des:=ANCHO;
+  H_des:=ALTO;
+
+  setlength(Mdes, W_des,H_des,3);
+  //BM.SetSize(W_des,H_des);
+
+  for i:=0 to W_des-1 do begin
+    for j:=0 to H_des-1 do begin
 
       Mdes[i,j,0]:=MAT[i,j,0];
       Mdes[i,j,1]:=MAT[i,j,1];
@@ -518,8 +612,15 @@ procedure tform1.deshacer();
 var
 i,j :Integer;
 begin
-  for i:=0 to ANCHO-1 do begin
-    for j:=0 to ALTO-1 do begin
+  setlength(MAT, W_des,H_des,3);
+  setlength(MAT_I, W_des,H_des,3);
+  BM.SetSize(W_des,H_des);
+
+  Ancho:=W_des;
+  alto:=H_des;
+
+  for i:=0 to Ancho-1 do begin
+    for j:=0 to alto-1 do begin
 
       MAT[i,j,0]:=Mdes[i,j,0];
       MAT[i,j,1]:=Mdes[i,j,1];
@@ -537,7 +638,7 @@ var
 i,j :Integer;
 k   :byte;
 begin
-  ant();
+  //ant();
   for i:=0 to ANCHO-1 do begin
     for j:=0 to ALTO-1 do begin
       for k:=0 to 2 do begin
@@ -565,7 +666,7 @@ procedure tform1.grisR(var M:MATRGB);        // gris canal ROJO
 var
   i,j : Integer;
 begin
-  ant();
+  //ant();
   for i:=0 to ANCHO-1 do begin
     for j:=0 to ALTO-1 do begin
 
@@ -582,7 +683,7 @@ procedure tform1.grisG(var M:MATRGB);        // gris canal VERDE
 var
   i,j : Integer;
 begin
-  ant();
+  //ant();
   for i:=0 to ANCHO-1 do begin
     for j:=0 to ALTO-1 do begin
 
@@ -599,7 +700,7 @@ procedure tform1.grisB(var M:MATRGB);        // gris canal AZUL
 var
   i,j : Integer;
 begin
-  ant();
+  //ant();
   for i:=0 to ANCHO-1 do begin
     for j:=0 to ALTO-1 do begin
 
@@ -618,7 +719,6 @@ var
   sum, d  : Integer;
   x,y,z  : Integer;
 begin
-  ant();
   d:=3;  //3 por canales RGB
      for i:=0 to ANCHO-1 do begin
         for j:=0 to ALTO-1 do begin
@@ -636,17 +736,15 @@ begin
             BM.Canvas.Pixels[i,j]:= RGB(M[i,j,0],M[i,j,1],M[i,j,2]);
         end;
     end;
-     //refresh img
-
-
 end;
+
 //canal a GRB
 procedure tform1.chn2GRB(var M:MATRGB);
 var
 i,j  : Integer;
 v    :byte;
 begin
-  ant();
+  //ant();
   for i:=0 to ANCHO-1 do begin
      for j:=0 to ALTO-1 do begin
 
@@ -665,7 +763,7 @@ var
 i,j  : Integer;
 v    : byte;
 begin
-  ant();
+  //ant();
      for i:=0 to ANCHO-1 do begin
          for j:=0 to ALTO-1 do begin
             v:=M[i,j,0];
@@ -683,7 +781,7 @@ var
 i,j  : Integer;
 v    : byte;
 begin
-   ant();
+   //ant();
      for i:=0 to ANCHO-1 do begin
          for j:=0 to ALTO-1 do begin
             v:=M[i,j,1];
@@ -700,7 +798,7 @@ procedure tform1.treshold();
 var
    i,j,T :Integer;
 begin
-ant();
+//ant();
 
 T:=0;
 grises_prom(MAT); //pasamos a gris primero
@@ -954,70 +1052,14 @@ end;
 //////////////---------- INTERFAZ -----------////////////////////////
 /////////////////////////////////////////////////////////////////////
 procedure TForm1.MenuItem2Click(Sender: TObject);
-var
-  i,j   : Integer;
-  c       : Tcolor;     //puede ser Tcolor o Integer
 begin
-  //abrir imagen
-  if (OpenPictureDialog1.Execute) then
-  begin
-    ScrollBox1.Enabled:=True;
-    //asignar archivo a BM
-    BM.LoadFromFile(OpenPictureDialog1.FileName);
-    if (BM.PixelFormat<>pf24bit) then
-    begin
-    BM.PixelFormat:=pf24bit;
-    end;
-
-    Image1.Picture.Assign(BM);
-
-    ALTO:=BM.Height;
-    ANCHO:=BM.Width;
-    //preservar la altura y ancho original
-    H_aux:=BM.Height;
-    W_aux:=BM.Width;
-
-    //crear arreglo 3D RGB de ALTOxANCHOx3
-    setlength(MAT,ANCHO,ALTO,3);
-    setlength(Maux,ANCHO,ALTO,3);
-    setlength(MAT_I,ANCHO,ALTO,3);
-    setlength(MDes,ANCHO,ALTO,3);
-    setlength(MAT_geo,ANCHO,ALTO,3); //matriz aux para reflejar
-    setlength(MAT_rotacion,ALTO,ANCHO,3); //matriz aux para rotar
-
-    //leer y copiar RGB de imagen a MAT y MATaux
-    for i:=0 to ANCHO-1 do begin
-      for j:=0 to ALTO-1 do begin
-        c:=BM.Canvas.Pixels[i,j];
-        //matriz para canvas
-        MAT[i,j,0]:=GetRvalue(c);
-        MAT[i,j,1]:=GetGvalue(c);
-        MAT[i,j,2]:=GetBvalue(c);
-        //matriz para recargar
-        Maux[i,j,0]:=GetRvalue(c);
-        Maux[i,j,1]:=GetGvalue(c);
-        Maux[i,j,2]:=GetBvalue(c);
-        //matriz para Intensidad
-        MAT_I[i,j,0]:=GetRvalue(c);
-        MAT_I[i,j,1]:=GetGvalue(c);
-        MAT_I[i,j,2]:=GetBvalue(c);
-        //matriz para deshacer cambios
-        Mdes[i,j,0]:=GetRvalue(c);
-        Mdes[i,j,1]:=GetGvalue(c);
-        Mdes[i,j,2]:=GetBvalue(c);
-      end; //j
-    end;//i
-
-    Panel1.Visible:=true; //hacemos visible el panel de Hist
-    //RadioButton1.Checked:=true;
-    Menuitem3.enabled:=true;
-    verImgHis();
-  end;
+  abrir();
 
 end;
  //quitar ruido
 procedure TForm1.MenuItem32Click(Sender: TObject);
 begin
+  ant();
   form7.open(MAT);
   form7.close(MAT);
 end;
@@ -1025,11 +1067,13 @@ end;
 //apertura
 procedure TForm1.MenuItem34Click(Sender: TObject);
 begin
-   form7.open(MAT);
+  ant();
+  form7.open(MAT);
 end;
 //cierre
 procedure TForm1.MenuItem35Click(Sender: TObject);
 begin
+  ant();
   form7.close(MAT);
 end;
 
@@ -1041,6 +1085,7 @@ end;
 //ecualizar
 procedure TForm1.MenuItem37Click(Sender: TObject);
 begin
+  ant();
   ecualizar(MAT);
 end;
 
@@ -1051,42 +1096,50 @@ end;
 
 procedure TForm1.MenuItem39Click(Sender: TObject);
 begin
-   refl_x(MAT);
+  ant();
+  refl_x(MAT);
 end;
 
 procedure TForm1.MenuItem40Click(Sender: TObject);
 begin
-    refl_y(MAT);
+  ant();
+  refl_y(MAT);
 end;
 
 procedure TForm1.MenuItem41Click(Sender: TObject);
 begin
+  ant();
   rotacion_D(MAT);
 end;
 
 procedure TForm1.MenuItem42Click(Sender: TObject);
 begin
-   rotacion_I(MAT);
+  ant();
+  rotacion_I(MAT);
 end;
 
 procedure TForm1.MenuItem43Click(Sender: TObject);
 begin
+  form8.RadioButton2.Checked:=True;
   form8.showmodal;
 end;
 
 procedure TForm1.MenuItem44Click(Sender: TObject);
 begin
+  ant();
   zoom_IN(MAT);
 end;
 
 procedure TForm1.MenuItem45Click(Sender: TObject);
 begin
+  ant();
   zoom_OUT(MAT);
 end;
 
 procedure TForm1.MenuItem47Click(Sender: TObject);
 begin
- form7.gradiente(MAT);
+  ant();
+  form7.gradiente(MAT);
 end;
 
 procedure TForm1.MenuItem48Click(Sender: TObject);
@@ -1138,6 +1191,7 @@ end;
 //gris prom
 procedure TForm1.MenuItem7Click(Sender: TObject);
 begin
+  ant();
   grises_prom(MAT);
   verImgHis();
 end;
@@ -1169,26 +1223,31 @@ end;
 
 procedure TForm1.MenuItem16Click(Sender: TObject);
 begin
+  ant();
   grisR(MAT);
 end;
 procedure TForm1.MenuItem17Click(Sender: TObject);
 begin
+  ant();
   grisG(MAT);
 end;
 
 procedure TForm1.MenuItem18Click(Sender: TObject);
 begin
+  ant();
   grisB(MAT);
 end;
 
 //Tangente Hiperbolica
 procedure TForm1.MenuItem21Click(Sender: TObject);
 begin
+
   form5.TrackBar1.Position:=form5.TrackBar1.min;
   form5.Label1.Caption:=FloatToStr(form5.alpha*0.1);
   form5.showmodal;
 
   if form5.ModalResult=MROK then begin
+     ant();
      form5.TanHiper(MAT);
   end;
 end;
@@ -1200,6 +1259,7 @@ begin
   form4.showmodal;
 
   if Form4.ModalResult=MROK then begin
+     ant();
      if form4.RadioButton2.Checked then form4.sobel(MAT);
      if form4.RadioButton1.Checked then form4.prewitt(MAT);
 
@@ -1216,6 +1276,7 @@ begin
   form3.showmodal;
 
   if Form3.ModalResult=MROK then begin
+     ant();
      Form3.gamma(MAT);
   end;
 
@@ -1223,7 +1284,7 @@ end;
 
 procedure TForm1.MenuItem24Click(Sender: TObject);
 begin
-
+  form9.showmodal;
 end;
 
 //convolución libre
@@ -1235,7 +1296,9 @@ begin
   form6.showmodal;
 
   if Form6.ModalResult=MROK then begin
+     ant();
      Form6.libre(MAT);
+     verImgHis();
 
   end;
 end;
@@ -1248,18 +1311,83 @@ end;
 //Reload imagen a traves de una matriz auxiliar guardada al abrir la imagen
 procedure TForm1.Button1Click(Sender: TObject);
 begin
-  restaurar();
+
+end;
+
+procedure TForm1.BitBtn1Click(Sender: TObject);
+begin
+  abrir();
+end;
+
+procedure TForm1.BitBtn10Click(Sender: TObject);
+begin
+  ant();
+  refl_x(MAT);
+end;
+
+procedure TForm1.BitBtn11Click(Sender: TObject);
+begin
+  ant();
+  refl_y(MAT);
+end;
+
+procedure TForm1.BitBtn2Click(Sender: TObject);
+begin
+  if (SaveDialog1.Execute) then
+  begin
+    BM.SaveToFile(SaveDialog1.FileName);
+  end;
+end;
+
+procedure TForm1.BitBtn3Click(Sender: TObject);
+begin
+  deshacer();
+end;
+
+procedure TForm1.BitBtn4Click(Sender: TObject);
+begin
+  ant();
+  zoom_IN(MAT);
+end;
+
+procedure TForm1.BitBtn5Click(Sender: TObject);
+begin
+  ant();
+  zoom_OUT(MAT);
+end;
+
+procedure TForm1.BitBtn6Click(Sender: TObject);
+begin
+  ant();
+  rotacion_D(MAT);
+end;
+
+procedure TForm1.BitBtn7Click(Sender: TObject);
+begin
+  ant();
+  rotacion_I(MAT);
+end;
+
+procedure TForm1.BitBtn8Click(Sender: TObject);
+begin
+  ant();
+  ecualizar(MAT);
+end;
+
+procedure TForm1.BitBtn9Click(Sender: TObject);
+begin
+   restaurar();
 end;
 
 procedure TForm1.Button2Click(Sender: TObject);
 begin
-  deshacer();
+
 end;
 
 //ECUALIZAR rojo boton
 procedure TForm1.Button3Click(Sender: TObject);
 begin
-  ecualizar(MAT);
+
 end;
 
 procedure TForm1.FormDestroy(Sender: TObject);
@@ -1289,27 +1417,32 @@ end;
 //RGB ->  GRB
 procedure TForm1.MenuItem10Click(Sender: TObject);
 begin
+  ant();
   chn2GRB(MAT);
 end;
 
 procedure TForm1.MenuItem11Click(Sender: TObject);
 begin
+  ant();
    chn2BGR(MAT);
 end;
 
 procedure TForm1.MenuItem12Click(Sender: TObject);
 begin
+  ant();
    chn2RBG(MAT);
 end;
 //ln
 procedure TForm1.MenuItem13Click(Sender: TObject);
 begin
-log(MAT);
+  ant();
+  log(MAT);
 end;
 
 //binarización
 procedure TForm1.MenuItem14Click(Sender: TObject);
 begin
+  ant();
   Treshold();
 end;
 
@@ -1318,6 +1451,7 @@ procedure TForm1.MenuItem15Click(Sender: TObject);
 var
 i,j: Integer;
 begin
+  ant();
   form2.TrackBar1.Position:=form2.TrackBar1.Min;
   form2.param:=form2.TrackBar1.Position;
   form2.Label1.Caption:=inttostr(form2.param);
