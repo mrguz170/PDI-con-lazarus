@@ -1,16 +1,17 @@
 object Form1: TForm1
-  Left = 246
-  Height = 551
-  Top = 99
+  Left = 397
+  Height = 559
+  Top = 208
   Width = 859
   Caption = 'Proyecto PDI'
-  ClientHeight = 531
+  ClientHeight = 534
   ClientWidth = 859
   Color = clMenuHighlight
+  DesignTimePPI = 120
   Menu = MainMenu1
   OnCreate = FormCreate
   OnDestroy = FormDestroy
-  LCLVersion = '1.8.2.0'
+  LCLVersion = '1.8.4.0'
   object ScrollBox1: TScrollBox
     Left = 16
     Height = 424
@@ -34,8 +35,8 @@ object Form1: TForm1
   end
   object StatusBar1: TStatusBar
     Left = 0
-    Height = 23
-    Top = 508
+    Height = 29
+    Top = 505
     Width = 859
     Panels = <    
       item
@@ -85,17 +86,17 @@ object Form1: TForm1
     end
     object Label2: TLabel
       Left = 10
-      Height = 15
+      Height = 20
       Top = 221
-      Width = 6
+      Width = 8
       Caption = '0'
       ParentColor = False
     end
     object Label3: TLabel
       Left = 250
-      Height = 15
+      Height = 20
       Top = 221
-      Width = 18
+      Width = 24
       Caption = '255'
       ParentColor = False
     end
@@ -111,9 +112,9 @@ object Form1: TForm1
       TabOrder = 0
       object RadioButton1: TRadioButton
         Left = 8
-        Height = 19
+        Height = 24
         Top = 13
-        Width = 65
+        Width = 79
         Caption = 'Intensity'
         Checked = True
         OnChange = RadioButton1Change
@@ -122,27 +123,27 @@ object Form1: TForm1
       end
       object RadioButton2: TRadioButton
         Left = 10
-        Height = 19
+        Height = 24
         Top = 57
-        Width = 27
+        Width = 33
         Caption = 'R'
         OnChange = RadioButton2Change
         TabOrder = 1
       end
       object RadioButton3: TRadioButton
         Left = 9
-        Height = 19
+        Height = 24
         Top = 105
-        Width = 28
+        Width = 34
         Caption = 'G'
         OnChange = RadioButton3Change
         TabOrder = 2
       end
       object RadioButton4: TRadioButton
         Left = 9
-        Height = 19
+        Height = 24
         Top = 157
-        Width = 27
+        Width = 33
         Caption = 'B'
         OnChange = RadioButton4Change
         TabOrder = 3
@@ -709,7 +710,6 @@ object Form1: TForm1
     end
     object MenuItem3: TMenuItem
       Caption = 'Filtros Punt.'
-      Enabled = False
       object MenuItem4: TMenuItem
         Caption = 'Negativo'
         OnClick = MenuItem4Click
@@ -777,7 +777,6 @@ object Form1: TForm1
     end
     object MenuItem19: TMenuItem
       Caption = 'Filtros x Region'
-      Enabled = False
       object MenuItem20: TMenuItem
         Caption = 'Bordes'
         object MenuItem22: TMenuItem
@@ -845,7 +844,6 @@ object Form1: TForm1
     end
     object MenuItem31: TMenuItem
       Caption = 'Morfología Bin'
-      Enabled = False
       object MenuItem34: TMenuItem
         Caption = 'Apertura'
         OnClick = MenuItem34Click

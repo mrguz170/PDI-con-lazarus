@@ -4,11 +4,12 @@ object Form9: TForm9
   Top = 191
   Width = 543
   Caption = 'Disolvencia'
-  ClientHeight = 0
-  ClientWidth = 0
+  ClientHeight = 408
+  ClientWidth = 543
   Color = clMenuHighlight
+  DesignTimePPI = 120
   OnCreate = FormCreate
-  LCLVersion = '1.8.2.0'
+  LCLVersion = '1.8.4.0'
   object ScrollBox1: TScrollBox
     Left = 88
     Height = 333
@@ -38,10 +39,11 @@ object Form9: TForm9
   end
   object Edit1: TEdit
     Left = 472
-    Height = 23
+    Height = 28
     Top = 168
     Width = 32
     Alignment = taCenter
+    Enabled = False
     TabOrder = 2
   end
   object Button2: TButton

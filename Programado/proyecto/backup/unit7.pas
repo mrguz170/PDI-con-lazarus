@@ -76,7 +76,7 @@ begin
   for i:=0 to ANCHO-1 do begin
       for j:=0 to ALTO-1  do begin
           for k:=0 to 3 do begin
-               M[i,j,k]:=M2[i,j,k]-M1[i,j,k];
+               M[i,j,k]:=M1[i,j,k]-M2[i,j,k];
           end;
 
         BM.Canvas.Pixels[i,j]:=RGB(M[i,j,0],M[i,j,1],M[i,j,2]);
@@ -114,10 +114,7 @@ begin
       end;
   end;
   form1.verImgHis();
-
-
 end;
-
 
 //Apertura GRIS
 procedure tform7.openGris(var M:MATRGB);
@@ -137,12 +134,14 @@ end;
  begin
    erosionBin(M);
    dilatacionBin(M);
+    form1.verImgHis();
  end;
  //Cierre BIN
  procedure tform7.close(var M:MATRGB);
  begin
    dilatacionBin(M);
    erosionBin(M);
+   form1.verImgHis();
  end;
 
 //Erosion GRIS
@@ -276,7 +275,7 @@ begin
       BM.Canvas.Pixels[i,j]:=RGB(Mtmp[i,j,0],Mtmp[i,j,1],Mtmp[i,j,2]);
       end;
   end;
-  form1.verImgHis();
+  //form1.verImgHis();
 end;
 
 //dilatacion BINARIA
@@ -329,7 +328,7 @@ begin
       BM.Canvas.Pixels[i,j]:=RGB(Mtmp[i,j,0],Mtmp[i,j,1],Mtmp[i,j,2]);
       end;
   end;
-  form1.verImgHis();
+  //form1.verImgHis();
 end;
 
 

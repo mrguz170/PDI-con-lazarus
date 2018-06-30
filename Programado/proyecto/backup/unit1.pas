@@ -6,7 +6,7 @@ interface
 
 uses
   Classes, SysUtils, FileUtil, Forms, Controls, Graphics, Dialogs, ExtCtrls,
-  Menus, ExtDlgs, LCLintf, ComCtrls, StdCtrls, Buttons;
+  Menus, ExtDlgs, LCLintf, ComCtrls, StdCtrls, Buttons, ColorBox;
 
 type
 
@@ -27,6 +27,7 @@ type
     BitBtn7: TBitBtn;
     BitBtn8: TBitBtn;
     BitBtn9: TBitBtn;
+    ColorDialog1: TColorDialog;
     Image1: TImage;
     Image2: TImage;
     Image3: TImage;
@@ -112,6 +113,7 @@ type
     procedure Button1Click(Sender: TObject);
     procedure Button2Click(Sender: TObject);
     procedure Button3Click(Sender: TObject);
+    procedure ColorListBox1Click(Sender: TObject);
     procedure FormCreate(Sender: TObject);
     procedure FormDestroy(Sender: TObject);
     procedure Image1MouseMove(Sender: TObject; Shift: TShiftState; X, Y: Integer
@@ -152,7 +154,7 @@ type
     procedure MenuItem50Click(Sender: TObject);
     procedure MenuItem51Click(Sender: TObject);
     procedure MenuItem7Click(Sender: TObject);
-    procedure Panel6Click(Sender: TObject);
+   // procedure Panel6Click(Sender: TObject);
     procedure RadioButton1Change(Sender: TObject);
     procedure RadioButton2Change(Sender: TObject);
     procedure RadioButton3Change(Sender: TObject);
@@ -1325,6 +1327,7 @@ end;
 procedure TForm1.Button1Click(Sender: TObject);
 begin
 
+
 end;
 
 procedure TForm1.BitBtn1Click(Sender: TObject);
@@ -1402,6 +1405,13 @@ procedure TForm1.Button3Click(Sender: TObject);
 begin
 
 end;
+
+procedure TForm1.ColorListBox1Click(Sender: TObject);
+begin
+
+end;
+
+
 
 procedure TForm1.FormDestroy(Sender: TObject);
 begin

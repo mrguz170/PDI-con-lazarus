@@ -1,16 +1,17 @@
 object Form1: TForm1
-  Left = 370
-  Height = 534
-  Top = 127
+  Left = 397
+  Height = 559
+  Top = 208
   Width = 859
   Caption = 'Proyecto PDI'
-  ClientHeight = 514
+  ClientHeight = 534
   ClientWidth = 859
   Color = clMenuHighlight
+  DesignTimePPI = 120
   Menu = MainMenu1
   OnCreate = FormCreate
   OnDestroy = FormDestroy
-  LCLVersion = '1.8.2.0'
+  LCLVersion = '1.8.4.0'
   object ScrollBox1: TScrollBox
     Left = 16
     Height = 424
@@ -34,8 +35,8 @@ object Form1: TForm1
   end
   object StatusBar1: TStatusBar
     Left = 0
-    Height = 23
-    Top = 491
+    Height = 29
+    Top = 505
     Width = 859
     Panels = <    
       item
@@ -69,7 +70,7 @@ object Form1: TForm1
   object Panel1: TPanel
     Left = 464
     Height = 240
-    Top = 104
+    Top = 48
     Width = 384
     ClientHeight = 240
     ClientWidth = 384
@@ -85,17 +86,17 @@ object Form1: TForm1
     end
     object Label2: TLabel
       Left = 10
-      Height = 15
+      Height = 20
       Top = 221
-      Width = 6
+      Width = 8
       Caption = '0'
       ParentColor = False
     end
     object Label3: TLabel
       Left = 250
-      Height = 15
+      Height = 20
       Top = 221
-      Width = 18
+      Width = 24
       Caption = '255'
       ParentColor = False
     end
@@ -111,9 +112,9 @@ object Form1: TForm1
       TabOrder = 0
       object RadioButton1: TRadioButton
         Left = 8
-        Height = 19
+        Height = 24
         Top = 13
-        Width = 65
+        Width = 79
         Caption = 'Intensity'
         Checked = True
         OnChange = RadioButton1Change
@@ -122,27 +123,27 @@ object Form1: TForm1
       end
       object RadioButton2: TRadioButton
         Left = 10
-        Height = 19
+        Height = 24
         Top = 57
-        Width = 27
+        Width = 33
         Caption = 'R'
         OnChange = RadioButton2Change
         TabOrder = 1
       end
       object RadioButton3: TRadioButton
         Left = 9
-        Height = 19
+        Height = 24
         Top = 105
-        Width = 28
+        Width = 34
         Caption = 'G'
         OnChange = RadioButton3Change
         TabOrder = 2
       end
       object RadioButton4: TRadioButton
         Left = 9
-        Height = 19
+        Height = 24
         Top = 157
-        Width = 27
+        Width = 33
         Caption = 'B'
         OnChange = RadioButton4Change
         TabOrder = 3
@@ -683,9 +684,18 @@ object Form1: TForm1
     Spacing = 0
     TabOrder = 4
   end
+  object Panel6: TPanel
+    Left = 480
+    Height = 160
+    Top = 312
+    Width = 344
+    Color = clWhite
+    ParentColor = False
+    TabOrder = 5
+  end
   object MainMenu1: TMainMenu
     left = 616
-    top = 344
+    top = 288
     object MenuItem1: TMenuItem
       Caption = 'Archivo'
       object MenuItem2: TMenuItem
@@ -700,7 +710,6 @@ object Form1: TForm1
     end
     object MenuItem3: TMenuItem
       Caption = 'Filtros Punt.'
-      Enabled = False
       object MenuItem4: TMenuItem
         Caption = 'Negativo'
         OnClick = MenuItem4Click
@@ -768,7 +777,6 @@ object Form1: TForm1
     end
     object MenuItem19: TMenuItem
       Caption = 'Filtros x Region'
-      Enabled = False
       object MenuItem20: TMenuItem
         Caption = 'Bordes'
         object MenuItem22: TMenuItem
@@ -783,6 +791,10 @@ object Form1: TForm1
       object MenuItem24: TMenuItem
         Caption = 'Disolvencia'
         OnClick = MenuItem24Click
+      end
+      object MenuItem38: TMenuItem
+        Caption = 'Falso Color'
+        OnClick = MenuItem38Click
       end
     end
     object MenuItem26: TMenuItem
@@ -832,7 +844,6 @@ object Form1: TForm1
     end
     object MenuItem31: TMenuItem
       Caption = 'Morfología Bin'
-      Enabled = False
       object MenuItem34: TMenuItem
         Caption = 'Apertura'
         OnClick = MenuItem34Click
@@ -867,21 +878,21 @@ object Form1: TForm1
   object OpenPictureDialog1: TOpenPictureDialog
     Filter = '*.bmp|*.bmp'
     left = 576
-    top = 344
+    top = 288
   end
   object Timer1: TTimer
     OnTimer = Timer1Timer
     left = 528
-    top = 344
+    top = 288
   end
   object SaveDialog1: TSaveDialog
     Filter = '*.bmp|*.bmp'
     left = 480
-    top = 344
+    top = 288
   end
   object ImageList1: TImageList
     left = 656
-    top = 344
+    top = 288
     Bitmap = {
       4C690100000010000000100000000000000000000000000000000000001D0000
       0096000000980000009800000098000000910000001800000000000000000000
@@ -917,5 +928,34 @@ object Form1: TForm1
       00A0000000A0000000A0000000A0000000A0000000A0000000A0000000A00000
       00A0000000A0000000A000000055
     }
+  end
+  object ColorDialog1: TColorDialog
+    Width = 28
+    Height = 28
+    Color = clBlack
+    CustomColors.Strings = (
+      'ColorA=000000'
+      'ColorB=000080'
+      'ColorC=008000'
+      'ColorD=008080'
+      'ColorE=800000'
+      'ColorF=800080'
+      'ColorG=808000'
+      'ColorH=808080'
+      'ColorI=C0C0C0'
+      'ColorJ=0000FF'
+      'ColorK=00FF00'
+      'ColorL=00FFFF'
+      'ColorM=FF0000'
+      'ColorN=FF00FF'
+      'ColorO=FFFF00'
+      'ColorP=FFFFFF'
+      'ColorQ=C0DCC0'
+      'ColorR=F0CAA6'
+      'ColorS=F0FBFF'
+      'ColorT=A4A0A0'
+    )
+    left = 784
+    top = 360
   end
 end

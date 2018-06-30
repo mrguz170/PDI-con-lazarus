@@ -1,0 +1,101 @@
+commit 5d5a5f5e33bc7dce810235daf76888b4048c4a87
+Author: mrguz170 <banuelos.201021581@gmail.com>
+Date:   Sat Jun 30 12:32:41 2018 -0500
+
+    Se arreglo morfologia gris
+
+commit dd2e1dcfee95c55d04c879df5234944713b3d8fa
+Author: mrguz170 <banuelos.201021581@gmail.com>
+Date:   Mon Jun 25 00:23:34 2018 -0500
+
+    Se agregaron: botones con iconos, se termino ALU, boton deshacer, disolvencia
+
+commit 69fd527cf9e2e0dcbfa9d31ff018a9195ee918e7
+Author: mrguz170 <banuelos.201021581@gmail.com>
+Date:   Sat Jun 23 20:24:24 2018 -0500
+
+    se termino morfologia y arreglo el color del borde y linea para la convolucion
+
+commit 19c0d0dd95f32d720f17fdb51bc8bc93a5db1e40
+Author: mrguz170 <banuelos.201021581@gmail.com>
+Date:   Sat Jun 23 00:15:08 2018 -0500
+
+    Se agrego la erosion para imagenes binarias
+
+commit 4b18a7c508f7565a55ec2786caf187fb596a8736
+Author: mrguz170 <banuelos.201021581@gmail.com>
+Date:   Fri Jun 22 02:21:49 2018 -0500
+
+    Se agregaron transform geometricas y forma de la ALU
+
+commit dfe7a16ec81bf225e4b18aef965a71252fb90011
+Author: mrguz170 <banuelos.201021581@gmail.com>
+Date:   Tue Jun 19 21:03:41 2018 -0500
+
+    ajuste de la interfaz
+
+commit fb5773a67f12e766e31d3068edd55297dfcc0f9b
+Author: mrguz170 <banuelos.201021581@gmail.com>
+Date:   Tue Jun 19 10:04:33 2018 -0500
+
+    Se termino Ecualizacion de los canales y cambios en los colores de la interfaz
+
+commit f38a860f39fbd4a74f961a261b72214e1eec3bde
+Author: mrguz170 <banuelos.201021581@gmail.com>
+Date:   Wed Jun 13 23:59:32 2018 -0500
+
+    Se termino la TanH
+
+commit be624dd3e445b794c07413cf4bab13afe77b5eb7
+Author: mrguz170 <banuelos.201021581@gmail.com>
+Date:   Wed Jun 13 23:22:45 2018 -0500
+
+    update
+
+commit a6b35954aa95324e02eb72b4c5b576226c19ca23
+Author: mrguz170 <banuelos.201021581@gmail.com>
+Date:   Mon Jun 11 23:31:22 2018 -0500
+
+    Se termino gamma, y se agrego TanH, pero aun no funciona correctamente, se arreglo problema del histograma para el canal gris
+
+commit b7982e12f1fd6ba5d59edb02966504ed93cb62d8
+Author: mrguz170 <banuelos.201021581@gmail.com>
+Date:   Thu Jun 7 18:51:25 2018 -0500
+
+    Se termino la funcionalidad de filtros, intercambios e histograma
+
+commit 7124eaad16a9f5510e699a2c1fd4bd4450726373
+Author: mrguz170 <banuelos.201021581@gmail.com>
+Date:   Mon Jun 4 20:59:17 2018 -0500
+
+    Se agrego binarizacion dinamica, se agregaron botones gamma, convolución
+
+commit 920a0a37579d04940a53da89c0a3047e8f35af1f
+Author: mrguz170 <banuelos.201021581@gmail.com>
+Date:   Mon Jun 4 17:16:16 2018 -0500
+
+    Actualizacion repo
+
+commit 96b362ac5ce686bc4811b5e74ffdc186abae2dd0
+Author: mrguz170 <banuelos.201021581@gmail.com>
+Date:   Thu May 31 21:03:19 2018 -0500
+
+    Se termino las funciones del histograma
+
+commit de24744823a695d59005a3e5179a68f08c0a3fb8
+Author: mrguz170 <banuelos.201021581@gmail.com>
+Date:   Thu May 31 10:49:30 2018 -0500
+
+    Se arreglo el filtro de logaritmo
+
+commit 73c31c1b8db1fd18f88493d30e56a2f588f1664f
+Author: mrguz170 <banuelos.201021581@gmail.com>
+Date:   Thu May 31 10:30:41 2018 -0500
+
+    Se agrego botones de intercambio, logaritmo
+
+commit 0dfdb3af258264a4b458f45c9b730f9aee39cee3
+Author: mrguz170 <banuelos.201021581@gmail.com>
+Date:   Wed May 30 18:56:11 2018 -0500
+
+    Se inicio el repositorio con los ejemplos previamnete dados en clase

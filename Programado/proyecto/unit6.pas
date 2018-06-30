@@ -18,16 +18,9 @@ type
   TForm6 = class(TForm)
   BitBtn1: TBitBtn;
   BitBtn2: TBitBtn;
-  Button1: TButton;
-  Button2: TButton;
-  ColorDialog1: TColorDialog;
-  Image1: TImage;
-  Image2: TImage;
   Label1: TLabel;
   StringGrid1: TStringGrid;
   TrackBar1: TTrackBar;
-  procedure Button1Click(Sender: TObject);
-  procedure Button2Click(Sender: TObject);
   procedure FormCreate(Sender: TObject);
   procedure TrackBar1Change(Sender: TObject);
 
@@ -131,37 +124,9 @@ begin
    end;
  end;
 
-  c1:=clwhite;
-  c2:=Clblack;
-  Image1.Canvas.Pen.Color:=clblack;
-  Image1.Canvas.Brush.Color:=c1;
-  Image1.Canvas.Rectangle(0,0,Image1.Width,Image1.Height);
-
-  Image1.Canvas.Pen.Color:=clblack;
-  Image2.Canvas.Brush.Color:=c2;
-  Image2.Canvas.Rectangle(0,0,Image1.Width,Image1.Height);
-
 end;
 
-procedure TForm6.Button1Click(Sender: TObject);
-begin
-     if colordialog1.Execute then begin
-      c1:=colordialog1.Color;
-      Image1.Canvas.Pen.Color:=clblack;
-      Image1.Canvas.Brush.Color:=c1;
-      Image1.Canvas.Rectangle(0,0,Image1.Width,Image1.Height);
-  end;
-end;
 
-procedure TForm6.Button2Click(Sender: TObject);
-begin
-     if colordialog1.Execute then begin
-      c2:=colordialog1.Color;
-      Image2.Canvas.Pen.Color:=clblack;
-      Image2.Canvas.Brush.Color:=c2;
-      Image2.Canvas.Rectangle(0,0,Image2.Width,Image2.Height);
-  end;
-end;
 
 //////////////---------Metodos gus---------- ////////////////////
 /////////////////////////////////////////////////////////////////
@@ -193,7 +158,7 @@ begin
             for a:=-1 to dim-2 do begin
               for b:=-1 to dim-2 do begin
 
-                  cnv := cnv + (StrtoInt(StringGrid1.Cells[a+1,b+1]) * M[i+a,j+b,k]);
+                  cnv := cnv + (StrtoInt(StringGrid1.Cells[a+1,b+1]) * (M[i+a,j+b,k]));
               end;
             end;//a
 
@@ -219,7 +184,7 @@ begin
       end;
   end;
 
-  ToBin(M);
+
 
 end;
 

@@ -105,7 +105,7 @@ begin
               BM.Canvas.Pixels[i,j]:=RGB(MAT_tim[i,j,0],MAT_tim[i,j,1],MAT_tim[i,j,2]);
           end;
       end;
-      //Image1.Picture.Assign(BM);
+
 end;
 
 //open
@@ -195,5 +195,6 @@ begin
      cnt:=cnt+1;
    end;
 end;
+
 end.
 
