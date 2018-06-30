@@ -35,9 +35,9 @@ type
 
   CONST
   //estructura para operaciones morfologicas
-  B1: kernel=((255, 255, 255),
-              (255, 255, 255),
-              (255, 255, 255));
+  B1: kernel=((1, 1, 1),
+              (1, 1, 1),
+              (1, 1, 1  ));
 
 var
   Form7: TForm7;
@@ -177,7 +177,7 @@ begin
       M[i,j,0]:=Mtmp[i,j,0];
       M[i,j,1]:=Mtmp[i,j,1];
       M[i,j,2]:=Mtmp[i,j,2];
-      BM.Canvas.Pixels[i,j]:=RGB(M[i,j,0],M[i,j,1],M[i,j,2]);
+      //BM.Canvas.Pixels[i,j]:=RGB(M[i,j,0],M[i,j,1],M[i,j,2]);
       end;
   end;
 
@@ -216,7 +216,7 @@ begin
       M[i,j,0]:=Mtmp[i,j,0];
       M[i,j,1]:=Mtmp[i,j,1];
       M[i,j,2]:=Mtmp[i,j,2];
-      BM.Canvas.Pixels[i,j]:=RGB(M[i,j,0],M[i,j,1],M[i,j,2]);
+      //BM.Canvas.Pixels[i,j]:=RGB(M[i,j,0],M[i,j,1],M[i,j,2]);
       end;
   end;
 

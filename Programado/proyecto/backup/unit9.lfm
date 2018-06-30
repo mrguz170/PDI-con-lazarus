@@ -1,7 +1,7 @@
 object Form8: TForm8
-  Left = 161
+  Left = 135
   Height = 574
-  Top = 84
+  Top = 114
   Width = 1062
   Caption = 'ALU'
   ClientHeight = 0

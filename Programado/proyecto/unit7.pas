@@ -35,9 +35,9 @@ type
 
   CONST
   //estructura para operaciones morfologicas
-  B1: kernel=((255, 255, 255),
-              (255, 255, 255),
-              (255, 255, 255));
+  B1: kernel=((1, 1, 1),
+              (1, 1, 1),
+              (1, 1, 1  ));
 
 var
   Form7: TForm7;
@@ -76,7 +76,7 @@ begin
   for i:=0 to ANCHO-1 do begin
       for j:=0 to ALTO-1  do begin
           for k:=0 to 3 do begin
-               M[i,j,k]:=M2[i,j,k]-M1[i,j,k];
+               M[i,j,k]:=M1[i,j,k]-M2[i,j,k];
           end;
 
         BM.Canvas.Pixels[i,j]:=RGB(M[i,j,0],M[i,j,1],M[i,j,2]);
@@ -114,10 +114,7 @@ begin
       end;
   end;
   form1.verImgHis();
-
-
 end;
-
 
 //Apertura GRIS
 procedure tform7.openGris(var M:MATRGB);
@@ -177,7 +174,7 @@ begin
       M[i,j,0]:=Mtmp[i,j,0];
       M[i,j,1]:=Mtmp[i,j,1];
       M[i,j,2]:=Mtmp[i,j,2];
-      BM.Canvas.Pixels[i,j]:=RGB(M[i,j,0],M[i,j,1],M[i,j,2]);
+      //BM.Canvas.Pixels[i,j]:=RGB(M[i,j,0],M[i,j,1],M[i,j,2]);
       end;
   end;
 
@@ -216,7 +213,7 @@ begin
       M[i,j,0]:=Mtmp[i,j,0];
       M[i,j,1]:=Mtmp[i,j,1];
       M[i,j,2]:=Mtmp[i,j,2];
-      BM.Canvas.Pixels[i,j]:=RGB(M[i,j,0],M[i,j,1],M[i,j,2]);
+      //BM.Canvas.Pixels[i,j]:=RGB(M[i,j,0],M[i,j,1],M[i,j,2]);
       end;
   end;
 

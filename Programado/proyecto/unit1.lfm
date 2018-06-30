@@ -1,10 +1,10 @@
 object Form1: TForm1
-  Left = 370
-  Height = 534
-  Top = 127
+  Left = 246
+  Height = 551
+  Top = 99
   Width = 859
   Caption = 'Proyecto PDI'
-  ClientHeight = 514
+  ClientHeight = 531
   ClientWidth = 859
   Color = clMenuHighlight
   Menu = MainMenu1
@@ -35,7 +35,7 @@ object Form1: TForm1
   object StatusBar1: TStatusBar
     Left = 0
     Height = 23
-    Top = 491
+    Top = 508
     Width = 859
     Panels = <    
       item
@@ -69,7 +69,7 @@ object Form1: TForm1
   object Panel1: TPanel
     Left = 464
     Height = 240
-    Top = 104
+    Top = 48
     Width = 384
     ClientHeight = 240
     ClientWidth = 384
@@ -683,9 +683,18 @@ object Form1: TForm1
     Spacing = 0
     TabOrder = 4
   end
+  object Panel6: TPanel
+    Left = 480
+    Height = 160
+    Top = 312
+    Width = 344
+    Color = clWhite
+    ParentColor = False
+    TabOrder = 5
+  end
   object MainMenu1: TMainMenu
     left = 616
-    top = 344
+    top = 288
     object MenuItem1: TMenuItem
       Caption = 'Archivo'
       object MenuItem2: TMenuItem
@@ -784,6 +793,10 @@ object Form1: TForm1
         Caption = 'Disolvencia'
         OnClick = MenuItem24Click
       end
+      object MenuItem38: TMenuItem
+        Caption = 'Falso Color'
+        OnClick = MenuItem38Click
+      end
     end
     object MenuItem26: TMenuItem
       Caption = 'Transf. Geometricas'
@@ -851,7 +864,6 @@ object Form1: TForm1
     end
     object MenuItem46: TMenuItem
       Caption = 'Morfología gris'
-      Enabled = False
       object MenuItem47: TMenuItem
         Caption = 'Gradiente'
         OnClick = MenuItem47Click
@@ -868,21 +880,21 @@ object Form1: TForm1
   object OpenPictureDialog1: TOpenPictureDialog
     Filter = '*.bmp|*.bmp'
     left = 576
-    top = 344
+    top = 288
   end
   object Timer1: TTimer
     OnTimer = Timer1Timer
     left = 528
-    top = 344
+    top = 288
   end
   object SaveDialog1: TSaveDialog
     Filter = '*.bmp|*.bmp'
     left = 480
-    top = 344
+    top = 288
   end
   object ImageList1: TImageList
     left = 656
-    top = 344
+    top = 288
     Bitmap = {
       4C690100000010000000100000000000000000000000000000000000001D0000
       0096000000980000009800000098000000910000001800000000000000000000
@@ -918,5 +930,34 @@ object Form1: TForm1
       00A0000000A0000000A0000000A0000000A0000000A0000000A0000000A00000
       00A0000000A0000000A000000055
     }
+  end
+  object ColorDialog1: TColorDialog
+    Width = 28
+    Height = 28
+    Color = clBlack
+    CustomColors.Strings = (
+      'ColorA=000000'
+      'ColorB=000080'
+      'ColorC=008000'
+      'ColorD=008080'
+      'ColorE=800000'
+      'ColorF=800080'
+      'ColorG=808000'
+      'ColorH=808080'
+      'ColorI=C0C0C0'
+      'ColorJ=0000FF'
+      'ColorK=00FF00'
+      'ColorL=00FFFF'
+      'ColorM=FF0000'
+      'ColorN=FF00FF'
+      'ColorO=FFFF00'
+      'ColorP=FFFFFF'
+      'ColorQ=C0DCC0'
+      'ColorR=F0CAA6'
+      'ColorS=F0FBFF'
+      'ColorT=A4A0A0'
+    )
+    left = 784
+    top = 360
   end
 end

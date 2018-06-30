@@ -68,10 +68,10 @@ object Form1: TForm1
   end
   object Panel1: TPanel
     Left = 464
-    Height = 216
-    Top = 128
+    Height = 240
+    Top = 48
     Width = 384
-    ClientHeight = 216
+    ClientHeight = 240
     ClientWidth = 384
     Color = clBlue
     ParentColor = False
@@ -80,13 +80,13 @@ object Form1: TForm1
     object Image2: TImage
       Left = 12
       Height = 140
-      Top = 8
+      Top = 36
       Width = 256
     end
     object Label2: TLabel
       Left = 10
       Height = 15
-      Top = 193
+      Top = 221
       Width = 6
       Caption = '0'
       ParentColor = False
@@ -94,7 +94,7 @@ object Form1: TForm1
     object Label3: TLabel
       Left = 250
       Height = 15
-      Top = 193
+      Top = 221
       Width = 18
       Caption = '255'
       ParentColor = False
@@ -102,7 +102,7 @@ object Form1: TForm1
     object Panel2: TPanel
       Left = 280
       Height = 186
-      Top = 7
+      Top = 35
       Width = 96
       ClientHeight = 186
       ClientWidth = 96
@@ -151,7 +151,7 @@ object Form1: TForm1
     object Panel3: TPanel
       Left = 11
       Height = 33
-      Top = 160
+      Top = 188
       Width = 261
       ClientHeight = 33
       ClientWidth = 261
@@ -164,6 +164,16 @@ object Form1: TForm1
         Top = 2
         Width = 256
       end
+    end
+    object Panel5: TPanel
+      Left = 0
+      Height = 24
+      Top = 0
+      Width = 384
+      Caption = 'HISTOGRAMA'
+      Color = clWhite
+      ParentColor = False
+      TabOrder = 2
     end
   end
   object Panel4: TPanel
@@ -673,19 +683,18 @@ object Form1: TForm1
     Spacing = 0
     TabOrder = 4
   end
-  object Panel5: TPanel
-    Left = 464
-    Height = 24
-    Top = 105
-    Width = 384
-    Caption = 'Histograma'
-    Color = clLime
+  object Panel6: TPanel
+    Left = 481
+    Height = 121
+    Top = 342
+    Width = 344
+    Color = clWhite
     ParentColor = False
     TabOrder = 5
   end
   object MainMenu1: TMainMenu
     left = 616
-    top = 344
+    top = 288
     object MenuItem1: TMenuItem
       Caption = 'Archivo'
       object MenuItem2: TMenuItem
@@ -784,6 +793,10 @@ object Form1: TForm1
         Caption = 'Disolvencia'
         OnClick = MenuItem24Click
       end
+      object MenuItem38: TMenuItem
+        Caption = 'Falso Color'
+        OnClick = MenuItem38Click
+      end
     end
     object MenuItem26: TMenuItem
       Caption = 'Transf. Geometricas'
@@ -851,7 +864,6 @@ object Form1: TForm1
     end
     object MenuItem46: TMenuItem
       Caption = 'Morfología gris'
-      Enabled = False
       object MenuItem47: TMenuItem
         Caption = 'Gradiente'
         OnClick = MenuItem47Click
@@ -868,21 +880,21 @@ object Form1: TForm1
   object OpenPictureDialog1: TOpenPictureDialog
     Filter = '*.bmp|*.bmp'
     left = 576
-    top = 344
+    top = 288
   end
   object Timer1: TTimer
     OnTimer = Timer1Timer
     left = 528
-    top = 344
+    top = 288
   end
   object SaveDialog1: TSaveDialog
     Filter = '*.bmp|*.bmp'
     left = 480
-    top = 344
+    top = 288
   end
   object ImageList1: TImageList
     left = 656
-    top = 344
+    top = 288
     Bitmap = {
       4C690100000010000000100000000000000000000000000000000000001D0000
       0096000000980000009800000098000000910000001800000000000000000000

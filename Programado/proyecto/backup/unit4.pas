@@ -20,13 +20,9 @@ type
     BitBtn2: TBitBtn;
     Button1: TButton;
     Button2: TButton;
-    ColorBox1: TColorBox;
-    ColorBox2: TColorBox;
     ColorDialog1: TColorDialog;
     Image1: TImage;
     Image2: TImage;
-    Label1: TLabel;
-    Label2: TLabel;
     Panel1: TPanel;
     Panel2: TPanel;
     Panel3: TPanel;

@@ -146,8 +146,6 @@ var
 begin
   setlength(AUX, ANCHO, ALTO,3);
 
-
-
   //hacer convoluvion de imagn con MASC
   for i:=1 to ANCHO-2 do begin
     for j:=1 to ALTO-2 do begin

@@ -65,6 +65,7 @@ type
     MenuItem35: TMenuItem;
     MenuItem36: TMenuItem;
     MenuItem37: TMenuItem;
+    MenuItem38: TMenuItem;
     MenuItem39: TMenuItem;
     MenuItem4: TMenuItem;
     MenuItem40: TMenuItem;
@@ -87,6 +88,7 @@ type
     Panel3: TPanel;
     Panel4: TPanel;
     Panel5: TPanel;
+    Panel6: TPanel;
     RadioButton1: TRadioButton;
     RadioButton2: TRadioButton;
     RadioButton3: TRadioButton;
@@ -150,6 +152,7 @@ type
     procedure MenuItem50Click(Sender: TObject);
     procedure MenuItem51Click(Sender: TObject);
     procedure MenuItem7Click(Sender: TObject);
+    procedure Panel6Click(Sender: TObject);
     procedure RadioButton1Change(Sender: TObject);
     procedure RadioButton2Change(Sender: TObject);
     procedure RadioButton3Change(Sender: TObject);
@@ -187,6 +190,7 @@ type
     procedure rotacion_D(var M:MATRGB);
     procedure zoom_in(var M:MATRGB);
     procedure zoom_out(var M:MATRGB);
+    procedure falsoColor(var M:MATRGB);
 
 
   end;
@@ -213,6 +217,13 @@ uses unit2,unit3,unit4,Unit5,unit6,unit7,unit9,unit10;
 //////////////---------- metodos gus -----------////////////////////////
 /////////////////////////////////////////////////////////////////////
 
+//falso color
+procedure tform1.falsoColor(var M:MATRGB);
+begin
+
+end;
+
+//abrir
 procedure tform1.abrir();
 var
   i,j   : Integer;
@@ -1091,7 +1102,7 @@ end;
 
 procedure TForm1.MenuItem38Click(Sender: TObject);
 begin
-  restaurar();
+  falsoColor(MAT);
 end;
 
 procedure TForm1.MenuItem39Click(Sender: TObject);
@@ -1195,6 +1206,8 @@ begin
   grises_prom(MAT);
   verImgHis();
 end;
+
+
 //CARGAR hist I
 procedure TForm1.RadioButton1Change(Sender: TObject);
 begin

@@ -851,7 +851,6 @@ object Form1: TForm1
     end
     object MenuItem46: TMenuItem
       Caption = 'Morfología gris'
-      Enabled = False
       object MenuItem47: TMenuItem
         Caption = 'Gradiente'
         OnClick = MenuItem47Click
