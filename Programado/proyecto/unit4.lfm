@@ -1,14 +1,15 @@
 object Form4: TForm4
-  Left = 236
+  Left = 243
   Height = 335
-  Top = 183
+  Top = 548
   Width = 465
   Caption = 'Kernel de convolución'
   ClientHeight = 335
   ClientWidth = 465
   Color = clMenuHighlight
+  DesignTimePPI = 120
   OnCreate = FormCreate
-  LCLVersion = '1.8.2.0'
+  LCLVersion = '1.8.4.0'
   object Panel1: TPanel
     Left = 8
     Height = 48
@@ -21,9 +22,9 @@ object Form4: TForm4
     TabOrder = 0
     object RadioButton2: TRadioButton
       Left = 161
-      Height = 19
+      Height = 24
       Top = 13
-      Width = 49
+      Width = 62
       Caption = 'Sobel'
       OnChange = RadioButton2Change
       ParentColor = False
@@ -31,9 +32,9 @@ object Form4: TForm4
     end
     object RadioButton1: TRadioButton
       Left = 28
-      Height = 19
+      Height = 24
       Top = 13
-      Width = 53
+      Width = 65
       Caption = 'Prewit'
       OnChange = RadioButton1Change
       ParentColor = False

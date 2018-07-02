@@ -146,8 +146,6 @@ var
 begin
   setlength(AUX, ANCHO, ALTO,3);
 
-
-
   //hacer convoluvion de imagn con MASC
   for i:=1 to ANCHO-2 do begin
     for j:=1 to ALTO-2 do begin
@@ -222,7 +220,6 @@ procedure TForm4.RadioButton1Change(Sender: TObject);
 begin
      Panel2.Color:=RGB(0,255,0);
      Panel3.Color:=CLwhite;
-     //Panel4.Color:=CLwhite;
 end;
 
 procedure TForm4.ColorBox1Change(Sender: TObject);

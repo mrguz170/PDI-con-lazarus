@@ -1,11 +1,11 @@
 object Form6: TForm6
-  Left = 710
+  Left = 287
   Height = 413
-  Top = 339
+  Top = 401
   Width = 494
   Caption = 'Convolución libre'
-  ClientHeight = 413
-  ClientWidth = 494
+  ClientHeight = 0
+  ClientWidth = 0
   Color = clMenuHighlight
   DesignTimePPI = 120
   OnCreate = FormCreate
@@ -39,7 +39,7 @@ object Form6: TForm6
   object Label1: TLabel
     Left = 160
     Height = 20
-    Top = 32
+    Top = 27
     Width = 44
     Caption = 'Label1'
     ParentColor = False

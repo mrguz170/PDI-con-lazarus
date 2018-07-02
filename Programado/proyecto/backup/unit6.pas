@@ -158,7 +158,7 @@ begin
             for a:=-1 to dim-2 do begin
               for b:=-1 to dim-2 do begin
 
-                  cnv := cnv + (StrtoInt(StringGrid1.Cells[a+1,b+1]) * M[i+a,j+b,k]);
+                  cnv := cnv + (StrtoInt(StringGrid1.Cells[a+1,b+1]) * (M[i+a,j+b,k]));
               end;
             end;//a
 
@@ -183,8 +183,6 @@ begin
       BM.Canvas.Pixels[i,j]:=RGB(M[i,j,0],M[i,j,1],M[i,j,2]);
       end;
   end;
-
-  ToBin(M);
 
 end;
 

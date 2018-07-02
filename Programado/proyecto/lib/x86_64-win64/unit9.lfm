@@ -1,14 +1,15 @@
 object Form8: TForm8
-  Left = 130
+  Left = 82
   Height = 574
-  Top = 103
+  Top = 246
   Width = 1062
   Caption = 'ALU'
   ClientHeight = 0
   ClientWidth = 0
   Color = clMenuHighlight
+  DesignTimePPI = 120
   OnCreate = FormCreate
-  LCLVersion = '1.8.2.0'
+  LCLVersion = '1.8.4.0'
   object Panel1: TPanel
     Left = 46
     Height = 160
@@ -21,27 +22,27 @@ object Form8: TForm8
     TabOrder = 0
     object RadioButton1: TRadioButton
       Left = 32
-      Height = 19
+      Height = 24
       Top = 47
-      Width = 80
+      Width = 99
       Caption = 'Aritmeticas'
       OnChange = RadioButton1Change
       TabOrder = 0
     end
     object RadioButton2: TRadioButton
       Left = 32
-      Height = 19
+      Height = 24
       Top = 90
-      Width = 60
+      Width = 74
       Caption = 'Logicas'
       OnChange = RadioButton2Change
       TabOrder = 1
     end
     object RadioButton3: TRadioButton
       Left = 32
-      Height = 19
+      Height = 24
       Top = 131
-      Width = 72
+      Width = 87
       Caption = 'MAX/min'
       OnChange = RadioButton3Change
       TabOrder = 2
@@ -159,7 +160,7 @@ object Form8: TForm8
   end
   object Edit2: TEdit
     Left = 985
-    Height = 23
+    Height = 28
     Top = 185
     Width = 52
     Alignment = taCenter
@@ -167,7 +168,7 @@ object Form8: TForm8
   end
   object Edit1: TEdit
     Left = 985
-    Height = 23
+    Height = 28
     Top = 123
     Width = 52
     Alignment = taCenter
@@ -175,17 +176,17 @@ object Form8: TForm8
   end
   object Label1: TLabel
     Left = 990
-    Height = 15
+    Height = 20
     Top = 109
-    Width = 43
+    Width = 52
     Caption = 'ANCHO'
     ParentColor = False
   end
   object Label2: TLabel
     Left = 990
-    Height = 15
+    Height = 20
     Top = 167
-    Width = 28
+    Width = 34
     Caption = 'ALTO'
     ParentColor = False
   end

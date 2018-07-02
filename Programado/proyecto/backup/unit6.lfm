@@ -1,7 +1,7 @@
 object Form6: TForm6
-  Left = 478
+  Left = 2816
   Height = 413
-  Top = 169
+  Top = 431
   Width = 494
   Caption = 'Convolución libre'
   ClientHeight = 413
@@ -39,7 +39,7 @@ object Form6: TForm6
   object Label1: TLabel
     Left = 160
     Height = 20
-    Top = 32
+    Top = 27
     Width = 44
     Caption = 'Label1'
     ParentColor = False

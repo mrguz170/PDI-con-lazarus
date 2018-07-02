@@ -35,9 +35,9 @@ type
 
   CONST
   //estructura para operaciones morfologicas
-  B1: kernel=((1, 1, 1),
-              (1, 1, 1),
-              (1, 1, 1  ));
+   B1: kernel=((255, 255, 255),
+               (255, 255, 255),
+               (255, 255, 255));
 
 var
   Form7: TForm7;
@@ -83,7 +83,7 @@ begin
       end;
   end;
 
-  form1.verImgHis();
+  form1.verImgHis(BM);
 
 end;
 
@@ -113,7 +113,7 @@ begin
       BM.Canvas.Pixels[i,j]:=RGB(Mtmp[i,j,0],Mtmp[i,j,1],Mtmp[i,j,2]);
       end;
   end;
-  form1.verImgHis();
+  form1.verImgHis(BM);
 end;
 
 //Apertura GRIS
@@ -134,14 +134,14 @@ end;
  begin
    erosionBin(M);
    dilatacionBin(M);
-   form1.verImgHis();
+   form1.verImgHis(BM);
  end;
  //Cierre BIN
  procedure tform7.close(var M:MATRGB);
  begin
    dilatacionBin(M);
    erosionBin(M);
-   form1.verImgHis();
+   form1.verImgHis(BM);
  end;
 
 //Erosion GRIS
@@ -180,7 +180,7 @@ begin
       end;
   end;
 
-  form1.verImgHis();
+  form1.verImgHis(BM);
 end;
 
 //Dilatacion GRIS
@@ -215,11 +215,11 @@ begin
       M[i,j,0]:=Mtmp[i,j,0];
       M[i,j,1]:=Mtmp[i,j,1];
       M[i,j,2]:=Mtmp[i,j,2];
-      //BM.Canvas.Pixels[i,j]:=RGB(M[i,j,0],M[i,j,1],M[i,j,2]);
+
       end;
   end;
 
-  form1.verImgHis();
+  form1.verImgHis(BM);
 end;
 
 
@@ -328,7 +328,6 @@ begin
       BM.Canvas.Pixels[i,j]:=RGB(Mtmp[i,j,0],Mtmp[i,j,1],Mtmp[i,j,2]);
       end;
   end;
-  //form1.verImgHis();
 end;
 
 

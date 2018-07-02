@@ -62,7 +62,7 @@ begin
      BM.Canvas.Pixels[i,j] := RGB(M[i,j,0],M[i,j,1],M[i,j,2]);
      end;
    end;
-   form1.verImgHis();
+   form1.verImgHis(bm);
 end;
 
 

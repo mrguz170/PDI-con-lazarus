@@ -6,7 +6,7 @@ interface
 
 uses
   Classes, SysUtils, FileUtil, Forms, Controls, Graphics, Dialogs, ExtCtrls,
-  Menus, ExtDlgs, LCLintf, ComCtrls, StdCtrls, Buttons, ColorBox;
+  Menus, ExtDlgs, LCLintf, ComCtrls, StdCtrls, Buttons, ColorBox,math;
 
 type
 
@@ -19,6 +19,7 @@ type
     BitBtn1: TBitBtn;
     BitBtn10: TBitBtn;
     BitBtn11: TBitBtn;
+    BitBtn12: TBitBtn;
     BitBtn2: TBitBtn;
     BitBtn3: TBitBtn;
     BitBtn4: TBitBtn;
@@ -27,10 +28,17 @@ type
     BitBtn7: TBitBtn;
     BitBtn8: TBitBtn;
     BitBtn9: TBitBtn;
+    Button1: TButton;
+    Button2: TButton;
+    Button3: TButton;
     ColorDialog1: TColorDialog;
     Image1: TImage;
     Image2: TImage;
     Image3: TImage;
+    Image4: TImage;
+    Image5: TImage;
+    Image6: TImage;
+    Image7: TImage;
     ImageList1: TImageList;
     Label2: TLabel;
     Label3: TLabel;
@@ -78,6 +86,7 @@ type
     MenuItem46: TMenuItem;
     MenuItem47: TMenuItem;
     MenuItem48: TMenuItem;
+    MenuItem49: TMenuItem;
     MenuItem5: TMenuItem;
     MenuItem6: TMenuItem;
     MenuItem7: TMenuItem;
@@ -85,22 +94,32 @@ type
     MenuItem9: TMenuItem;
     OpenPictureDialog1: TOpenPictureDialog;
     Panel1: TPanel;
+    Panel10: TPanel;
     Panel2: TPanel;
     Panel3: TPanel;
     Panel4: TPanel;
     Panel5: TPanel;
     Panel6: TPanel;
+    Panel7: TPanel;
+    Panel8: TPanel;
+    Panel9: TPanel;
     RadioButton1: TRadioButton;
     RadioButton2: TRadioButton;
     RadioButton3: TRadioButton;
     RadioButton4: TRadioButton;
+    RadioButton5: TRadioButton;
+    RadioButton6: TRadioButton;
     SaveDialog1: TSaveDialog;
     ScrollBox1: TScrollBox;
+    SpeedButton1: TSpeedButton;
     StatusBar1: TStatusBar;
     Timer1: TTimer;
+    Timer2: TTimer;
 
     procedure BitBtn10Click(Sender: TObject);
     procedure BitBtn11Click(Sender: TObject);
+    procedure BitBtn12Click(Sender: TObject);
+
     procedure BitBtn1Click(Sender: TObject);
     procedure BitBtn2Click(Sender: TObject);
     procedure BitBtn3Click(Sender: TObject);
@@ -116,6 +135,7 @@ type
     procedure ColorListBox1Click(Sender: TObject);
     procedure FormCreate(Sender: TObject);
     procedure FormDestroy(Sender: TObject);
+
     procedure Image1MouseMove(Sender: TObject; Shift: TShiftState; X, Y: Integer
       );
     procedure Label4Click(Sender: TObject);
@@ -154,12 +174,18 @@ type
     procedure MenuItem50Click(Sender: TObject);
     procedure MenuItem51Click(Sender: TObject);
     procedure MenuItem7Click(Sender: TObject);
-   // procedure Panel6Click(Sender: TObject);
+
+
     procedure RadioButton1Change(Sender: TObject);
     procedure RadioButton2Change(Sender: TObject);
     procedure RadioButton3Change(Sender: TObject);
     procedure RadioButton4Change(Sender: TObject);
+    procedure RadioButton5Change(Sender: TObject);
+    procedure RadioButton6Change(Sender: TObject);
+    procedure SpeedButton1Click(Sender: TObject);
     procedure Timer1Timer(Sender: TObject);
+    procedure Timer2StopTimer(Sender: TObject);
+    procedure Timer2Timer(Sender: TObject);
   private
     procedure clsH();
     procedure restaurar();
@@ -169,9 +195,10 @@ type
     procedure initR(var M:MATRGB);   //carga histograma Rojo
     procedure initG(var M:MATRGB);   //carga histograma verde
     procedure initB(var M:MATRGB);   //carga histograma azul
+    procedure loadFP();
   public
     //function ecualizado(j :Integer; ch: Integer):Integer;
-    procedure verImgHis();
+    procedure verImgHis(b:Tbitmap);
     procedure ant();
     procedure abrir();
     //filtros
@@ -192,7 +219,12 @@ type
     procedure rotacion_D(var M:MATRGB);
     procedure zoom_in(var M:MATRGB);
     procedure zoom_out(var M:MATRGB);
-    procedure falsoColor(var M:MATRGB);
+    procedure cal_FC(M:MATRGB);
+    procedure dosCol(M:MATRGB);
+    procedure tresCol(var M:MATRGB; map:tbitmap);
+    procedure propio(var M:MATRGB);
+    procedure montar(var MAT,P: MATRGB);
+
 
 
   end;
@@ -200,7 +232,7 @@ type
 
 var
   Form1: TForm1;
-  BM          : Tbitmap;
+  BM, MY         : Tbitmap;
   MAT, MAT_I, Maux, MDes     : MATRGB;
   MATresp                    : MATRGB;
   MAT_rotacion, MAT_geo      : MATRGB;
@@ -208,6 +240,11 @@ var
   W_des, H_des        :Integer;
   HR,HG,HB,HI   : Array [0..255] of integer;
   EHR,EHG,EHB   : Array [0..255] of integer;
+  //FC
+  c1, c2, c3 :Tcolor;
+  CR1,CG1,CB1   : Array [0..255] of integer;
+  CR2,CG2,CB2   : Array [0..255] of integer;
+  MAT_BMP       : MATRGB;
 
 
 implementation
@@ -219,11 +256,203 @@ uses unit2,unit3,unit4,Unit5,unit6,unit7,unit9,unit10;
 //////////////---------- metodos gus -----------////////////////////////
 /////////////////////////////////////////////////////////////////////
 
-//falso color
-procedure tform1.falsoColor(var M:MATRGB);
+procedure tform1.montar(var MAT,P: MATRGB);
+var
+  i,j,k :Integer;
+
 begin
 
+   setlength(MAT_BMP,ANCHO,ALTO,3);
+
+   for i:=0 to ANCHO-1 do begin
+     for j:=0 to ALTO-1 do begin
+       for k:=0 to 2 do begin
+
+        MAT_BMP[i,j,k]:= ((MAT[i,j,k] div 3) * (P[i,j,k])) div 255;
+
+       end;
+       BM.Canvas.Pixels[i,j]:=RGB(MAT_BMP[i,j,0],MAT_BMP[i,j,1],MAT_BMP[i,j,2]);
+     end;
+   end;
+
+   ecualizar(MAT_BMP);
+
+   //Image1.Picture.Assign(BM);
 end;
+
+//cargar imagen para filtro propio
+procedure tform1.loadFP();
+begin
+    my.LoadFromFile('C:\Users\lobo_\Documents\uni\PDI\PDI-con-lazarus\Programado\proyecto\imagenes\do.bmp');
+
+    if (MY.PixelFormat<>pf24bit) then
+    begin
+    MY.PixelFormat:=pf24bit;
+    end;
+
+end;
+
+//propio
+procedure tform1.propio(var M:MATRGB);
+var
+  i,j: integer;
+  p  : MATRGB;
+  c:Tcolor;
+begin
+   setlength(p,ANCHO,ALTO,3);
+
+   for i:=0 to ANCHO-1 do begin
+      for j:=0 to ALTO-1 do begin
+        c:=MY.Canvas.Pixels[i,j];
+        p[i,j,0]:=GetRvalue(c);
+        p[i,j,1]:=GetGvalue(c);
+        p[i,j,2]:=GetBvalue(c);
+      end; //j
+    end;//i
+
+
+   tresCol(P,MY);
+
+   montar(MAT,P);
+
+end;
+
+//falso color a 3 colores
+procedure tform1.tresCol(var M:MATRGB;map:tbitmap);
+var i,j,n1,n2,L: Integer;
+  r,g,b,d1,d2:Integer;
+begin
+  //inicializar vector de frecuencias
+  for i:=0 to 255 do begin
+    CR1[i]:=0;
+    CG1[i]:=0;
+    CB1[i]:=0;
+  end;
+
+  r:=round(power((getRvalue(c2)-(getRvalue(c1))),2));
+  g:=round(power((getGvalue(c2)-(getGvalue(c1))),2));
+  b:=round(power((getBvalue(c2)-(getBvalue(c1))),2));
+
+  d1:=(r+g+b);
+  d1:=round(sqrt(d1));
+
+  r:=round(power((getRvalue(c3)-(getRvalue(c2))),2));
+  g:=round(power((getGvalue(c3)-(getGvalue(c2))),2));
+  b:=round(power((getBvalue(c3)-(getBvalue(c2))),2));
+
+  d2:= r+g+b;
+  d2:=round(sqrt(d2));
+
+  L:=round(d1+d2);
+
+  n1:=(256*d1) div L;
+  n2:=(256*d2) div L;
+
+  for i:=0 to 255 do begin
+
+    if i<=n1-1 then begin
+    CR1[i]:= getRvalue(C1) + (i *((getRvalue(C2) - (getRvalue(C1)))) div n1);
+    CG1[i]:= getGvalue(C1) + (i *((getGvalue(C2) - (getGvalue(C1)))) div n1);
+    CB1[i]:= getBvalue(C1) + (i *((getBvalue(C2) - (getBvalue(C1)))) div n1);
+    end;
+  end;
+
+  for i:=0 to 255 do begin
+
+    if i<=n2 then begin
+    CR2[i]:= getRvalue(C2) + (i *((getRvalue(C3) - (getRvalue(C2)))) div n2);
+    CG2[i]:= getGvalue(C2) + (i *((getGvalue(C3) - (getGvalue(C2)))) div n2);
+    CB2[i]:= getBvalue(C2) + (i *((getBvalue(C3) - (getBvalue(C2)))) div n2);
+    end;
+  end;
+
+  //llenar lo que esta en C2 A C1
+  for i:=0 to n2 do begin
+
+    CR1[n1+i]:= CR2[i];
+    CG1[n1+i]:= CG2[i];
+    CB1[n1+i]:= CB2[i];
+
+  end;
+
+  //ver la paleta de colores
+  for i:=0 to Image6.Height-1 do begin
+       for j:=0 to image6.Width-1 do begin
+           Image6.Canvas.Pixels[j,i]:=RGB(CR1[j],CG1[j],CB1[j]);
+       end;
+  end;
+
+  ///MIRAR
+  for i:=0 to ANCHO-1 do begin
+    for j:=0 to ALTO-1 do begin
+
+       M[i,j,0]:=CR1[M[i,j,0]];
+       M[i,j,1]:=CG1[M[i,j,1]];
+       M[i,j,2]:=CB1[M[i,j,2]];
+
+      //BM.Canvas.Pixels[i,j]:=RGB(M[i,j,0],M[i,j,1],M[i,j,2]);
+    end;
+  end;
+
+for i:=0 to ANCHO-1 do begin
+    for j:=0 to ALTO-1 do begin
+      map.Canvas.Pixels[i,j]:=RGB(M[i,j,0],M[i,j,1],M[i,j,2]);
+    end;
+  end;
+
+ verImgHis(map);
+
+end;
+
+// falso color a 2 colores
+procedure tform1.dosCol(M:MATRGB);
+var i,j: Integer;
+begin
+//inicializar vector de frecuencias
+  for i:=0 to 255 do begin
+    CR1[i]:=0;
+    CG1[i]:=0;
+    CB1[i]:=0;
+  end;
+
+
+  for i:=0 to 255 do begin
+    CR1[i]:= getRvalue(C1) + (i *((getRvalue(C2) - (getRvalue(C1)))) div 255);
+    CG1[i]:= getGvalue(C1) + (i *((getGvalue(C2) - (getGvalue(C1)))) div 255);
+    CB1[i]:= getBvalue(C1) + (i *((getBvalue(C2) - (getBvalue(C1)))) div 255);
+  end;
+
+  //ver la paleta de colores
+  for i:=0 to Image6.Height-1 do begin
+       for j:=0 to image6.Width-1 do begin
+           Image6.Canvas.Pixels[j,i]:=RGB(CR1[j],CG1[j],CB1[j]);
+       end;
+  end;
+
+
+  ///MIRAR
+  for i:=0 to ANCHO-1 do begin
+    for j:=0 to ALTO-1 do begin
+
+       M[i,j,0]:=CR1[M[i,j,0]];
+       M[i,j,1]:=CG1[M[i,j,1]];
+       M[i,j,2]:=CB1[M[i,j,2]];
+
+      BM.Canvas.Pixels[i,j]:=RGB(M[i,j,0],M[i,j,1],M[i,j,2]);
+    end;
+  end;
+
+ verImgHis(BM);
+
+end;
+
+//calcular falso color
+procedure tform1.cal_FC(M:MATRGB);
+begin
+  if RadioButton5.Checked=True then dosCol(M);
+  if RadioButton6.Checked=True then tresCol(M,BM);
+end;
+
 
 //abrir
 procedure tform1.abrir();
@@ -293,7 +522,7 @@ begin
     Panel4.Enabled:=TRUE;
 
 
-    verImgHis();
+    verImgHis(BM);
   end;
 
 end;
@@ -333,7 +562,7 @@ begin
         end;
       end;
 
-      verImgHis();
+      verImgHis(BM);
 
 end;
 
@@ -374,7 +603,7 @@ begin
         end;
       end;
 
-      verImgHis();
+      verImgHis(BM);
 
 end;
 
@@ -416,7 +645,7 @@ begin
     end;
   end;
 
-  verImgHis();
+  verImgHis(BM);
 
 end;
 
@@ -461,7 +690,7 @@ begin
     end;
   end;
 
-  verImgHis();
+  verImgHis(BM);
 
 end;
 
@@ -482,7 +711,7 @@ begin
       M[i,j]:=MAT_geo[i,j];
     end;
   end;
-    verImgHis();
+    verImgHis(BM);
 end;
 
 // reflejar en y
@@ -502,7 +731,7 @@ begin
       M[i,j]:=MAT_geo[i,j];
     end;
   end;
-    verImgHis();
+    verImgHis(BM);
 end;
 
 //ecualizar
@@ -565,7 +794,6 @@ begin
     end;
   end;
 
- verImgHis();
 
 end;
 
@@ -595,7 +823,7 @@ for i:=0 to BM.Width-1 do begin
       MAT[i,j,2]:=Maux[i,j,2];
     end;
 end;
-  verImgHis();
+  verImgHis(BM);
 end;
 
 //anterior
@@ -642,7 +870,7 @@ begin
       BM.Canvas.Pixels[i,j]:= RGB(MAT[i,j,0],MAT[i,j,1],MAT[i,j,2]);
     end;
   end;
-  verImgHis();
+  verImgHis(BM);
 end;
 
 //logaritmo (aplha=1)
@@ -651,7 +879,6 @@ var
 i,j :Integer;
 k   :byte;
 begin
-  //ant();
   for i:=0 to ANCHO-1 do begin
     for j:=0 to ALTO-1 do begin
       for k:=0 to 2 do begin
@@ -660,13 +887,13 @@ begin
       BM.Canvas.Pixels[i,j] := RGB(M[i,j,0],M[i,j,1],M[i,j,2]);
     end;
   end;
-  verImgHis();
+  verImgHis(BM);
 end;
 
 //Update histograma e Imagen1
-procedure tform1.verImgHis();
+procedure tform1.verImgHis(b:Tbitmap);
   begin
-     Image1.Picture.Assign(BM);
+     Image1.Picture.Assign(b);
 
      if RadioButton1.Checked   then initI(MAT);
      if RadioButton2.Checked   then initR(MAT);
@@ -690,7 +917,7 @@ begin
 
     end;
   end;
-  verImgHis();
+  verImgHis(BM);
 end;
 procedure tform1.grisG(var M:MATRGB);        // gris canal VERDE
 var
@@ -707,7 +934,7 @@ begin
 
     end;
   end;
-  verImgHis();
+  verImgHis(BM);
 end;
 procedure tform1.grisB(var M:MATRGB);        // gris canal AZUL
 var
@@ -724,7 +951,7 @@ begin
 
     end;
   end;
-  verImgHis();
+  verImgHis(BM);
 end;
 procedure tform1.grises_prom(var M:MATRGB);
 var
@@ -768,7 +995,7 @@ begin
          BM.Canvas.Pixels[i,j]:=RGB(M[i,j,0],M[i,j,1],M[i,j,2]);
      end;
   end;
-  verImgHis();
+  verImgHis(BM);
 end;
 //canal a GRB
 procedure tform1.chn2BGR(var M:MATRGB);
@@ -786,7 +1013,7 @@ begin
             BM.Canvas.Pixels[i,j]:=RGB(M[i,j,0],M[i,j,1],M[i,j,2]);
          end;
      end;
-   verImgHis();
+   verImgHis(BM);
 end;
 //canal a RBG
 procedure tform1.chn2RBG(var M:MATRGB);
@@ -804,7 +1031,7 @@ begin
             BM.Canvas.Pixels[i,j]:=RGB(M[i,j,0],M[i,j,1],M[i,j,2]);
          end;
       end;
-   verImgHis();
+   verImgHis(BM);
 end;
 // binarización
 procedure tform1.treshold();
@@ -843,7 +1070,7 @@ for i:=0 to ANCHO-1 do begin
            end;
     end;
 end;
- verImgHis();
+ verImgHis(BM);
 end;
 // crear paleta de tono ROJO
 procedure TForm1.initR(var M:MATRGB);
@@ -1100,11 +1327,12 @@ procedure TForm1.MenuItem37Click(Sender: TObject);
 begin
   ant();
   ecualizar(MAT);
+  verImgHis(BM);
 end;
 
 procedure TForm1.MenuItem38Click(Sender: TObject);
 begin
-  falsoColor(MAT);
+  panel6.Visible:=True;
 end;
 
 procedure TForm1.MenuItem39Click(Sender: TObject);
@@ -1165,7 +1393,9 @@ end;
 
 procedure TForm1.MenuItem49Click(Sender: TObject);
 begin
-
+  timer2.Enabled:=true;
+  SpeedButton1.visible:=true;
+  //MY.SetSize(ALTO,ANCHO);
 end;
 
 //filtro negativo
@@ -1187,7 +1417,7 @@ begin
   end;  //j
 
  //visualizar resultado
-verImgHis();
+verImgHis(BM);
 
 end;
 
@@ -1206,8 +1436,9 @@ procedure TForm1.MenuItem7Click(Sender: TObject);
 begin
   ant();
   grises_prom(MAT);
-  verImgHis();
+  verImgHis(BM);
 end;
+
 
 
 //CARGAR hist I
@@ -1231,9 +1462,51 @@ begin
  initB(MAT);
 end;
 
+procedure TForm1.RadioButton5Change(Sender: TObject);
+begin
+   image7.Visible:=False;
+   Button3.Visible:=False;
+end;
+
+procedure TForm1.RadioButton6Change(Sender: TObject);
+begin
+   image7.Visible:=True;
+   Button3.Visible:=True;
+end;
+
+procedure TForm1.SpeedButton1Click(Sender: TObject);
+begin
+  Timer2.Enabled:=False;
+  SpeedButton1.Visible:=False;
+end;
+
 procedure TForm1.Timer1Timer(Sender: TObject);
 begin
+  loadFP();
+  c1:=RGB(Random(255),random(255),random(255));
+  c2:=RGB(Random(255),random(255),random(255));
+  c3:=RGB(Random(255),random(255),random(255));
+end;
 
+procedure TForm1.Timer2StopTimer(Sender: TObject);
+var i,j,k:integer;
+begin
+    for i:=0 to ANCHO-1 do begin
+     for j:=0 to ALTO-1 do begin
+       for k:=0 to 2 do begin
+
+        MAT[i,j,k]:= MAT_BMP[i,j,k];
+
+       end;
+     end;
+   end;
+end;
+
+procedure TForm1.Timer2Timer(Sender: TObject);
+begin
+   ant();
+   propio(MAT);
+   verImgHis(BM);
 end;
 
 procedure TForm1.MenuItem16Click(Sender: TObject);
@@ -1278,7 +1551,7 @@ begin
      if form4.RadioButton2.Checked then form4.sobel(MAT);
      if form4.RadioButton1.Checked then form4.prewitt(MAT);
 
-     verImgHis();
+     verImgHis(BM);
   end;
 end;
 
@@ -1286,8 +1559,8 @@ end;
 procedure TForm1.MenuItem23Click(Sender: TObject);
 begin
   form3.TrackBar1.Position:=form3.TrackBar1.Min;
-  form3.gma:=form3.TrackBar1.Position;
-  form3.Label1.Caption:=inttostr(form3.gma);
+  form3.gamma1:=form3.TrackBar1.Position;
+  form3.Label1.Caption:=inttostr(form3.gamma1);
   form3.showmodal;
 
   if Form3.ModalResult=MROK then begin
@@ -1313,7 +1586,7 @@ begin
   if Form6.ModalResult=MROK then begin
      ant();
      Form6.libre(MAT);
-     verImgHis();
+     verImgHis(BM);
 
   end;
 end;
@@ -1321,12 +1594,35 @@ end;
 procedure TForm1.FormCreate(Sender: TObject);
 begin
   BM:=Tbitmap.Create;
+  MY:=Tbitmap.Create;
+  c1:=RGB(255,0,0);
+  c2:=RGB(0,255,0);
+  c3:=RGB(0,0,255);
+  Image4.Canvas.Pen.Color:=clblack;
+  Image4.Canvas.Brush.Color:=c1;
+  Image4.Canvas.Rectangle(0,0,Image4.Width,Image4.Height);
+
+  Image5.Canvas.Pen.Color:=clblack;
+  Image5.Canvas.Brush.Color:=c2;
+  Image5.Canvas.Rectangle(0,0,Image5.Width,Image5.Height);
+
+  Image7.Canvas.Pen.Color:=clblack;
+  Image7.Canvas.Brush.Color:=c3;
+  Image7.Canvas.Rectangle(0,0,Image7.Width,Image7.Height);
+
+  loadFP();
+
 end;
 
 //Reload imagen a traves de una matriz auxiliar guardada al abrir la imagen
 procedure TForm1.Button1Click(Sender: TObject);
 begin
-
+   if colordialog1.Execute then begin
+      c1:=colordialog1.Color;
+      Image4.Canvas.Pen.Color:=clblack;
+      Image4.Canvas.Brush.Color:=c1;
+      Image4.Canvas.Rectangle(0,0,Image4.Width,Image4.Height);
+  end;
 
 end;
 
@@ -1346,6 +1642,16 @@ begin
   ant();
   refl_y(MAT);
 end;
+
+procedure TForm1.BitBtn12Click(Sender: TObject);
+var
+i,j:Integer;
+begin
+  ant();
+  cal_FC(MAT);
+end;
+
+
 
 procedure TForm1.BitBtn2Click(Sender: TObject);
 begin
@@ -1388,6 +1694,7 @@ procedure TForm1.BitBtn8Click(Sender: TObject);
 begin
   ant();
   ecualizar(MAT);
+  verImgHis(BM);
 end;
 
 procedure TForm1.BitBtn9Click(Sender: TObject);
@@ -1397,13 +1704,22 @@ end;
 
 procedure TForm1.Button2Click(Sender: TObject);
 begin
-
+     if colordialog1.Execute then begin
+      c2:=colordialog1.Color;
+      Image5.Canvas.Pen.Color:=clblack;
+      Image5.Canvas.Brush.Color:=c2;
+      Image5.Canvas.Rectangle(0,0,Image5.Width,Image5.Height);
+  end;
 end;
 
-//ECUALIZAR rojo boton
 procedure TForm1.Button3Click(Sender: TObject);
 begin
-
+   if colordialog1.Execute then begin
+      c3:=colordialog1.Color;
+      Image7.Canvas.Pen.Color:=clblack;
+      Image7.Canvas.Brush.Color:=c3;
+      Image7.Canvas.Rectangle(0,0,Image7.Width,Image7.Height);
+  end;
 end;
 
 procedure TForm1.ColorListBox1Click(Sender: TObject);
@@ -1502,7 +1818,7 @@ begin
            end;
     end;
 
- verImgHis();
+ verImgHis(BM);
   end;
 end;
 

@@ -220,7 +220,6 @@ procedure TForm4.RadioButton1Change(Sender: TObject);
 begin
      Panel2.Color:=RGB(0,255,0);
      Panel3.Color:=CLwhite;
-     //Panel4.Color:=CLwhite;
 end;
 
 procedure TForm4.ColorBox1Change(Sender: TObject);
