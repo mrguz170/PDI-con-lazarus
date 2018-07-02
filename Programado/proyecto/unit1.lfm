@@ -1140,6 +1140,7 @@ object Form1: TForm1
     end
     object MenuItem3: TMenuItem
       Caption = 'Filtros Punt.'
+      Enabled = False
       object MenuItem4: TMenuItem
         Caption = 'Negativo'
         OnClick = MenuItem4Click
@@ -1207,6 +1208,7 @@ object Form1: TForm1
     end
     object MenuItem19: TMenuItem
       Caption = 'Filtros x Region'
+      Enabled = False
       object MenuItem20: TMenuItem
         Caption = 'Bordes'
         object MenuItem22: TMenuItem
@@ -1270,6 +1272,7 @@ object Form1: TForm1
     end
     object MenuItem30: TMenuItem
       Caption = 'Contraste'
+      Enabled = False
       object MenuItem37: TMenuItem
         Caption = 'Ecualizar'
         OnClick = MenuItem37Click
