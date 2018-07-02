@@ -1,0 +1,9 @@
+object Form7: TForm7
+  Left = 2797
+  Height = 38
+  Top = 596
+  Width = 155
+  Caption = 'Form7'
+  DesignTimePPI = 120
+  LCLVersion = '1.8.4.0'
+end

@@ -35,8 +35,8 @@ uses unit2;
 
 procedure TForm1.Button1Click(Sender: TObject);
 begin
-Form2.TrackBar1.Position;
-Form2.ShowModal()
+//Form2.TrackBar1.Position;
+Form2.ShowModal();
 end;
 
 

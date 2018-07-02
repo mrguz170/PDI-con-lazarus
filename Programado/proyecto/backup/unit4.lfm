@@ -1,0 +1,330 @@
+object Form4: TForm4
+  Left = 2833
+  Height = 335
+  Top = 236
+  Width = 465
+  Caption = 'Kernel de convolución'
+  ClientHeight = 0
+  ClientWidth = 0
+  Color = clMenuHighlight
+  DesignTimePPI = 120
+  OnCreate = FormCreate
+  LCLVersion = '1.8.4.0'
+  object Panel1: TPanel
+    Left = 8
+    Height = 48
+    Top = 8
+    Width = 267
+    ClientHeight = 48
+    ClientWidth = 267
+    Color = clTeal
+    ParentColor = False
+    TabOrder = 0
+    object RadioButton2: TRadioButton
+      Left = 161
+      Height = 24
+      Top = 13
+      Width = 62
+      Caption = 'Sobel'
+      OnChange = RadioButton2Change
+      ParentColor = False
+      TabOrder = 0
+    end
+    object RadioButton1: TRadioButton
+      Left = 28
+      Height = 24
+      Top = 13
+      Width = 65
+      Caption = 'Prewit'
+      OnChange = RadioButton1Change
+      ParentColor = False
+      TabOrder = 1
+    end
+  end
+  object Panel2: TPanel
+    Left = 8
+    Height = 96
+    Top = 61
+    Width = 267
+    ClientHeight = 96
+    ClientWidth = 267
+    Color = clHighlightText
+    Enabled = False
+    ParentColor = False
+    TabOrder = 1
+    object StringGrid1: TStringGrid
+      Left = 40
+      Height = 80
+      Top = 8
+      Width = 80
+      AutoEdit = False
+      Color = clDefault
+      ColCount = 3
+      DefaultColWidth = 25
+      DefaultRowHeight = 25
+      Enabled = False
+      FixedCols = 0
+      FixedRows = 0
+      RowCount = 3
+      TabOrder = 0
+      Cells = (
+        9
+        0
+        0
+        '-1'
+        0
+        1
+        '0'
+        0
+        2
+        '1'
+        1
+        0
+        '-1'
+        1
+        1
+        '0'
+        1
+        2
+        '1'
+        2
+        0
+        '-1'
+        2
+        1
+        '0'
+        2
+        2
+        '1'
+      )
+    end
+    object StringGrid2: TStringGrid
+      Left = 152
+      Height = 80
+      Top = 8
+      Width = 80
+      AutoEdit = False
+      Color = clDefault
+      ColCount = 3
+      DefaultColWidth = 25
+      DefaultRowHeight = 25
+      Enabled = False
+      FixedCols = 0
+      FixedRows = 0
+      RowCount = 3
+      TabOrder = 1
+      Cells = (
+        9
+        0
+        0
+        '-1'
+        0
+        1
+        '-1'
+        0
+        2
+        '-1'
+        1
+        0
+        '0'
+        1
+        1
+        '0'
+        1
+        2
+        '0'
+        2
+        0
+        '1'
+        2
+        1
+        '1'
+        2
+        2
+        '1'
+      )
+    end
+  end
+  object Panel3: TPanel
+    Left = 8
+    Height = 96
+    Top = 166
+    Width = 267
+    ClientHeight = 96
+    ClientWidth = 267
+    Color = clHighlightText
+    Enabled = False
+    ParentColor = False
+    TabOrder = 2
+    object StringGrid3: TStringGrid
+      Left = 40
+      Height = 80
+      Top = 8
+      Width = 80
+      AutoEdit = False
+      Color = clDefault
+      ColCount = 3
+      DefaultColWidth = 25
+      DefaultRowHeight = 25
+      Enabled = False
+      FixedCols = 0
+      FixedRows = 0
+      RowCount = 3
+      TabOrder = 0
+      Cells = (
+        9
+        0
+        0
+        '-1'
+        0
+        1
+        '0'
+        0
+        2
+        '1'
+        1
+        0
+        '-2'
+        1
+        1
+        '0'
+        1
+        2
+        '2'
+        2
+        0
+        '-1'
+        2
+        1
+        '0'
+        2
+        2
+        '1'
+      )
+    end
+    object StringGrid4: TStringGrid
+      Left = 152
+      Height = 80
+      Top = 8
+      Width = 80
+      AutoEdit = False
+      Color = clDefault
+      ColCount = 3
+      DefaultColWidth = 25
+      DefaultRowHeight = 25
+      Enabled = False
+      FixedCols = 0
+      FixedRows = 0
+      RowCount = 3
+      TabOrder = 1
+      Cells = (
+        9
+        0
+        0
+        '-1'
+        0
+        1
+        '-2'
+        0
+        2
+        '-1'
+        1
+        0
+        '0'
+        1
+        1
+        '0'
+        1
+        2
+        '0'
+        2
+        0
+        '1'
+        2
+        1
+        '2'
+        2
+        2
+        '1'
+      )
+    end
+  end
+  object BitBtn1: TBitBtn
+    Left = 180
+    Height = 30
+    Top = 280
+    Width = 89
+    DefaultCaption = True
+    Kind = bkOK
+    ModalResult = 1
+    TabOrder = 3
+  end
+  object BitBtn2: TBitBtn
+    Left = 18
+    Height = 30
+    Top = 280
+    Width = 89
+    Cancel = True
+    DefaultCaption = True
+    Kind = bkCancel
+    ModalResult = 2
+    TabOrder = 4
+  end
+  object Button1: TButton
+    Left = 376
+    Height = 25
+    Top = 104
+    Width = 75
+    Caption = 'Fondo'
+    OnClick = Button1Click
+    TabOrder = 5
+  end
+  object Button2: TButton
+    Left = 376
+    Height = 25
+    Top = 136
+    Width = 75
+    Caption = 'Borde'
+    OnClick = Button2Click
+    TabOrder = 6
+  end
+  object Image1: TImage
+    Left = 296
+    Height = 24
+    Top = 106
+    Width = 66
+  end
+  object Image2: TImage
+    Left = 296
+    Height = 24
+    Top = 136
+    Width = 66
+  end
+  object ColorDialog1: TColorDialog
+    Color = clBlack
+    CustomColors.Strings = (
+      'ColorA=0'
+      'ColorB=80'
+      'ColorC=8000'
+      'ColorD=8080'
+      'ColorE=800000'
+      'ColorF=800080'
+      'ColorG=808000'
+      'ColorH=808080'
+      'ColorI=C0C0C0'
+      'ColorJ=FF'
+      'ColorK=FF00'
+      'ColorL=FFFF'
+      'ColorM=FF0000'
+      'ColorN=FF00FF'
+      'ColorO=FFFF00'
+      'ColorP=FFFFFF'
+      'ColorQ=C0DCC0'
+      'ColorR=F0CAA6'
+      'ColorS=F0FBFF'
+      'ColorT=A4A0A0'
+    )
+    left = 352
+    top = 170
+  end
+end

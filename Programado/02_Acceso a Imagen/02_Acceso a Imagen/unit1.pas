@@ -28,6 +28,7 @@ type
     MenuItem5: TMenuItem;
     MenuItem6: TMenuItem;
     MenuItem7: TMenuItem;
+    MenuItem8: TMenuItem;
     OpenPictureDialog1: TOpenPictureDialog;
     ScrollBox1: TScrollBox;
     StatusBar1: TStatusBar;
@@ -40,7 +41,10 @@ type
     procedure MenuItem4Click(Sender: TObject);
     procedure MenuItem6Click(Sender: TObject);
     procedure MenuItem7Click(Sender: TObject);
-    procedure ScrollBox1Click(Sender: TObject);
+    procedure MenuItem8Click(Sender: TObject);
+
+
+
   private
 
   public
@@ -56,7 +60,7 @@ var
   ALTO, ANCHO   : Integer;
 
 implementation
-
+uses unit2;
 {$R *.lfm}
 
 { TForm1 }
@@ -92,14 +96,24 @@ var
   d      : Byte;
 
 begin
-  sum:=0;
+  d:=3;
   Label1.Caption := 'Gris por promedio';
      for i:=0 to ANCHO-1 do begin
         for j:=0 to ALTO-1 do begin
 
-            M[i,j,0]:= M[i,j,0] + M[i,j,1] + M[i,j,2];
-            //res:= truncate(sum);
-            BM.Canvas.Pixels[i,j]:= RGB(M[i,j,0],M[i,j,0],M[i,j,0]);
+            //M[i,j,0]:= (M[i,j,0] + M[i,j,1] + M[i,j,2]);
+
+            x := getRvalue(M[i,j,0]);
+            y := getGvalue(M[i,j,1]);
+            z := getBvalue(M[i,j,2]);
+
+            z := (x + y + z)div d;
+
+            M[i,j,0] := z;
+            M[i,j,1] := z;
+            M[i,j,2] := z;
+
+            BM.Canvas.Pixels[i,j]:= RGB(MAT[i,j,0],MAT[i,j,1],MAT[i,j,2]);
         end;
     end;
      //refresh img
@@ -171,7 +185,7 @@ end;
 
 procedure TForm1.MenuItem6Click(Sender: TObject);
 begin
-    //promGris(MAT);
+    grises(MAT);
 end;
 
 procedure TForm1.MenuItem7Click(Sender: TObject);
@@ -179,23 +193,34 @@ begin
     promGris(MAT);
 end;
 
-procedure TForm1.ScrollBox1Click(Sender: TObject);
+procedure TForm1.MenuItem8Click(Sender: TObject);
 begin
+ // Form2.TrackBar1.Position:=form2.TrackBar1.Min;
+  form2.param:=form2.TrackBar1.Position;
+  form2.Label1.Caption:=inttostr(form2.param);
+  Form2.showmodal;
+
+  if Form2.ModalResult=MROK then begin
+
+    ShowMessage('el valor del parámetro + 5 es: ' + inttostr(form2.param+5));
+
+end;
 
 end;
 
 procedure TForm1.FormCreate(Sender: TObject);
 begin
-
+  //Trackbar1.Enabled:=false;
   BM:=Tbitmap.Create;
 
 end;
+
 
 procedure TForm1.Button1Click(Sender: TObject);
 begin
   //grises(MAT);
   //promGris(MAT);
-  Edit1.text:= 'Hola mundo';
+  //Edit1.text:= 'Hola mundo';
 end;
 
 procedure TForm1.FormDestroy(Sender: TObject);

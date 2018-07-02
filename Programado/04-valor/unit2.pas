@@ -41,7 +41,6 @@ procedure TForm2.TrackBar1Change(Sender: TObject);
 begin
   param:=TrackBar1.Position;
   Label1.Caption:=inttostr(param);
-
 end;
 
 procedure TForm2.FormCreate(Sender: TObject);
@@ -52,7 +51,8 @@ end;
 procedure TForm2.BitBtn2Click(Sender: TObject);
 begin
 
-  Form1.modal_res:= Form1.Edit1.Text:=inttostr(55);
+  Form1.modal_res :=  param;
+  Form1.Edit1.Text:=inttostr(55);
 
 end;
 
