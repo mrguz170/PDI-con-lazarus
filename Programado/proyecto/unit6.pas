@@ -36,7 +36,7 @@ type
 var
   Form6: TForm6;
   dim  :  byte;
-  c1, c2 :Tcolor;
+  //c1, c2, c3 :Tcolor;
 
 implementation
 uses unit1,UNIT4;

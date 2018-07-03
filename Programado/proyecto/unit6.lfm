@@ -4,8 +4,8 @@ object Form6: TForm6
   Top = 401
   Width = 494
   Caption = 'Convolución libre'
-  ClientHeight = 0
-  ClientWidth = 0
+  ClientHeight = 413
+  ClientWidth = 494
   Color = clMenuHighlight
   DesignTimePPI = 120
   OnCreate = FormCreate

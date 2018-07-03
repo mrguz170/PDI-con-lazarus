@@ -1,11 +1,11 @@
 object Form6: TForm6
-  Left = 2816
+  Left = 287
   Height = 413
-  Top = 431
+  Top = 401
   Width = 494
   Caption = 'Convolución libre'
-  ClientHeight = 413
-  ClientWidth = 494
+  ClientHeight = 0
+  ClientWidth = 0
   Color = clMenuHighlight
   DesignTimePPI = 120
   OnCreate = FormCreate

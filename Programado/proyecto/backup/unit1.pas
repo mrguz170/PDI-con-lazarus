@@ -219,7 +219,7 @@ type
     procedure rotacion_D(var M:MATRGB);
     procedure zoom_in(var M:MATRGB);
     procedure zoom_out(var M:MATRGB);
-    procedure cal_FC(M:MATRGB);
+    procedure cal_FC(var M:MATRGB);
     procedure dosCol(M:MATRGB);
     procedure tresCol(var M:MATRGB; map:tbitmap);
     procedure propio(var M:MATRGB);
@@ -241,7 +241,7 @@ var
   HR,HG,HB,HI   : Array [0..255] of integer;
   EHR,EHG,EHB   : Array [0..255] of integer;
   //FC
-  c1, c2, c3 :Tcolor;
+  c1, c2, c3    : Tcolor;
   CR1,CG1,CB1   : Array [0..255] of integer;
   CR2,CG2,CB2   : Array [0..255] of integer;
   MAT_BMP       : MATRGB;
@@ -415,14 +415,12 @@ begin
     CB1[i]:=0;
   end;
 
-
   for i:=0 to 255 do begin
     CR1[i]:= getRvalue(C1) + (i *((getRvalue(C2) - (getRvalue(C1)))) div 255);
     CG1[i]:= getGvalue(C1) + (i *((getGvalue(C2) - (getGvalue(C1)))) div 255);
     CB1[i]:= getBvalue(C1) + (i *((getBvalue(C2) - (getBvalue(C1)))) div 255);
   end;
-
-  //ver la paleta de colores
+ //ver la paleta de colores
   for i:=0 to Image6.Height-1 do begin
        for j:=0 to image6.Width-1 do begin
            Image6.Canvas.Pixels[j,i]:=RGB(CR1[j],CG1[j],CB1[j]);
@@ -434,11 +432,11 @@ begin
   for i:=0 to ANCHO-1 do begin
     for j:=0 to ALTO-1 do begin
 
-       M[i,j,0]:=CR1[M[i,j,0]];
-       M[i,j,1]:=CG1[M[i,j,1]];
-       M[i,j,2]:=CB1[M[i,j,2]];
+       MAT[i,j,0]:=CR1[MAT[i,j,0]];
+       MAT[i,j,1]:=CG1[MAT[i,j,1]];
+       MAT[i,j,2]:=CB1[MAT[i,j,2]];
 
-      BM.Canvas.Pixels[i,j]:=RGB(M[i,j,0],M[i,j,1],M[i,j,2]);
+      BM.Canvas.Pixels[i,j]:=RGB(MAT[i,j,0],MAT[i,j,1],MAT[i,j,2]);
     end;
   end;
 
@@ -447,7 +445,7 @@ begin
 end;
 
 //calcular falso color
-procedure tform1.cal_FC(M:MATRGB);
+procedure tform1.cal_FC(var M:MATRGB);
 begin
   if RadioButton5.Checked=True then dosCol(M);
   if RadioButton6.Checked=True then tresCol(M,BM);
@@ -1394,8 +1392,8 @@ end;
 procedure TForm1.MenuItem49Click(Sender: TObject);
 begin
   timer2.Enabled:=true;
+  timer1.Enabled:=true;
   SpeedButton1.visible:=true;
-  //MY.SetSize(ALTO,ANCHO);
 end;
 
 //filtro negativo
